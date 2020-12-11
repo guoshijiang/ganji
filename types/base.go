@@ -54,6 +54,7 @@ const (
 	CreateAddressFail             = 4041  // 创建地址失败
 	UpdateAddressFail             = 4042  // 修改地址失败
 	GetConponFail                 = 4043  // 获取优惠券成功
+	GetGoodsListFail              = 4044  // 获取商品列表失败
 )
 
 
@@ -64,10 +65,10 @@ type PageSizeData struct {
 
 func (this PageSizeData) PageSizeDataParamValidate() (int, error) {
 	if this.Page == 0 {
-		return PageIsZero, errors.New("页码数量不能为 0")
+		return PageIsZero, errors.New("page 不能为 0")
 	}
 	if this.PageSize == 0 {
-		return PageSizeIsZero, errors.New("每页显示的数量不能为 0")
+		return PageSizeIsZero, errors.New("pageSize 不能为 0")
 	}
 	return ReturnSuccess, nil
 }

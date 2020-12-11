@@ -2,6 +2,10 @@ package models
 
 import (
 	"ganji/common"
+	"ganji/types"
+	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego/orm"
+	"github.com/pkg/errors"
 )
 
 type GoodsCat struct {
@@ -16,4 +20,57 @@ type GoodsCat struct {
 
 func (this *GoodsCat) TableName() string {
 	return common.TableName("goods_cat")
+}
+
+func (this *GoodsCat) Read(fields ...string) error {
+	logs.Info(fields)
+	return nil
+}
+
+func (this *GoodsCat) Update(fields ...string) error {
+	if _, err := orm.NewOrm().Update(this, fields...); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (this *GoodsCat) Delete() error {
+	if _, err := orm.NewOrm().Delete(this); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (this *GoodsCat) Query() orm.QuerySeter {
+	return orm.NewOrm().QueryTable(this)
+}
+
+func (this *GoodsCat) Insert() error {
+	if _, err := orm.NewOrm().Insert(this); err != nil {
+		return err
+	}
+	return nil
+}
+
+func GetOneLevelCategoryList() ([]*GoodsCat, int, error) {
+	var goods_cat_list []*GoodsCat
+	if _, err := orm.NewOrm().QueryTable(Goods{}).
+		Filter("IsDispay", 1).
+		Filter("CatLevel", 1).
+		OrderBy("CreatedAt").All(&goods_cat_list); err != nil {
+		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
+	}
+	return goods_cat_list, types.ReturnSuccess, nil
+}
+
+func GetSecodLevelCategoryList(my_id int64) ([]*GoodsCat, int, error) {
+	var goods_cat_list []*GoodsCat
+	if _, err := orm.NewOrm().QueryTable(Goods{}).
+		Filter("FatherCatId", my_id).
+		Filter("IsDispay", 1).
+		Filter("CatLevel", 2).
+		OrderBy("CreatedAt").All(&goods_cat_list); err != nil {
+		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
+	}
+	return goods_cat_list, types.ReturnSuccess, nil
 }

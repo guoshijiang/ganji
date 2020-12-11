@@ -16,7 +16,9 @@ type User struct {
 	Id             int64         `json:"id"`
 	Phone          string        `orm:"size(64);index" json:"phone"`
 	UserName       string        `orm:"size(128)" json:"user_name"`
+	Avator         string    `orm:"size(150);default(/static/upload/default/user-default-60x60.png)"`
 	Password       string        `orm:"size(128)" json:"password"`
+	FundPassword   string        `orm:"size(128)" json:"fund_password"`           // 钱包资金密码
 	Email          string        `orm:"size(128);index" json:"email"`
 	LoginCount     int64         `orm:"default(0);index" json:"login_count"`
 	Token          string        `orm:"size(128)" json:"token"`
@@ -288,6 +290,7 @@ func UpdateOrCrearePhoneEmail(u_params type_user.UpdateCreatePhoneEmailCheck, us
 	}
 }
 
+
 // 找回登陆密码
 func ForgetPassword(u_params type_user.ForgetPasswordCheck) (success bool, code int, err error) {
 	u := User{}
@@ -322,4 +325,32 @@ func ForgetPassword(u_params type_user.ForgetPasswordCheck) (success bool, code 
 	} else {
 		return false, types.InvalidVerifyWay, errors.New("无效的验证方式")
 	}
+}
+
+// 修改用户信息
+func UpdateUserInfo(id int64, user_info type_user.UpdateUserInfoCheck) (success bool, code int, err error) {
+	var user_data User
+	if err := orm.NewOrm().QueryTable(User{}).RelatedSel().Filter("id", id).One(&user_data); err != nil {
+		return false, types.UserIsNotExist, errors.New("用户不存在")
+	}
+	if user_info.UserName != "" {
+		user_data.UserName = user_info.UserName
+		err := user_data.Update()
+		if err != nil {
+			return false, types.UpdateUserInfoFail, errors.New("更新用户信息失败")
+		}
+	}
+	if user_info.ImageId > 0 {
+		var imgfile ImageFile
+		img, code, err := imgfile.GetImageById(user_info.ImageId)
+		if err != nil {
+			return false, code, errors.New("文件不存在")
+		}
+		user_data.Avator = img.Url
+		err = user_data.Update()
+		if err != nil {
+			return false, types.UpdateUserInfoFail, errors.New("更新用户信息失败")
+		}
+	}
+	return true, types.ReturnSuccess, nil
 }

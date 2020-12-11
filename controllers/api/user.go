@@ -369,3 +369,30 @@ func (this *UserController) ForgetPassword() {
 		return
 	}
 }
+
+
+// @Title GetInviteCode
+// @Description 获取我的邀请码 GetInviteCode
+// @Success 200 status bool, data interface{}, msg string
+// @router /get_invite_code [post]
+func (u *UserController) GetInviteCode() {
+	bearerToken := u.Ctx.Input.Header(HttpAuthKey)
+	if len(bearerToken) == 0 {
+		u.Data["json"] = RetResource(false, types.UserNotLogin, nil, "您还没有登陆，请登陆")
+		u.ServeJSON()
+		return
+	}
+	token := strings.TrimPrefix(bearerToken, "Bearer ")
+	user_token, err := models.GetUserByToken(token)
+	if err != nil {
+		u.Data["json"] = RetResource(false, types.UserNotLogin, nil, "您还没有登陆，请登陆")
+		u.ServeJSON()
+		return
+	}
+	invite_code := make(map[string]string)
+	invite_code["invite_code"] = user_token.MyInviteCode
+	u.Data["json"] = RetResource(true, types.ReturnSuccess, invite_code, "获取我的邀请码成功")
+	u.ServeJSON()
+	return
+}
+

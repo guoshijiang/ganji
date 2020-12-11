@@ -333,3 +333,9 @@ func (this ForgetPasswordCheck) ForgetPasswordCheckParamValidate() (int, error) 
 	}
 	return types.ReturnSuccess, nil
 }
+
+
+type UpdateUserInfoCheck struct {
+	ImageId  int64  `json:"image_id"`
+	UserName string `json:"user_name"`
+}

@@ -35,3 +35,12 @@ func (this *UserWallet) Update(fields ...string) error {
 	return nil
 }
 
+
+func GetWalletByUserId(user_id int64) (*UserWallet, error) {
+	var user_w UserWallet
+	err := user_w.Query().Filter("UserId", user_id).Limit(1).One(&user_w)
+	if err != nil {
+		return nil, err
+	}
+	return &user_w, nil
+}

@@ -59,3 +59,13 @@ func (Self *UserIntegral) Insert() error {
 	return nil
 }
 
+func GetIntegralByUserId(user_id int64) (*UserIntegral, error) {
+	var user_ig UserIntegral
+	err := user_ig.Query().Filter("UserId", user_id).Limit(1).One(&user_ig)
+	if err != nil {
+		return nil, err
+	}
+	return &user_ig, nil
+}
+
+

@@ -41,8 +41,19 @@ const (
 	EamilAlreadyBind              = 4028  // 邮箱已经绑定
 	BindPhoneError                = 4029  // 没有绑定手机号
 	BindEamilError                = 4030  // 没有绑定邮箱
-
-
+	UserNotLogin                  = 4031  // 用户没有登陆
+	GetImagesFileFail             = 4032  // 获取文件失败
+	FileFormatError               = 4033  // 文件格式不符合要求
+	FileIsBig                     = 4034  // 文件太大
+	CreateFilePathError           = 4035  // 创建文件路径失败
+	SaveFileFail                  = 4036  // 保存文件失败
+	UpdateUserInfoFail            = 4037  // 更新用户信息失败
+	AddressIsEmpty                = 4038  // 地址为空
+	AddressIdLessEqError          = 4039  // 地址 ID 为空
+	UserIdEmptyError              = 4040  // 用户 ID 为空
+	CreateAddressFail             = 4041  // 创建地址失败
+	UpdateAddressFail             = 4042  // 修改地址失败
+	GetConponFail                 = 4043  // 获取优惠券成功
 )
 
 

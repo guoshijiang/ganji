@@ -16,7 +16,7 @@ type User struct {
 	Id             int64         `json:"id"`
 	Phone          string        `orm:"size(64);index" json:"phone"`
 	UserName       string        `orm:"size(128)" json:"user_name"`
-	Avator         string    `orm:"size(150);default(/static/upload/default/user-default-60x60.png)"`
+	Avator         string        `orm:"size(150);default(/static/upload/default/user-default-60x60.png)"`
 	Password       string        `orm:"size(128)" json:"password"`
 	FundPassword   string        `orm:"size(128)" json:"fund_password"`           // 钱包资金密码
 	Email          string        `orm:"size(128);index" json:"email"`

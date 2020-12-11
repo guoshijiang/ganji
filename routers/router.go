@@ -18,6 +18,18 @@ func init() {
 				&api.UserController{},
 			),
 		),
+
+		beego.NSNamespace("/address",
+			beego.NSInclude(
+				&api.UserAddressController{},
+			),
+		),
+
+		beego.NSNamespace("/goods",
+			beego.NSInclude(
+				&api.GoodsController{},
+			),
+		),
 	)
 	beego.AddNamespace(api_path)
 }

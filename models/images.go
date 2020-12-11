@@ -4,15 +4,13 @@ import (
 	"ganji/common"
 	"ganji/types"
 	"github.com/astaxie/beego/orm"
-	"time"
 )
 
 type ImageFile struct {
+	BaseModel
 	Id        int64     `json:"id"`
 	Url       string    `orm:"unique;size(256);index" json:"url"`
-	IsRemoved int8      `orm:"index" json:"is_removed"` //0: 正常，1: 删除
-	CreatedAt time.Time `orm:"auto_now_add;type(datetime);index" json:"created_at"`
-	UpdatedAt time.Time `orm:"auto_now_add;type(datetime);index" json:"updated_at"`
+	ImgType   int8      `json:"img_type"` // 0:用户头像 1:商品评论图片
 }
 
 func (this *ImageFile) TableName() string {

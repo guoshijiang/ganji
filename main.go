@@ -14,9 +14,6 @@ func main() {
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
-	beego.BConfig.WebConfig.Session.SessionOn = true                // 开启Session模块
-	beego.BConfig.WebConfig.Session.SessionGCMaxLifetime = 86400    // 设置Session有效期,单位秒
-	beego.BConfig.WebConfig.Session.SessionCookieLifeTime = 86400
 	if beego.BConfig.RunMode == "dev" {
 		beego.BConfig.WebConfig.DirectoryIndex = true
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"

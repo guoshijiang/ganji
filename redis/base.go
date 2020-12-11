@@ -14,13 +14,11 @@ var (
 )
 func init() {
 	once.Do(func() {
-		address := beego.AppConfig.String("address")
-		password := beego.AppConfig.String("password")
-		db_index := beego.AppConfig.String("db_index")
-		db_num, _ := strconv.Atoi(db_index)
+		redisConfig, _ := beego.AppConfig.GetSection("redis")
+		db_num, _ := strconv.Atoi(redisConfig["db_index"])
 		RdsConn = redis.NewClient(&redis.Options{
-			Addr:     address,
-			Password: password,
+			Addr:     redisConfig["address"],
+			Password: redisConfig["password"],
 			DB:       db_num,
 		})
 		_, err := RdsConn.Ping().Result()

@@ -8,22 +8,19 @@ import (
 	"time"
 )
 
-
 func init() {
-	dbhost := beego.AppConfig.String("db_host")
-	dbport := beego.AppConfig.String("db_port")
-	dbuser := beego.AppConfig.String("db_user")
-	dbpassword := beego.AppConfig.String("db_pass")
-	dbtype := beego.AppConfig.String("db_type")
-	dbalias := beego.AppConfig.String("db_alias")
-	dbname := beego.AppConfig.String("db_name")
-	dburl := dbuser + ":" + dbpassword + "@tcp(" + dbhost + ":" + dbport + ")/" + dbname + "?charset=utf8&loc=Asia%2FShanghai"
-	if err := orm.RegisterDataBase(dbalias, dbtype, dburl); err != nil {
+	mysqlConfig, _ := beego.AppConfig.GetSection("mysql")
+	dburl := mysqlConfig["db_user"] + ":" + mysqlConfig["db_pass"] + "@tcp(" + mysqlConfig["db_host"] + ":" + mysqlConfig["db_port"] + ")/" + mysqlConfig["db_name"] + "?charset=utf8&loc=Asia%2FShanghai"
+	if err := orm.RegisterDataBase(mysqlConfig["db_alias"], mysqlConfig["db_type"], dburl); err != nil {
 		panic(errors.Wrap(err, "register data base model"))
 	}
-	orm.RegisterModel(new(User), new(UserInfo), new(UserWallet),
-		new(UserIntegral), new(UserCoupon))
-	orm.RunSyncdb(dbalias, false, true)
+	orm.RegisterModel(new(User),new(UserInfo), new(UserWallet),
+		new(UserIntegral), new(UserCoupon),new(AdminUser),new(AdminMenu),new(AdminRole))
+	if beego.AppConfig.String("runmode") == "dev" {
+		orm.Debug = true
+	}
+
+	//orm.RunSyncdb(mysqlConfig["db_alias"], true, true)
 }
 
 

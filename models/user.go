@@ -133,13 +133,15 @@ func RegisterByPhoneOrEmail(register_parm type_user.UserRegisterCheck) (success 
 	} else {
 		inviteMeUserID = 0
 	}
-	hex_uuid := base64.RawURLEncoding.EncodeToString(uuid.NewV4().Bytes())
+	uid,_ := uuid.NewV4()
+	uuid,_ := uuid.NewV4()
+	hex_uuid := base64.RawURLEncoding.EncodeToString(uid.Bytes())
 	user_reg_data := User {
 		Phone:          phone,
 		UserName:      "小鱼儿",
 		Password:       common.ShaOne(register_parm.Password1),
 		Email:          email,
-		Token:          uuid.NewV4().String(),
+		Token:          uuid.String(),
 		InviteMeUserId: inviteMeUserID,
 		MyInviteCode:   hex_uuid,
 	}

@@ -92,27 +92,66 @@ func init() {
 		//菜单管理-角色管理-角色授权
 		beego.NSRouter("/admin_role/access_operate", &controllers.AdminRoleController{}, "post:AccessOperate"),
 	)
-
 	beego.AddNamespace(admin)
-
-
 	// API 部分
 	api_path := beego.NewNamespace("/v1",
-		beego.NSNamespace("/user",
-			beego.NSInclude(
-				&api.UserController{},
-			),
-		),
-
 		beego.NSNamespace("/address",
 			beego.NSInclude(
 				&api.UserAddressController{},
 			),
 		),
 
+		beego.NSNamespace("/category",
+			beego.NSInclude(
+				&api.CategoryController{},
+			),
+		),
+
+		beego.NSNamespace("/comment",
+			beego.NSInclude(
+				&api.CommentController{},
+			),
+		),
+
 		beego.NSNamespace("/goods",
 			beego.NSInclude(
 				&api.GoodsController{},
+			),
+		),
+
+		beego.NSNamespace("/index",
+			beego.NSInclude(
+				&api.IndexController{},
+			),
+		),
+
+		beego.NSNamespace("/merchant",
+			beego.NSInclude(
+				&api.MerchantController{},
+			),
+		),
+
+		beego.NSNamespace("/order",
+			beego.NSInclude(
+				&api.OrderController{},
+			),
+		),
+
+		beego.NSNamespace("/user",
+			beego.NSInclude(
+				&api.UserController{},
+			),
+		),
+
+		beego.NSNamespace("/user_info",
+			beego.NSInclude(
+				&api.UserInfoController{},
+			),
+		),
+
+		beego.NSNamespace("/wallet_integral",
+			beego.NSInclude(
+				&api.WalletIntegralController{},
 			),
 		),
 	)

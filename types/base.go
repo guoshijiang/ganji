@@ -10,6 +10,7 @@ const (
 	InvalidVerifyWay              = 3002  // 无效的验证方式
 	ParamEmptyError               = 3003  // 传入参数为空
 	UserToKenCheckError           = 3004  // 用户 Token 校验失败
+	ParamLessZero                 = 3005  // 参数小于 0
 	PageIsZero                    = 4000  // 页码 0
 	PageSizeIsZero                = 4001  // 每页数量 0
 	PhoneEmptyError               = 4002  // 手机号为空
@@ -55,6 +56,7 @@ const (
 	UpdateAddressFail             = 4042  // 修改地址失败
 	GetConponFail                 = 4043  // 获取优惠券成功
 	GetGoodsListFail              = 4044  // 获取商品列表失败
+	GetMerchantListFail           = 4045  // 获取商家列表失败
 )
 
 

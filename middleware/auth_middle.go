@@ -34,7 +34,6 @@ func AuthMiddle() {
 				response.ErrorWithMessageAndUrl("未登录", "/admin/auth/login", ctx)
 				return
 			}
-
 			//验证，是否有权限访问
 			var adminUserService services.AdminUserService
 			if loginUser.Id != 1 && !adminUserService.AuthCheck(url, authExcept, loginUser) {
@@ -46,16 +45,12 @@ func AuthMiddle() {
 				return
 			}
 		}
-
 		checkAuth, _ := strconv.Atoi(ctx.Request.PostForm.Get("check_auth"))
-
 		if checkAuth == 1 {
 			response.Success(ctx)
 			return
 		}
-
 	}
-
 	beego.InsertFilter("/admin/*", beego.BeforeRouter, filterLogin)
 }
 
@@ -79,12 +74,10 @@ func isLogin(ctx *context.Context) (*models.AdminUser, bool) {
 	if !ok {
 		loginUserIdStr := ctx.GetCookie(global.LOGIN_USER_ID)
 		loginUserIdSign := ctx.GetCookie(global.LOGIN_USER_ID_SIGN)
-
 		if loginUserIdStr != "" && loginUserIdSign != "" {
 			loginUserId, _ := strconv.Atoi(loginUserIdStr)
 			var adminUserService services.AdminUserService
 			loginUserPointer := adminUserService.GetAdminUserById(loginUserId)
-
 			if loginUserPointer != nil && loginUserPointer.GetSignStrByAdminUser(ctx) == loginUserIdSign {
 				ctx.Output.Session(global.LOGIN_USER, *loginUserPointer)
 				return loginUserPointer, true

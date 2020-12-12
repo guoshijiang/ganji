@@ -11,11 +11,13 @@ import (
 type Goods struct {
 	BaseModel
 	Id             int64     `json:"id" form:"id"`
-	GoodsCatId     int64     `json:"goods_cat_id"`                      // 商品所属一级分类 ID
-	GoodsLastCatId int64     `json:"goods_level_cat_id"`                  // 商品所属最后一级分类 ID
-	GoodsMark      string    `orm:"size(512);index" json:"goods_mark"`   // 商品备注
-	MerchantId     int64     `json:"merchant_id"`                       // 商家 ID                                                                      // 商品所属商家 ID
-	Title          string    `orm:"size(512);index" json:"title"`       // 商品标题
+	GoodsCatId     int64     `json:"goods_cat_id"`                        // 商品所属一级分类ID
+	GoodsLastCatId int64     `json:"goods_level_cat_id"`                  // 商品所属最后一级分类ID
+	GoodsMark      string    `orm:"size(512);index" json:"goods_mark"`    // 商品备注
+	Serveice       string    `orm:"size(512);index" json:"serveice"`      // 服务说明
+	CalcWay        int8      `orm:"default(0);index" json:"calc_way"`     // 0:按件计量 1:按近计量
+	MerchantId     int64     `json:"merchant_id"`                         // 商品所属商家ID
+	Title          string    `orm:"size(512);index" json:"title"`         // 商品标题
 	Logo           string    `orm:"size(150);default(/static/upload/default/user-default-60x60.png)" json:"logo" form:"logo"`   // 商品封面
 	TotalAmount    int64     `orm:"default(150000)" json:"total_amount" form:"total_amount"`                                    // 商品总量
 	LeftAmount     int64     `orm:"default(150000)" json:"left_amount" form:"left_amount"`                                      // 剩余商品总量
@@ -28,7 +30,7 @@ type Goods struct {
 	Discount       float64   `orm:"default(0);index" json:"discount"`                     // 折扣，取值 0.1-9.9；0代表不打折
 	Sale           int8      `orm:"default(0);index" json:"sale" form:"sale"`             // 0:上架 1:下架
 	IsDisplay      int8      `orm:"default(0);index" json:"is_display" form:"is_display"` // 0:首页不展示, 1:首页展示
-	BuyNums        int64     `orm:"default(0);index" json:"buy_nums"`                     // 购买次数
+	SellNums        int64     `orm:"default(0);index" json:"buy_nums"`                    // 售出数量
 	IsHot          int8      `orm:"default(0);index" json:"is_hot"`                       // 0:非爆款产品 1:爆款产品
 	IsDiscount     int8      `orm:"default(0);index" json:"is_discount"`                  // 0:不打折，1:打折活动产品
 	IsIgExchange   int8      `orm:"default(0);index" json:"is_ig_exchange"`               // 0:正常，1:可以积分兑换
@@ -141,3 +143,59 @@ func GetIndexDownGoodsList(page int, pageSize int, query_way int8) ([]*Goods, in
 	}
 }
 
+
+func GetCategoryGoodsList(page, pageSize int, first_level_id, last_level_id int64) ([]*Goods, int64, error) {
+	offset := (page - 1) * pageSize
+	goods_list := make([]*Goods, 0)
+	if first_level_id <= 0 {
+		query_dis := orm.NewOrm().QueryTable(Goods{}).Filter("IsDiscount", 1).OrderBy("-BuyNums")
+		total, _ := query_dis.Count()
+		_, err := query_dis.Limit(pageSize, offset).All(&goods_list)
+		if err != nil {
+			return nil, 0, errors.New("查询数据库失败")
+		}
+		return goods_list, total, nil
+	} else {
+		query := orm.NewOrm().QueryTable(Goods{}).Filter("GoodsCatId", first_level_id).OrderBy("-BuyNums")
+		if last_level_id > 0 {
+			query.Filter("GoodsLastCatId", last_level_id).OrderBy("-BuyNums")
+		}
+		total, _ := query.Count()
+		_, err := query.Limit(pageSize, offset).All(&goods_list)
+		if err != nil {
+			return nil, 0, errors.New("查询数据库失败")
+		}
+		return goods_list, total, nil
+	}
+}
+
+
+// 0:全部；1:活动优选；2:爆款产品
+func GetMerchantGoodsList(page, pageSize int, metchant_id int64, query_way int8) ([]*Goods, int64, error) {
+	offset := (page - 1) * pageSize
+	goods_list := make([]*Goods, 0)
+	query := orm.NewOrm().QueryTable(Goods{}).Filter("MerchantId", metchant_id)
+	if query_way == 0 {
+		query = query
+	} else if query_way == 1 {
+		query = query.Filter("IsDiscount", 1)
+	} else if query_way == 2 {
+		query = query.Filter("IsHot", 1).OrderBy("-BuyNums")
+	} else {
+		return nil, types.InvalidVerifyWay, errors.New("没有这种查询方式")
+	}
+	total, _ := query.Count()
+	_, err := query.Limit(pageSize, offset).All(&goods_list)
+	if err != nil {
+		return nil, 0, errors.New("查询数据库失败")
+	}
+	return goods_list, total, nil
+}
+
+func GetGoodsDetail(id int64) (*Goods, int, error) {
+	var goods Goods
+	if err := orm.NewOrm().QueryTable(Goods{}).Filter("Status", 0).Filter("Id", id).RelatedSel().One(&goods); err != nil {
+		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
+	}
+	return &goods, types.ReturnSuccess, errors.New("获取商品详情成功")
+}

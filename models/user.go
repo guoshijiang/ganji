@@ -22,7 +22,7 @@ type User struct {
 	Email          string        `orm:"size(128);index" json:"email"`
 	LoginCount     int64         `orm:"default(0);index" json:"login_count"`
 	Token          string        `orm:"size(128)" json:"token"`
-	MemberLevel    int8          `orm:"default(1);index" json:"member_level"`     // 0:v0:普通会员 1:V1:白金会员，2:V2:砖石会有; 3:V3:皇冠会员
+	MemberLevel    int8          `orm:"default(1);index" json:"member_level"`     // 0:v0:普通会员 1:V1:白银会员，2:V2:白金会员，3:V3:黄金会员; 4:V4:砖石会有; 5:V5:皇冠会员
 	MyInviteCode   string        `orm:"size(128)" json:"my_invite_code"`          // 用户自己网体邀请码
 	InviteMeUserId int64         `orm:"size(64);index" json:"invite_me_user_id"`  // 网体上级用户id
 }

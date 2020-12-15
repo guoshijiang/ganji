@@ -133,8 +133,8 @@ func RegisterByPhoneOrEmail(register_parm type_user.UserRegisterCheck) (success 
 	} else {
 		inviteMeUserID = 0
 	}
-	uid := uuid.NewV4()
-	uuid := uuid.NewV4()
+	uid,_:= uuid.NewV4()
+	uuid,_:= uuid.NewV4()
 	hex_uuid := base64.RawURLEncoding.EncodeToString(uid.Bytes())
 	user_reg_data := User {
 		Phone:          phone,

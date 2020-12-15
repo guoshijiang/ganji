@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "ganji/routers"
+	_ "ganji/session"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
 )

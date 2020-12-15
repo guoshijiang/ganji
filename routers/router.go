@@ -91,6 +91,51 @@ func init() {
 		beego.NSRouter("/admin_role/access", &controllers.AdminRoleController{}, "get:Access"),
 		//菜单管理-角色管理-角色授权
 		beego.NSRouter("/admin_role/access_operate", &controllers.AdminRoleController{}, "post:AccessOperate"),
+
+		//商户管理-商户管理
+		beego.NSRouter("/merchant/index", &controllers.MerchantController{}, "get:Index"),
+		//商户管理-添加界面
+		beego.NSRouter("/merchant/add", &controllers.MerchantController{}, "get:Add"),
+		//商户管理-添加
+		beego.NSRouter("/merchant/create", &controllers.MerchantController{}, "post:Create"),
+		//商户管理-修改界面
+		beego.NSRouter("/merchant/edit", &controllers.MerchantController{}, "get:Edit"),
+		//商户管理-修改
+		beego.NSRouter("/merchant/update", &controllers.MerchantController{}, "post:Update"),
+		//商户管理-删除
+		beego.NSRouter("/merchant/del", &controllers.MerchantController{}, "post:Del"),
+
+
+		//商品管理-商品管理
+		beego.NSRouter("/goods/index", &controllers.GoodsController{}, "get:Index"),
+		//商品管理-添加界面
+		beego.NSRouter("/goods/add", &controllers.GoodsController{}, "get:Add"),
+		//商品管理-添加
+		beego.NSRouter("/goods/create", &controllers.GoodsController{}, "post:Create"),
+		//商品管理-修改界面
+		beego.NSRouter("/goods/edit", &controllers.GoodsController{}, "get:Edit"),
+		//商品管理-修改
+		beego.NSRouter("/goods/update", &controllers.GoodsController{}, "post:Update"),
+		//商品管理-删除
+		beego.NSRouter("/goods/del", &controllers.GoodsController{}, "post:Del"),
+
+
+		//商品分类管理-商品分类管理
+		beego.NSRouter("/cat-goods/index", &controllers.GoodsCateController{}, "get:Index"),
+		//商品分类管理-添加界面
+		beego.NSRouter("/cat-goods/add", &controllers.GoodsCateController{}, "get:Add"),
+		//商品分类管理-添加
+		beego.NSRouter("/cat-goods/create", &controllers.GoodsCateController{}, "post:Create"),
+		//商品分类管理-修改界面
+		beego.NSRouter("/cat-goods/edit", &controllers.GoodsCateController{}, "get:Edit"),
+		//商品分类管理-修改
+		beego.NSRouter("/cat-goods/update", &controllers.GoodsCateController{}, "post:Update"),
+		//商品分类管理-删除
+		beego.NSRouter("/cat-goods/del", &controllers.GoodsCateController{}, "post:Del"),
+
+		//UEditor控制器
+		beego.NSRouter("/editor/server", &controllers.EditorController{}, "get,post:Server"),
+
 	)
 	beego.AddNamespace(admin)
 	// API 部分

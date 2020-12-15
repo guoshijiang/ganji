@@ -4,7 +4,7 @@ import "ganji/common"
 
 type GoodsComment struct {
 	BaseModel
-	GoodsId      int64     `orm:"size(64);index" json:"goods_id"`                       // 商品ID
+	GoodsId      int64     `orm:"size(64);pk" json:"goods_id"`                       // 商品ID
 	Title        string    `orm:"size(512);index" json:"title" form:"title"`            // 评论标题
 	Star         int8      `orm:"default(5);index" json:"star"`                         // 评论级别 1-10 没增加一个数字代表半星
  	Content      string    `orm:"type(text)" json:"content"`                            // 评论内容

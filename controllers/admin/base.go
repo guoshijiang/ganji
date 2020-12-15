@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"ganji/global"
+	"ganji/global/response"
 	"ganji/models"
 	"ganji/services"
 	"github.com/astaxie/beego"
@@ -112,6 +113,7 @@ func (this *baseController) Prepare() {
 		"title":           title,
 	}
 	this.Data["admin"] = admin
+	new(services.BaseService).SetAdmin(&loginUser)
 
 	//ajax头部统一设置_xsrf
 	this.Data["xsrf_token"] = this.XSRFToken()
@@ -121,3 +123,22 @@ func (this *baseController) Prepare() {
 		app.NestPrepare()
 	}
 }
+
+func (this *baseController) UploadImage(file string) {
+	_, _, err := this.GetFile(file)
+	if err != nil {
+		response.ErrorWithMessage("上传图片错误"+err.Error(), this.Ctx)
+	}
+
+	var (
+		//attachmentService services.AttachmentService
+		//adminUserService  services.AdminUserService
+	)
+	//attachmentInfo, err := attachmentService.Upload(this.Ctx, "avatar", loginUser.Id, 0)
+	//if err != nil || attachmentInfo == nil {
+	//	response.ErrorWithMessage(err.Error(), this.Ctx)
+	//} else {
+	//	response.SuccessWithMessageAndUrl("修改成功", global.URL_RELOAD, this.Ctx)
+	//}
+}
+

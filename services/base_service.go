@@ -3,11 +3,15 @@ package services
 import (
 	"ganji/common/utils"
 	beego_pagination "ganji/common/utils/beego-pagination"
+	"ganji/models"
 	"github.com/astaxie/beego/orm"
 	"net/url"
+	"strconv"
 	"strings"
 	"time"
 )
+
+ var AdminUserVal	*models.AdminUser
 
 type BaseService struct {
 	//可搜索字段
@@ -22,6 +26,10 @@ type BaseService struct {
 	Pagination beego_pagination.Pagination
 }
 
+func (this *BaseService) SetAdmin(admin *models.AdminUser){
+	AdminUserVal = admin
+}
+
 //分页处理
 func (this *BaseService) Paginate(seter orm.QuerySeter, listRows int, parameters url.Values) orm.QuerySeter {
 	var pagination beego_pagination.Pagination
@@ -32,7 +40,6 @@ func (this *BaseService) Paginate(seter orm.QuerySeter, listRows int, parameters
 
 //查询处理
 func (this *BaseService) ScopeWhere(seter orm.QuerySeter, parameters url.Values) orm.QuerySeter {
-
 	//关键词like搜索
 	keywords := parameters.Get("_keywords")
 	cond := orm.NewCondition()
@@ -40,6 +47,11 @@ func (this *BaseService) ScopeWhere(seter orm.QuerySeter, parameters url.Values)
 		for _, v := range this.SearchField {
 			cond = cond.Or(v+"__icontains", keywords)
 		}
+	}
+
+	merchantId,_ := strconv.Atoi(parameters.Get("_merchant_id"))
+	if merchantId > 0 {
+		cond = cond.And("merchant_id",merchantId)
 	}
 
 	//字段条件查询

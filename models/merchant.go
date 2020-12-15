@@ -51,3 +51,8 @@ func GetMerchantDetail(id int64) (*Merchant, int, error) {
 	}
 	return &merchant, types.ReturnSuccess, errors.New("获取商家详情成功")
 }
+
+
+func (*Merchant) SearchField() []string {
+	return []string{"merchant_name"}
+}

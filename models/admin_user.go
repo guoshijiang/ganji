@@ -17,6 +17,7 @@ type AdminUser struct {
 	Avatar     string `orm:"column(avatar);size(255)" description:"头像" json:"avatar"`
 	Role       string `orm:"column(role);size(200)" description:"角色" json:"role"`
 	Status     int8   `orm:"column(status);size(1)" description:"是否启用 0：否 1：是" json:"status"`
+	MerchantId int    `orm:"column(merchant_id);size(11);default(0)" description:"商户ID;0表示管理后台" json:"merchant_id"`
 	DeleteTime int    `orm:"column(delete_time);;size(10);default(0)" description:"删除时间" json:"delete_time"`
 }
 

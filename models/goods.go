@@ -10,7 +10,7 @@ import (
 
 type Goods struct {
 	BaseModel
-	Id             int64     `json:"id" form:"id"`
+	Id             int64     `orm:"column(id);auto;size(11)" json:"id" form:"id"`
 	GoodsCatId     int64     `json:"goods_cat_id"`                        // 商品所属一级分类ID
 	GoodsLastCatId int64     `json:"goods_level_cat_id"`                  // 商品所属最后一级分类ID
 	GoodsMark      string    `orm:"size(512);index" json:"goods_mark"`    // 商品备注
@@ -40,6 +40,11 @@ type Goods struct {
 	IsLimitTime    int8      `orm:"default(0);index" json:"is_limit_time"`                // 0:不是限时产品 1:是限时
 }
 
+type Select struct {
+	Id			int					`json:"id"`
+	Name		string				`json:"name"`
+}
+
 func (this *Goods) TableName() string {
 	return common.TableName("goods")
 }
@@ -47,6 +52,10 @@ func (this *Goods) TableName() string {
 func (this *Goods) Read(fields ...string) error {
 	logs.Info(fields)
 	return nil
+}
+
+func (*Goods) SearchField() []string {
+	return []string{"goods_name"}
 }
 
 func (this *Goods) Update(fields ...string) error {

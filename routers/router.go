@@ -154,6 +154,14 @@ func init() {
 				&api.WalletIntegralController{},
 			),
 		),
+
+		beego.NSNamespace("/goods_car",
+			beego.NSInclude(
+				&api.GoodsCarController{},
+			),
+		),
+
+
 	)
 	beego.AddNamespace(api_path)
 }

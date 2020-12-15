@@ -57,6 +57,8 @@ const (
 	GetConponFail                 = 4043  // 获取优惠券成功
 	GetGoodsListFail              = 4044  // 获取商品列表失败
 	GetMerchantListFail           = 4045  // 获取商家列表失败
+	UserTokenUserIdNotEqual       = 4046  // 用户ID 和 Token 不符合
+	InvalidGoodsPirce             = 4047  // 无效的商品价格
 )
 
 

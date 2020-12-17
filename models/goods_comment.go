@@ -13,7 +13,13 @@ type GoodsComment struct {
 	ImgThreeId   int64     `orm:"size(64);index" json:"img_three_id"`                   // 评论图片 3
 }
 
-
 func (this *GoodsComment) TableName() string {
 	return common.TableName("goods_comment")
 }
+
+func (this *GoodsComment) SearchField() []string {
+	return []string{"title"}
+}
+
+
+//商品评价 用户增删改查 用户积分 用户钱包 版本管理增删改查 订单列表 轮播图管理增删改查

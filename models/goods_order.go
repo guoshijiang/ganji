@@ -62,3 +62,7 @@ func (this *GoodsOrder) Insert() error {
 	}
 	return nil
 }
+
+func (this *GoodsOrder) SearchField() []string {
+	return []string{"order_num"}
+}

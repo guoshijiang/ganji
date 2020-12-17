@@ -31,6 +31,10 @@ func (this *User) TableName() string {
 	return common.TableName("user")
 }
 
+func (this *User) SearchField() []string {
+	return []string{"user_name"}
+}
+
 func (this *User) Update(fields ...string) error {
 	if _, err := orm.NewOrm().Update(this, fields...); err != nil {
 		return err
@@ -133,17 +137,19 @@ func RegisterByPhoneOrEmail(register_parm type_user.UserRegisterCheck) (success 
 	} else {
 		inviteMeUserID = 0
 	}
-	uid,_:= uuid.NewV4()
-	uuid,_:= uuid.NewV4()
-	hex_uuid := base64.RawURLEncoding.EncodeToString(uid.Bytes())
+
+	token,inviteCode := uidCode()
+	//uid,_:= uuid.NewV4()
+	//uuid,_:= uuid.NewV4()
+	//hex_uuid := base64.RawURLEncoding.EncodeToString(uid.Bytes())
 	user_reg_data := User {
 		Phone:          phone,
 		UserName:      "小鱼儿",
 		Password:       common.ShaOne(register_parm.Password1),
 		Email:          email,
-		Token:          uuid.String(),
+		Token:          token,
 		InviteMeUserId: inviteMeUserID,
-		MyInviteCode:   hex_uuid,
+		MyInviteCode:   inviteCode,
 	}
 	err, user_id := user_reg_data.Insert()
 	if err != nil {
@@ -174,6 +180,58 @@ func RegisterByPhoneOrEmail(register_parm type_user.UserRegisterCheck) (success 
 		return false, types.InsertIntegralFail, errors.New("插入积分失败")
 	}
 	return true, types.ReturnSuccess, nil
+}
+
+func uidCode() (string,string){
+	uid,_:= uuid.NewV4()
+	tuid,_:= uuid.NewV4()
+	hex_uuid := base64.RawURLEncoding.EncodeToString(uid.Bytes())
+	return tuid.String(),hex_uuid
+}
+
+//管理后台添加用户
+func (Self *User) RegisterUserByAdmin() error {
+	token,inviteCode := uidCode()
+	user_reg_data := User {
+		Phone:          Self.Phone,
+		UserName:      Self.UserName,
+		Password:       common.ShaOne(Self.Password),
+		Email:          Self.Email,
+		Token:          token,
+		InviteMeUserId: 0,
+		MyInviteCode:   inviteCode,
+		Avator: Self.Avator,
+	}
+
+	err, user_id := user_reg_data.Insert()
+	if err != nil {
+		return  errors.New("创建用户失败")
+	}
+	user_info_query := UserInfo {
+		UserId: user_id,
+	}
+	if err := user_info_query.Insert(); err != nil {
+		return errors.New("创建用户信息失败")
+	}
+	user_wallet := UserWallet{
+		UserId:    user_id,
+		AssetName: "人民币",
+		TotalAmount: 0,
+	}
+	if err := user_wallet.Insert(); err != nil {
+		return errors.New("创建用户钱包失败")
+	}
+	crfr_integral := UserIntegral{
+		UserId: user_id,
+		IntegralName: "商城积分",
+		TotalIg: 0,
+		UsedIg:  0,
+		TodayIg: 0,
+	}
+	if err := crfr_integral.Insert(); err != nil {
+		return errors.New("插入积分失败")
+	}
+	return nil
 }
 
 

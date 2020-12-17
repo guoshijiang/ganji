@@ -24,6 +24,10 @@ func (this *Version) TableName() string {
 	return common.TableName("version")
 }
 
+func (this *Version) SearchField() []string {
+	return []string{"version_num"}
+}
+
 func (this *Version) Query() orm.QuerySeter {
 	return orm.NewOrm().QueryTable(this)
 }

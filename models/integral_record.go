@@ -28,6 +28,10 @@ func (this *IntegralRecord) Read(fields ...string) error {
 	return nil
 }
 
+func (this *IntegralRecord) SearchField() []string {
+	return []string{"user_id"}
+}
+
 func (this *IntegralRecord) Update(fields ...string) error {
 	if _, err := orm.NewOrm().Update(this, fields...); err != nil {
 		return err

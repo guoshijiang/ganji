@@ -68,6 +68,33 @@ func (pagination *Pagination) Paginate(seter orm.QuerySeter, listRows int, param
 	return seter.Limit(pagination.ListRows, (pagination.CurrentPage-1)*pagination.ListRows)
 }
 
+
+func (pagination *Pagination) PaginateMul(listRows int, parameters url.Values) *Pagination{
+	pagination.Parameters = parameters
+
+	//当前页
+	var page int
+	pageStr := pagination.Parameters.Get("page")
+	if pageStr == "" {
+		page = 1
+	} else {
+		page, _ = strconv.Atoi(pageStr)
+	}
+
+	if page < 1 {
+		page = 1
+	}
+
+	pagination.CurrentPage = page
+	pagination.ListRows = listRows
+	pagination.LastPage = int(math.Ceil(float64(pagination.Total / pagination.ListRows)))
+	pagination.HasMore = pagination.CurrentPage < pagination.LastPage
+
+	//放到最后执行，前面需要赋值
+	pagination.BootStrapRenderLink = pagination.render()
+	return pagination
+}
+
 //渲染分页html
 func (pagination *Pagination) render() string {
 	if pagination.hasPages() {

@@ -71,6 +71,23 @@ func init() {
 		//系统管理-用户管理-删除
 		beego.NSRouter("/admin_user/del", &controllers.AdminUserController{}, "post:Del"),
 
+
+		//系统管理-轮播图管理
+		beego.NSRouter("/sys/banner/index", &controllers.SysController{}, "get:BannerIndex"),
+		beego.NSRouter("/sys/banner/add", &controllers.SysController{}, "get:BannerAdd"),
+		beego.NSRouter("/sys/banner/create", &controllers.SysController{}, "post:BannerCreate"),
+		beego.NSRouter("/sys/banner/edit", &controllers.SysController{}, "get:BannerEdit"),
+		beego.NSRouter("/sys/banner/update", &controllers.SysController{}, "post:BannerUpdate"),
+		beego.NSRouter("/sys/banner/del", &controllers.SysController{}, "post:BannerDel"),
+
+		//系统管理-版本管理
+		beego.NSRouter("/sys/version/index", &controllers.SysController{}, "get:VerIndex"),
+		beego.NSRouter("/sys/version/add", &controllers.SysController{}, "get:VerAdd"),
+		beego.NSRouter("/sys/version/create", &controllers.SysController{}, "post:VerCreate"),
+		beego.NSRouter("/sys/version/edit", &controllers.SysController{}, "get:VerEdit"),
+		beego.NSRouter("/sys/version/update", &controllers.SysController{}, "post:VerUpdate"),
+		beego.NSRouter("/sys/version/del", &controllers.SysController{}, "post:VerDel"),
+
 		//系统管理-角色管理
 		beego.NSRouter("/admin_role/index", &controllers.AdminRoleController{}, "get:Index"),
 		//系统管理-角色管理-添加界面
@@ -118,6 +135,8 @@ func init() {
 		beego.NSRouter("/goods/update", &controllers.GoodsController{}, "post:Update"),
 		//商品管理-删除
 		beego.NSRouter("/goods/del", &controllers.GoodsController{}, "post:Del"),
+		//商品管理-商品评价
+		beego.NSRouter("/goods/comment", &controllers.GoodsController{}, "get:Comment"),
 
 
 		//商品分类管理-商品分类管理
@@ -133,8 +152,33 @@ func init() {
 		//商品分类管理-删除
 		beego.NSRouter("/cat-goods/del", &controllers.GoodsCateController{}, "post:Del"),
 
-		//UEditor控制器
+		//Ueditor
 		beego.NSRouter("/editor/server", &controllers.EditorController{}, "get,post:Server"),
+
+		//订单管理
+		beego.NSRouter("/order/index",&controllers.OrderController{},"get:Index"),
+
+		//用户管理-用户管理
+		beego.NSRouter("/user/index", &controllers.UserController{}, "get:Index"),
+		//用户管理-添加界面
+		beego.NSRouter("/user/add", &controllers.UserController{}, "get:Add"),
+		//用户管理-添加
+		beego.NSRouter("/user/create", &controllers.UserController{}, "post:Create"),
+		//用户管理-修改界面
+		beego.NSRouter("/user/edit", &controllers.UserController{}, "get:Edit"),
+		//用户管理-修改
+		beego.NSRouter("/user/update", &controllers.UserController{}, "post:Update"),
+		//用户管理-删除
+		beego.NSRouter("/user/del", &controllers.UserController{}, "post:Del"),
+		//用户钱包
+		beego.NSRouter("/user/wallet", &controllers.UserController{}, "get:Wallet"),
+		//用户积分
+		beego.NSRouter("/user/integral", &controllers.UserController{}, "get:Integral"),
+
+		//积分管理-积分记录
+		beego.NSRouter("/integral/index", &controllers.IntegralController{}, "get:Index"),
+		beego.NSRouter("/integral/trade", &controllers.IntegralController{}, "get:Trade"),
+
 
 	)
 	beego.AddNamespace(admin)

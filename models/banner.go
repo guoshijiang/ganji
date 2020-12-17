@@ -17,7 +17,11 @@ type Banner struct {
 }
 
 func (this *Banner) TableName() string {
-	return common.TableName("goods_order")
+	return common.TableName("banner")
+}
+
+func (this *Banner) SearchField() []string {
+	return []string{}
 }
 
 func (this *Banner) Read(fields ...string) error {

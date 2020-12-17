@@ -17,6 +17,10 @@ func (this *UserWallet) TableName() string {
 	return common.TableName("user_wallet")
 }
 
+func (this *UserWallet) SearchField() []string {
+	return []string{}
+}
+
 func (this *UserWallet) Query() orm.QuerySeter {
 	return orm.NewOrm().QueryTable(this)
 }

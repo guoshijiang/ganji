@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"encoding/json"
+	"fmt"
 	"ganji/form_validate"
 	"ganji/global"
 	"ganji/global/response"
@@ -53,12 +55,16 @@ func (Self *GoodsController) Create() {
 	goodsForm.Logo = imgPath
 
 	insertId := goodsService.Create(&goodsForm)
+
 	url := global.URL_BACK
 
 	if goodsForm.IsCreate == 1 {
 		url = global.URL_RELOAD
 	}
 	if insertId > 0 {
+		images,_ := new(services.UploadService).UploadMulti(Self.Ctx,"images",int64(insertId))
+		js,_ := json.Marshal(images)
+		fmt.Println("js----",string(js))
 		response.SuccessWithMessageAndUrl("添加成功", url, Self.Ctx)
 	} else {
 		response.Error(Self.Ctx)
@@ -142,4 +148,15 @@ func (Self *GoodsController) Del() {
 	} else {
 		response.Error(Self.Ctx)
 	}
+}
+
+//商品评价
+func (Self *GoodsController) Comment() {
+	var srv services.GoodsServices
+	data, pagination := srv.GetPaginateCommentData(admin["per_page"].(int), gQueryParams)
+	Self.Data["data"] = data
+	Self.Data["paginate"] = pagination
+
+	Self.Layout = "public/base.html"
+	Self.TplName = "goods/comment.html"
 }

@@ -16,7 +16,7 @@ func init() {
 		panic(errors.Wrap(err, "register data base model"))
 	}
 	orm.RegisterModel(new(User),new(UserInfo), new(UserWallet),
-		new(UserIntegral), new(UserCoupon),new(AdminUser),new(AdminMenu),new(AdminRole),new(Goods),new(GoodsCar),new(Merchant),new(GoodsComment),new(GoodsCat),new(GoodsImage))
+		new(UserIntegral), new(UserCoupon),new(AdminUser),new(AdminMenu),new(AdminRole),new(Goods),new(GoodsCar),new(Merchant),new(GoodsComment),new(GoodsCat),new(GoodsImage),new(GoodsOrder),new(GroupOrder),new(ImageFile),new(IntegralRecord),new(IntegralTrade),new(UserAddress),new(Version),new(WalletRecord),new(Banner))
 	if beego.AppConfig.String("runmode") == "dev" {
 		orm.Debug = true
 	}
@@ -43,9 +43,9 @@ func insertRole() {
 
 func insertAdmin(){
 	var err error
-	_, err = orm.NewOrm().Raw("INSERT INTO `admin_user` VALUES (1, 'admin', 'JDJhJDEwJFdRaU5qRlpLUmZ1dG8uUXdpaXNaaS40SkIwdXNhQmRZOTZsMmc5by53SldMUi9qTjVLc1dp', '超级管理员', '/static/uploads/attachment/aecb9fb7-871b-43fc-9414-a4265d0cb72d.png', '1', 1, 0);").Exec()
-	_, err = orm.NewOrm().Raw("INSERT INTO `admin_user` VALUES (2, 'aaa', 'JDJhJDEwJEhHaWZ0LkdzaTRtYzRRMWNvNncxTC5HL0NEZnk5bkpJdmw1bzdiRDE2OEVSOXROamk2MWxX', 'aaa', '/static/admin/images/avatar.png', '2', 1, 0);").Exec()
-	_, err = orm.NewOrm().Raw("INSERT INTO `admin_user` VALUES (3, 'bbb', 'JDJhJDEwJFpKVElLZVpBLjV5YXRObC5FUDdMVy5sQ1F4ekx0VjVzd3laQ0p1L05ERU1kZDlvNTFJcnhh', 'bbb', '/static/admin/images/avatar.png', '6', 1, 0);").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_user` VALUES (1, 'admin', 'JDJhJDEwJFdRaU5qRlpLUmZ1dG8uUXdpaXNaaS40SkIwdXNhQmRZOTZsMmc5by53SldMUi9qTjVLc1dp', '超级管理员', '/static/uploads/attachment/aecb9fb7-871b-43fc-9414-a4265d0cb72d.png', '1', 1, 0,0);").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_user` VALUES (2, 'aaa', 'JDJhJDEwJEhHaWZ0LkdzaTRtYzRRMWNvNncxTC5HL0NEZnk5bkpJdmw1bzdiRDE2OEVSOXROamk2MWxX', 'aaa', '/static/admin/images/avatar.png', '2', 1, 0,0);").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_user` VALUES (3, 'bbb', 'JDJhJDEwJFpKVElLZVpBLjV5YXRObC5FUDdMVy5sQ1F4ekx0VjVzd3laQ0p1L05ERU1kZDlvNTFJcnhh', 'bbb', '/static/admin/images/avatar.png', '6', 1, 0,0);").Exec()
 	fmt.Println("err---", err)
 }
 
@@ -107,4 +107,26 @@ func insertMenu(){
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (88, 83, '商品分类删除', 'admin/cat-goods/del', 'fa-list', 0, 1000, '不记录');").Exec()
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (89, 77, '商品评价', 'admin/goods/comment', 'fa-list', 0, 1000, '不记录');").Exec()
 	fmt.Println("err---", err)
+}
+
+
+type GoodsOrderList struct {
+	GoodsOrder
+	BuyName					string					`json:"buy_name"`
+}
+
+type UserWalletList struct {
+	UserWallet
+	UserName				string					`json:"user_name"`
+}
+
+type UserIntegralList struct {
+	UserIntegral
+	UserName				string					`json:"user_name"`
+}
+
+type IntegralRecordeList struct {
+	IntegralRecord
+	UserName				string					`json:"user_name"`
+	SourceName				string					`json:"source_name"`
 }

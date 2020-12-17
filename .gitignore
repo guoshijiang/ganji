@@ -7,6 +7,7 @@ lastupdate.tmp
 upload
 conf/app.conf
 go.mod
+static/uploads
 
 
 

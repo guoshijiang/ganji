@@ -59,6 +59,10 @@ const (
 	GetMerchantListFail           = 4045  // 获取商家列表失败
 	UserTokenUserIdNotEqual       = 4046  // 用户ID 和 Token 不符合
 	InvalidGoodsPirce             = 4047  // 无效的商品价格
+	RealNameEmpty                 = 4048  // 真实名字为空
+	IdCardEmpty                   = 4049  // 身份证号为空
+	IdCardFormatError             = 4050  // 身份证号格式错误
+	UserAuthError                 = 4051  // 实名认证失败
 )
 
 

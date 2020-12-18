@@ -20,6 +20,7 @@ type UserInfoRet struct {
 	Phone        string `json:"phone"`
 	Eamil        string `json:"eamil"`
 	Sex          int8   `json:"sex"`
+	IsAuth       int8   `json:"is_auth"`
 	MemberLevel  int8   `json:"member_level"`
 	InviteCode   string `json:"invite_code"`
 	Avator       string `json:"avator"`
@@ -35,4 +36,16 @@ type UserConponRet struct {
 	TotalAmount float64   `json:"total_amount"`
 	StartTime   time.Time `json:"start_time"`
 	EndTime     time.Time `json:"end_time"`
+}
+
+
+type UserAuthRet struct {
+	Id         int64  `json:"id"`
+	Phone      string `json:"phone"`
+	UserName   string `json:"user_name"`
+	RealName   string `json:"real_name"`
+	IdCard     string `json:"id_card"`
+	CardImgPos string `json:"card_img_pos"`
+	CardImgNeg string `json:"card_img_neg"`
+	IsAuth     int8   `json:"is_auth"`
 }

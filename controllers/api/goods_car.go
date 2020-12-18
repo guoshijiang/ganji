@@ -17,7 +17,7 @@ type GoodsCarController struct {
 // @Description 将商品添加到购物车 AddGoodsToCar
 // @Success 200 status bool, data interface{}, msg string
 // @router /add_goods_to_car [post]
-func (this *UserController) AddGoodsToCar() {
+func (this *GoodsCarController) AddGoodsToCar() {
 	bearerToken := this.Ctx.Input.Header(HttpAuthKey)
 	if len(bearerToken) == 0 {
 		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
@@ -80,7 +80,7 @@ func (this *UserController) AddGoodsToCar() {
 // @Description 编辑购物车 EditGoodsToCar
 // @Success 200 status bool, data interface{}, msg string
 // @router /edit_goods_car [post]
-func (this *UserController) EditGoodsCar() {
+func (this *GoodsCarController) EditGoodsCar() {
 
 }
 
@@ -89,7 +89,7 @@ func (this *UserController) EditGoodsCar() {
 // @Description 删除购物车 DelGoodsToCar
 // @Success 200 status bool, data interface{}, msg string
 // @router /del_goods_car [post]
-func (this *UserController) DelGoodsCar() {
+func (this *GoodsCarController) DelGoodsCar() {
 
 }
 
@@ -98,7 +98,7 @@ func (this *UserController) DelGoodsCar() {
 // @Description 获取购物车列表 GoodsCarList
 // @Success 200 status bool, data interface{}, msg string
 // @router /goods_car_list [post]
-func (this *UserController) GoodsCarList() {
+func (this *GoodsCarController) GoodsCarList() {
 
 }
 

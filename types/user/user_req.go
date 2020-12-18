@@ -10,6 +10,7 @@ import (
 const (
 	PhoneNumRule = "^(1[3|4|5|6|7|8|9][0-9]\\d{4,8})$"
 	EmailPattern = `\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*`
+	IcardPattern = `( ^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)`
 )
 
 type PhoneNumberCheck struct {
@@ -338,4 +339,28 @@ func (this ForgetPasswordCheck) ForgetPasswordCheckParamValidate() (int, error) 
 type UpdateUserInfoCheck struct {
 	ImageId  int64  `json:"image_id"`
 	UserName string `json:"user_name"`
+}
+
+
+
+// 用户实名制度认证
+type UserAuthCheck struct {
+	RealName       string `json:"real_name"`
+	IdCard         string `json:"id_card"`
+	IdCardPosImgId int64  `json:"id_card_pos_img_id"`
+	IdCardNegImgId int64  `json:"id_card_neg_img_id"`
+}
+
+func (ua UserAuthCheck) UserAuthCheckParamValidate() (int, error) {
+	if ua.RealName == "" {
+		return types.RealNameEmpty, errors.New("real name is empty")
+	}
+	if ua.IdCard == "" {
+		return types.IdCardEmpty, errors.New("id card is empty")
+	}
+	result, _ := regexp.MatchString(IcardPattern, ua.IdCard)
+	if !result {
+		return types.IdCardFormatError, errors.New("id card format is error")
+	}
+	return types.ReturnSuccess, nil
 }

@@ -31,9 +31,9 @@ var (
 
 //父控制器初始化
 func (this *baseController) Prepare() {
-	//beego.BConfig.WebConfig.EnableXSRF = true
-	//beego.BConfig.WebConfig.XSRFKey = "7b19002c51120ff55ca97dc7516cf330"
-	//beego.BConfig.WebConfig.XSRFExpire = 3600
+	beego.BConfig.WebConfig.EnableXSRF = true
+	beego.BConfig.WebConfig.XSRFKey = "7b19002c51120ff55ca97dc7516cf330"
+	beego.BConfig.WebConfig.XSRFExpire = 3600
 	//访问url
 	requestUrl := strings.ToLower(strings.TrimLeft(this.Ctx.Input.URL(), "/"))
 	//query参数

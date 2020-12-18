@@ -22,6 +22,7 @@ func (this *IndexController) AppIndexUp() {
 	var cat_ret_list []type_index.IndexCatRet
 	var limit_buy_list []type_index.IndexLimitTimeGoodsRet
 	var hot_sell_list, best_goods_list []type_index.IndexGoodsBuyRet
+    image_path := beego.AppConfig.String("img_root_path")
 	banner_list, code, err := models.GetBannerList()
 	if err != nil {
 		this.Data["json"] = RetResource(false, code, nil, err.Error())
@@ -31,7 +32,7 @@ func (this *IndexController) AppIndexUp() {
 	for _, banner := range banner_list {
 		banner_ret := type_index.IndexBannerRet{
 			BannerId: banner.Id,
-			BannerImg: banner.Avator,
+			BannerImg: image_path + banner.Avator,
 			BannerUrl: banner.Url,
 		}
 		banner_ret_list = append(banner_ret_list, banner_ret)
@@ -46,7 +47,7 @@ func (this *IndexController) AppIndexUp() {
 		cat_ret := type_index.IndexCatRet{
 			CatId: cat.Id,
 			CatName: cat.Name,
-			CatIcon: cat.Icon,
+			CatIcon: image_path + cat.Icon,
 		}
 		cat_ret_list = append(cat_ret_list, cat_ret)
 	}
@@ -61,7 +62,7 @@ func (this *IndexController) AppIndexUp() {
 			GoodsId: gd.Id,
 			GoodsMark: gd.GoodsMark,
 			Title: gd.Title,
-			Logo: gd.Logo,
+			Logo: image_path + gd.Logo,
 			GoodsPrice: gd.GoodsPrice,
 			GoodsDisPrice: gd.GoodsDisPrice,
 			LeftTime: gd.LeftTime,
@@ -80,7 +81,7 @@ func (this *IndexController) AppIndexUp() {
 			GoodsId: hgd.Id,
 			GoodsMark: hgd.GoodsMark,
 			Title: hgd.Title,
-			Logo: hgd.Logo,
+			Logo: image_path + hgd.Logo,
 			GoodsPrice: hgd.GoodsPrice,
 			GoodsDisPrice: hgd.GoodsDisPrice,
 		}
@@ -98,7 +99,7 @@ func (this *IndexController) AppIndexUp() {
 			GoodsId: bgd.Id,
 			GoodsMark: bgd.GoodsMark,
 			Title: bgd.Title,
-			Logo: bgd.Logo,
+			Logo: image_path + bgd.Logo,
 			GoodsPrice: bgd.GoodsPrice,
 			GoodsDisPrice: bgd.GoodsDisPrice,
 		}
@@ -139,13 +140,14 @@ func (this *IndexController) AppIndexDown() {
 		this.ServeJSON()
 		return
 	}
+	image_path := beego.AppConfig.String("img_root_path")
 	var goods_list_down []type_index.IndexDownGoodsListRet
 	for _, value := range goods_list {
 		gds_down := type_index.IndexDownGoodsListRet{
 			GoodsId: value.Id,
 			GoodsMark: value.GoodsMark,
 			Title: value.Title,
-			Logo: value.Logo,
+			Logo: image_path + value.Logo,
 			GoodsPrice: value.GoodsPrice,
 			GoodsDisPrice: value.GoodsDisPrice,
 			GoodsIntegral: value.GoodsIntegral,

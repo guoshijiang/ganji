@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	beego_pagination "ganji/common/utils/beego-pagination"
 	"ganji/form_validate"
 	"ganji/models"
@@ -30,6 +31,9 @@ func (self *GoodsServices) GetPaginateData(listRows int, params url.Values) ([]*
 }
 
 func (*GoodsServices) Create(form *form_validate.GoodsForm) int {
+	if AdminUserVal.MerchantId > 0 {
+		form.MerchantId = int64(AdminUserVal.MerchantId)
+	}
 	goods := models.Goods{
 		GoodsName: form.GoodsName,
 		GoodsParams: form.GoodsParams,
@@ -52,7 +56,7 @@ func (*GoodsServices) Create(form *form_validate.GoodsForm) int {
 		GoodsIntegral:form.GoodsIntegral,
 		LeftAmount:form.LeftAmount,
 		TotalAmount: form.TotalAmount,
-		MerchantId: int64(AdminUserVal.MerchantId),
+		MerchantId: form.MerchantId,
 	}
 	id, err := orm.NewOrm().Insert(&goods)
 
@@ -78,7 +82,18 @@ func (*GoodsServices) GetGoodsById(id int64) *models.Goods {
 	return &goods
 }
 
+func (*GoodsServices) GetGoodsImagesById(id int64) []*models.GoodsImage {
+	o := orm.NewOrm()
+	var data []*models.GoodsImage
+	_,err := o.QueryTable(new(models.GoodsImage)).Filter("goods_id__contains",id).All(&data)
+	if err != nil {
+		return nil
+	}
+	return data
+}
+
 func (*GoodsServices) IsExistName(goods_name string, id int64) bool {
+	fmt.Println("goods_name___",goods_name)
 	if id == 0 {
 		if AdminUserVal.MerchantId  > 0 {
 			return orm.NewOrm().QueryTable(new(models.Goods)).Filter("goods_name", goods_name).Filter("merchant_id",AdminUserVal.MerchantId).Exist()
@@ -86,7 +101,7 @@ func (*GoodsServices) IsExistName(goods_name string, id int64) bool {
 		return orm.NewOrm().QueryTable(new(models.Goods)).Filter("goods_name", goods_name).Exist()
 	} else {
 		if AdminUserVal.MerchantId > 0 {
-			return orm.NewOrm().QueryTable(new(models.Goods)).Filter("goods_name", goods_name).Filter("merchant_id", AdminUserVal).Exclude("id", id).Exist()
+			return orm.NewOrm().QueryTable(new(models.Goods)).Filter("goods_name", goods_name).Filter("merchant_id", AdminUserVal.MerchantId).Exclude("id", id).Exist()
 		}
 		return orm.NewOrm().QueryTable(new(models.Goods)).Filter("goods_name", goods_name).Exclude("id", id).Exist()
 	}
@@ -97,13 +112,40 @@ func (*GoodsServices) Update(form *form_validate.GoodsForm) int{
 	goods := models.Goods{Id: form.Id}
 	if o.Read(&goods) == nil {
 		goods.GoodsName = form.GoodsName
+		goods.Title = form.Title
 		goods.GoodsParams = form.GoodsParams
 		goods.GoodsDetail = form.GoodsDetail
-		goods.Logo = form.Logo
+		if len(form.Logo) > 0 {
+			goods.Logo = form.Logo
+		}
+		goods.Discount  = form.Discount
+		goods.Sale  = form.Sale
+		goods.IsHot  = form.IsHot
+		goods.IsDisplay  = form.IsDisplay
+		goods.GoodsMark  = form.GoodsMark
+		goods.IsIgExchange  = form.IsIgExchange
+		goods.IsGroup  = form.IsGroup
+		goods.IsIntegral  = form.IsIntegral
+		goods.IsLimitTime  = form.IsLimitTime
+		goods.GoodsPrice  = form.GoodsPrice
+		goods.GoodsDisPrice  = form.GoodsDisPrice
+		goods.Serveice  = form.Serveice
+		goods.CalcWay  = form.CalcWay
+		goods.GoodsIntegral  = form.GoodsIntegral
+		goods.LeftAmount  = form.LeftAmount
+		goods.TotalAmount  = form.TotalAmount
+		if AdminUserVal.MerchantId > 0 {
+			goods.MerchantId = int64(AdminUserVal.MerchantId)
+		} else {
+			goods.MerchantId = form.MerchantId
+		}
+
+
 		num, err := o.Update(&goods)
 		if err == nil {
 			return int(num)
 		} else {
+			fmt.Println("update--err",err)
 			return 0
 		}
 	}

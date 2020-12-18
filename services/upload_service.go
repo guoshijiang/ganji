@@ -60,33 +60,29 @@ func (*UploadService) Upload(ctx *context.Context, name string) (string,error) {
 
 //上传多个文件
 func (*UploadService) UploadMulti(ctx *context.Context, name string, GoodsId int64) ([]*models.GoodsImage, error) {
-	var result []*models.GoodsImage
-	//GetFiles return multi-upload files
+	var (
+		result []*models.GoodsImage
+		data []*models.GoodsImage
+	)
 	files, ok := ctx.Request.MultipartForm.File[name]
 	if !ok {
 		return nil, http.ErrMissingFile
 	}
+	//清除
+	orm.NewOrm().QueryTable(new(models.GoodsImage)).Filter("goods_id__eq",GoodsId).All(&data)
+	for _,v := range data {
+		err := os.Remove(v.Image[1:])
+		fmt.Println("remove_err",err)
+	}
+	orm.NewOrm().QueryTable(new(models.GoodsImage)).Filter("goods_id__eq",GoodsId).Delete()
 
 	for i, _ := range files {
 		h := files[i]
-		//for each fileheader, get a handle to the actual file
 		file, err := files[i].Open()
 		defer file.Close()
 		if err != nil {
 			return nil, err
 		}
-		////create destination file making sure the path is writeable.
-		//dst, err := os.Create("upload/" + files[i].Filename)
-		//defer dst.Close()
-		//if err != nil {
-		//	http.Error(w, err.Error(), http.StatusInternalServerError)
-		//	return
-		//}
-		////copy the uploaded file to the destination file
-		//if _, err := io.Copy(dst, file); err != nil {
-		//	http.Error(w, err.Error(), http.StatusInternalServerError)
-		//	return
-		//}
 		err = validateForUpload(h)
 		if err != nil {
 			return nil, err

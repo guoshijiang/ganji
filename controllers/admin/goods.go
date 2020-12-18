@@ -82,7 +82,9 @@ func (Self *GoodsController) Edit() {
 	if goods == nil {
 		response.ErrorWithMessage("Not Found Info By Id.", Self.Ctx)
 	}
+	images := goodsService.GetGoodsImagesById(id)
 
+	Self.Data["imgs"] = images
 	Self.Data["calcway"] = []models.Select{{Id: 0,Name: "件"},{Id: 1,Name: "斤"}}
 	Self.Data["cats"] = (&services.GoodsCateService{}).GetGoodsCats()
 	Self.Data["data"] = goods
@@ -115,9 +117,10 @@ func (Self *GoodsController) Update(){
 	//商家验重
 	var goodsService services.GoodsServices
 	if goodsService.IsExistName(strings.TrimSpace(goodsForm.GoodsName), goodsForm.Id) {
-		response.ErrorWithMessage("账号已经存在", Self.Ctx)
+		response.ErrorWithMessage("名称已经存在", Self.Ctx)
 	}
-	if goodsService.Update(&goodsForm) > 0 {
+	_,err = new(services.UploadService).UploadMulti(Self.Ctx,"images",int64(goodsForm.Id))
+	if goodsService.Update(&goodsForm) > 0  || err == nil {
 		response.Success(Self.Ctx)
 	} else {
 		response.Error(Self.Ctx)

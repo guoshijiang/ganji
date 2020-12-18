@@ -13,6 +13,7 @@
                 </div>
                 <form id="dataForm" class="form-horizontal dataForm" action="/admin/goods/update" method="post" enctype="multipart/form-data">
                     <div class="box-body">
+                        <input type="hidden" name="id" value="{{.data.Id}}" >
                         <div class="form-group">
                             <label for="title" class="col-sm-2 control-label">商品标题</label>
                             <div class="col-sm-10 col-md-4">
@@ -43,21 +44,52 @@
                         <div class="form-group">
                             <label for="logo" class="col-sm-2 control-label">商品图片</label>
                             <div class="col-sm-10 col-md-4">
-                                <input id="images" name="[]images" placeholder="请上传头像" type="file" class="form-control field-image" multiple>
+                                <input id="images" name="images" placeholder="请上传头像" type="file" class="form-control field-image" multiple>
+{{/*                                {{range $key,$item := .imgs}}*/}}
+{{/*                                */}}
+{{/*                                {{end}}*/}}
                             </div>
                             <script>
-                                $('#images').fileinput({
-                                    language: 'zh',
-                                    overwriteInitial: true,
-                                    browseLabel: '浏览',
-                                    initialPreviewAsData: true,
-                                    dropZoneEnabled: false,
-                                    showUpload: false,
-                                    showRemove: false,
-                                    maxFileCount:3,
-                                    allowedFileTypes: ['image'],
-                                    maxFileSize: 10240,
-                                });
+                                showPhotos()
+                                function showPhotos(){
+                                    var preList = new Array();
+                                    {{range $k,$v := .imgs}}
+                                        preList[{{$k}}]= "<img width=120px src=\""+{{$v.Image}}+"\" class=\"file-preview-image\">";
+                                    {{end}}
+                                    var previewJson = preList;
+                                    var preConfigList = new Array();
+                                    {{range $k,$v := .imgs}}
+                                        var tjson = {
+                                            width: '120px',
+                                        }
+                                    preConfigList[{{$k}}] = tjson;
+                                    {{end}}
+                                    // 具体参数自行查询
+                                    $('#images').fileinput({
+                                        uploadAsync:false,
+                                        showUpload: false,//是否显示上传按钮
+                                        showRemove: false,//是否显示删除按钮
+                                        showCaption: true,//是否显示输入框
+                                        showPreview:true,
+                                        showCancel:true,
+                                        dropZoneEnabled: false,
+                                        overwriteInitial: true,
+                                        maxFileCount: 5,
+                                        initialPreviewShowDelete:true,
+                                        msgFilesTooMany: "选择上传的文件数量 超过允许的最大数值！",
+                                        initialPreview: previewJson,
+                                        previewFileIcon: '<i class="fa fa-file"></i>',
+                                        allowedPreviewTypes: ['image'],
+                                        initialPreviewConfig: preConfigList
+                                    }).off('filepreupload').on('filepreupload', function() {
+                                        alert(data.url);
+                                    }).on("fileuploaded", function(event, outData) {
+                                        //文件上传成功后返回的数据， 此处我只保存返回文件的id
+                                        var result = outData.response.id;
+                                        // 对应的input 赋值
+                                        $('#htestlogo').val(result).change();
+                                    });
+                                }
                             </script>
                         </div>
 

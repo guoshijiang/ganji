@@ -22,7 +22,7 @@ func init() {
 	if beego.AppConfig.String("runmode") == "dev" {
 		orm.Debug = true
 	}
-	// orm.RunSyncdb(mysqlConfig["db_alias"], false, true)
+	//orm.RunSyncdb(mysqlConfig["db_alias"], false, true)
 	////admin asd..123 aaa/bbb 123456
 	//insertAdmin()
 	//insertRole()
@@ -108,6 +108,30 @@ func insertMenu(){
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (87, 83, '商品分类编辑', 'admin/cat-goods/update', 'fa-list', 0, 1000, '不记录');").Exec()
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (88, 83, '商品分类删除', 'admin/cat-goods/del', 'fa-list', 0, 1000, '不记录');").Exec()
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (89, 77, '商品评价', 'admin/goods/comment', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (90, 20, '订单编辑界面', 'admin/order/edit', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (91, 0, '用户管理', 'admin/user', 'fa-list', 1, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (92, 91, '用户管理', 'admin/user/index', 'fa-list', 1, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (93, 92, '用户添加界面', 'admin/user/add', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (94, 92, '用户编辑界面', 'admin/user/edit', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (95, 92, '用户添加', 'admin/user/create', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (96, 92, '用户编辑', 'admin/user/update', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (97, 92, '用户删除', 'admin/user/del', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (98, 92, '用户钱包', 'admin/user/wallet', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (99, 92, '用户积分', 'admin/user/integral', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (100, 0, '积分管理', 'admin/integral', 'fa-list', 1, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (101, 100, '积分记录', 'admin/integral/index', 'fa-list', 1, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (102, 100, '积分订单', 'admin/integral/trade', 'fa-list', 1, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (103, 2, '轮播图管理', 'admin/sys/banner/index', 'fa-list', 1, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (104, 2, '版本管理', 'admin/sys/version/index', 'fa-list', 1, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (105, 103, '轮播图添加界面', 'admin/sys/banner/add', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (106, 103, '轮播图编辑界面', 'admin/sys/banner/edit', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (107, 103, '轮播图添加', 'admin/sys/banner/create', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (108, 103, '轮播图编辑', 'admin/sys/banner/update', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (109, 103, '轮播图删除', 'admin/sys/banner/del', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (110, 104, '版本添加界面', 'admin/sys/version/add', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (111, 104, '版本编辑界面', 'admin/sys/version/edit', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (112, 104, '版本添加', 'admin/sys/verison/create', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (113, 104, '版本编辑', 'admin/sys/version/update', 'fa-list', 0, 1000, '不记录');").Exec()
 	fmt.Println("err---", err)
 }
 

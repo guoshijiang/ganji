@@ -35,12 +35,13 @@ func (this *MerchantController) MerchantList() {
 		this.ServeJSON()
 		return
 	}
+	image_path := beego.AppConfig.String("img_root_path")
 	var mct_list_ret []type_merchant.MerchantListRet
 	for _, merchant := range merchant_list {
 		mct_ret := type_merchant.MerchantListRet{
 			MctName: merchant.MerchantName,
 			MctIntroduce: merchant.MerchantIntro,
-			MctLogo: merchant.Logo,
+			MctLogo: image_path + merchant.Logo,
 			MctWay: merchant.MerchantWay,
 			ShopLevel: merchant.ShopLevel,
 			ShopServer: merchant.ShopServer,
@@ -73,12 +74,14 @@ func (this *MerchantController) MerchantDetail() {
 		this.ServeJSON()
 		return
 	}
+	image_path := beego.AppConfig.String("img_root_path")
 	mcrt_detail, code, err := models.GetMerchantDetail(merchant_dtil.MerchantId)
 	if err != nil {
 		this.Data["json"] = RetResource(false, code, nil, err.Error())
 		this.ServeJSON()
 		return
 	}
+	mcrt_detail.Logo = image_path + mcrt_detail.Logo
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, mcrt_detail, "获取商家详情成功")
 	this.ServeJSON()
 	return

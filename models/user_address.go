@@ -5,6 +5,7 @@ import (
 	"ganji/types"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
+	"github.com/pkg/errors"
 	"time"
 )
 
@@ -92,4 +93,13 @@ func (this *UserAddress) GetUserAddressList() ([]*UserAddress, int64, string) {
 		return nil, types.SystemDbErr, "数据库查询失败，请联系客服处理"
 	}
 	return address_list, types.ReturnSuccess, "获取地址成功"
+}
+
+
+func GetUserAddressDefault(user_id int64) (*UserAddress, int, error) {
+	address := UserAddress{}
+	if err := orm.NewOrm().QueryTable(UserAddress{}).Filter("UserId", user_id).Filter("IsSet", 1).Limit(1).One(&address); err != nil {
+		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
+	}
+	return &address, types.ReturnSuccess, nil
 }

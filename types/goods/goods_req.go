@@ -26,6 +26,7 @@ func (this GoodsCategoryCheck) GoodsCategoryCheckParamValidate() (int, error) {
 }
 
 type GoodsDetailCheck struct {
+	UserId   int64 `json:"user_id"`
 	GoodsId  int64 `json:"goods_id"`
 }
 

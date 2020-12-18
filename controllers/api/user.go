@@ -23,7 +23,7 @@ type UserController struct {
 func (this *UserController) SendPhoneCode() {
 	phone_number := type_user.PhoneNumberCheck{}
 	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &phone_number); err != nil {
-		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
+		this.Data["json"] = RetResource(false, types.InvalidFormatError, err.Error(), "无效的参数格式,请联系客服处理")
 		this.ServeJSON()
 		return
 	} else {

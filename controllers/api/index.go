@@ -124,7 +124,7 @@ func (this *IndexController) AppIndexUp() {
 func (this *IndexController) AppIndexDown() {
 	index_down_check := type_index.IndexDownCheck{}
 	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &index_down_check); err != nil {
-		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
+		this.Data["json"] = RetResource(false, types.InvalidFormatError, err.Error(), "无效的参数格式,请联系客服处理")
 		this.ServeJSON()
 		return
 	}
@@ -154,7 +154,7 @@ func (this *IndexController) AppIndexDown() {
 	}
 	data := map[string]interface{}{
 		"total":     total,
-		"order_lst": goods_list_down,
+		"gds_lst": goods_list_down,
 	}
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "获取商品首页下方商品列表成功")
 	this.ServeJSON()

@@ -49,7 +49,7 @@ func GetMerchantDetail(id int64) (*Merchant, int, error) {
 	if err := orm.NewOrm().QueryTable(Merchant{}).Filter("Id", id).RelatedSel().One(&merchant); err != nil {
 		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
 	}
-	return &merchant, types.ReturnSuccess, errors.New("获取商家详情成功")
+	return &merchant, types.ReturnSuccess, nil
 }
 
 

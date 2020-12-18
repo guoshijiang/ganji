@@ -58,7 +58,7 @@ func (this *GoodsCat) Insert() error {
 
 func GetOneLevelCategoryList() ([]*GoodsCat, int, error) {
 	var goods_cat_list []*GoodsCat
-	if _, err := orm.NewOrm().QueryTable(Goods{}).
+	if _, err := orm.NewOrm().QueryTable(GoodsCat{}).
 		Filter("IsDispay", 1).
 		Filter("CatLevel", 1).
 		OrderBy("CreatedAt").All(&goods_cat_list); err != nil {
@@ -69,7 +69,7 @@ func GetOneLevelCategoryList() ([]*GoodsCat, int, error) {
 
 func GetSecodLevelCategoryList(my_id int64) ([]*GoodsCat, int, error) {
 	var goods_cat_list []*GoodsCat
-	if _, err := orm.NewOrm().QueryTable(Goods{}).
+	if _, err := orm.NewOrm().QueryTable(GoodsCat{}).
 		Filter("FatherCatId", my_id).
 		Filter("IsDispay", 1).
 		Filter("CatLevel", 2).

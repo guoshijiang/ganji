@@ -183,8 +183,8 @@ func RegisterByPhoneOrEmail(register_parm type_user.UserRegisterCheck) (success 
 }
 
 func uidCode() (string,string){
-	uid,_:= uuid.NewV4()
-	tuid,_:= uuid.NewV4()
+	uid := uuid.NewV4()
+	tuid := uuid.NewV4()
 	hex_uuid := base64.RawURLEncoding.EncodeToString(uid.Bytes())
 	return tuid.String(),hex_uuid
 }

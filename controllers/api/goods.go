@@ -17,7 +17,7 @@ type GoodsController struct {
 // @Description 分类商品列表接口 GoodsCategoryList
 // @Success 200 status bool, data interface{}, msg string
 // @router /goods_category_list [post]
-func (this *UserController) GoodsCategoryList() {
+func (this *GoodsController) GoodsCategoryList() {
 	goods_category := type_goods.GoodsCategoryCheck{}
 	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &goods_category); err != nil {
 		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
@@ -50,7 +50,7 @@ func (this *UserController) GoodsCategoryList() {
 	}
 	data := map[string]interface{}{
 		"total":     total,
-		"order_lst": goods_ret_list,
+		"gds_lst":   goods_ret_list,
 	}
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "获取分类商品列表成功")
 	this.ServeJSON()
@@ -62,7 +62,7 @@ func (this *UserController) GoodsCategoryList() {
 // @Description 商家商品列表接口 MerchantGoodsList
 // @Success 200 status bool, data interface{}, msg string
 // @router /merchant_goods_list [post]
-func (this *UserController) MerchantGoodsList() {
+func (this *GoodsController) MerchantGoodsList() {
 	merchant_gds := type_goods.MerchantGoodsListCheck{}
 	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &merchant_gds); err != nil {
 		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
@@ -107,7 +107,7 @@ func (this *UserController) MerchantGoodsList() {
 // @Description 商品详情接口 GoodsDetail
 // @Success 200 status bool, data interface{}, msg string
 // @router /goods_detail [post]
-func (this *UserController) GoodsDetail() {
+func (this *GoodsController) GoodsDetail() {
 	goods_detil := type_goods.GoodsDetailCheck{}
 	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &goods_detil); err != nil {
 		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
@@ -121,14 +121,14 @@ func (this *UserController) GoodsDetail() {
 	}
 	goods_dtl, code, err := models.GetGoodsDetail(goods_detil.GoodsId)
 	if err != nil {
-		this.Data["json"] = RetResource(false, code, nil, "获取商品列表失败")
+		this.Data["json"] = RetResource(false, code, err.Error(), "获取商品列表失败")
 		this.ServeJSON()
 		return
 	}
 	img_url := beego.AppConfig.String("goods_img_path")
 	merchant, code, err := models.GetMerchantDetail(goods_dtl.MerchantId)
 	if err != nil {
-		this.Data["json"] = RetResource(false, code, nil, "获取商家信息失败")
+		this.Data["json"] = RetResource(false, code, err.Error(), "获取商家信息失败")
 		this.ServeJSON()
 		return
 	}

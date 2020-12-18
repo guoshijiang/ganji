@@ -17,7 +17,7 @@ type MerchantController struct {
 // @Description 商家列表接口 MerchantList
 // @Success 200 status bool, data interface{}, msg string
 // @router /marchant_list [post]
-func (this *UserController) MerchantList() {
+func (this *MerchantController) MerchantList() {
 	gds_merchant := type_merchant.MerchantListCheck{}
 	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &gds_merchant); err != nil {
 		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
@@ -49,7 +49,7 @@ func (this *UserController) MerchantList() {
 	}
 	data := map[string]interface{}{
 		"total":     total,
-		"order_lst": mct_list_ret,
+		"mct_lst": mct_list_ret,
 	}
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "获取商家列表成功")
 	this.ServeJSON()
@@ -61,7 +61,7 @@ func (this *UserController) MerchantList() {
 // @Description 商家详情接口 MerchantDetail
 // @Success 200 status bool, data interface{}, msg string
 // @router /marchant_detail [post]
-func (this *UserController) MerchantDetail() {
+func (this *MerchantController) MerchantDetail() {
 	merchant_dtil := type_merchant.MerchantDetailCheck{}
 	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &merchant_dtil); err != nil {
 		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")

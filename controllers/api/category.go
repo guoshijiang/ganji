@@ -16,7 +16,7 @@ type CategoryController struct {
 // @Description 分类列表接口 CategoryList
 // @Success 200 status bool, data interface{}, msg string
 // @router /category_list [post]
-func (this *UserController) CategoryList() {
+func (this *CategoryController) CategoryList() {
 	first_level_list, code, err := models.GetOneLevelCategoryList()
 	if err != nil {
 		this.Data["json"] = RetResource(false, code, nil, err.Error())

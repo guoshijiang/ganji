@@ -15,8 +15,10 @@ func init() {
 	if err := orm.RegisterDataBase(mysqlConfig["db_alias"], mysqlConfig["db_type"], dburl); err != nil {
 		panic(errors.Wrap(err, "register data base model"))
 	}
-	orm.RegisterModel(new(User),new(UserInfo), new(UserWallet),
-		new(UserIntegral), new(UserCoupon),new(AdminUser),new(AdminMenu),new(AdminRole),new(Goods),new(GoodsCar),new(Merchant),new(GoodsComment),new(GoodsCat),new(GoodsImage),new(GoodsOrder),new(GroupOrder),new(ImageFile),new(IntegralRecord),new(IntegralTrade),new(UserAddress),new(Version),new(WalletRecord),new(Banner))
+	orm.RegisterModel(new(User), new(UserInfo), new(UserWallet), new(UserIntegral), new(UserCoupon),
+		new(AdminUser), new(AdminMenu), new(AdminRole), new(Goods), new(GoodsCar), new(Merchant),
+		new(GoodsComment), new(GoodsCat), new(GoodsImage), new(GoodsOrder), new(GroupOrder), new(ImageFile),
+		new(IntegralRecord), new(IntegralTrade), new(UserAddress), new(Version), new(WalletRecord), new(Banner))
 	if beego.AppConfig.String("runmode") == "dev" {
 		orm.Debug = true
 	}

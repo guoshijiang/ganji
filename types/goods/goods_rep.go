@@ -9,3 +9,8 @@ type CategoryGoodsRet struct {
 	GoodsDisPrice float64 `json:"goods_discount_price"`
 	LeftTime      int64   `json:"left_time"`
 }
+
+type GoodsImagesRet struct {
+	GoodsImgId  int64  `json:"goods_img_id"`
+	ImageUrl    string `json:"image_url"`
+}

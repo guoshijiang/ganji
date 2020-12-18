@@ -137,6 +137,21 @@ func (this *GoodsController) GoodsDetail() {
 		"merchant_logo": merchant.Logo,
 		"merchant_name": merchant.MerchantName,
 	}
+
+	goods_img_lst, code, err := models.GetGoodsImgList(goods_dtl.Id)
+	if err != nil {
+		this.Data["json"] = RetResource(false, code, err.Error(), "获取商品图片失败")
+		this.ServeJSON()
+		return
+	}
+	gds_img_lst := []type_goods.GoodsImagesRet{}
+	for _, v := range goods_img_lst {
+		gds_img := type_goods.GoodsImagesRet{
+			GoodsImgId:v.Id,
+			ImageUrl: v.Image,
+		}
+		gds_img_lst = append(gds_img_lst, gds_img)
+	}
 	goods_detail := map[string]interface{}{
 		"id": goods_dtl.Id,
 		"title": goods_dtl.Title,
@@ -152,6 +167,7 @@ func (this *GoodsController) GoodsDetail() {
 		"goods_name": goods_dtl.GoodsName,
 		"goods_params": goods_dtl.GoodsParams,
 		"goods_detail": goods_dtl.GoodsDetail,
+		"goods_img": gds_img_lst,
 		"merchant_info": merchant_info,
 	}
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, goods_detail, "获取商品详情成功")

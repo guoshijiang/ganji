@@ -261,8 +261,49 @@ func (u *UserController) UserLogin() {
 }
 
 
+// @Title BindFundPassword
+// @Description 修改登陆或者支付密码 BindFundPassword
+// @Success 200 status bool, data interface{}, msg string
+// @router /bind_fund_password [post]
+func (this *UserController) BindFundPassword() {
+	bearerToken := this.Ctx.Input.Header(HttpAuthKey)
+	if len(bearerToken) == 0 {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	token := strings.TrimPrefix(bearerToken, "Bearer ")
+	usr_t, err := models.GetUserByToken(token)
+	if err != nil {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	bind_pwd := type_user.BindFundPasswordCheck{}
+	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &bind_pwd); err != nil {
+		this.Data["json"] = RetResource(false, types.InvalidFormatError, nil, "无效的参数格式,请联系客服处理")
+		this.ServeJSON()
+		return
+	} else {
+		if code, err := bind_pwd.BindFundPasswordCheckParamValidate(); err != nil {
+			this.Data["json"] = RetResource(false, code, nil, err.Error())
+			this.ServeJSON()
+			return
+		}
+		success, code, err := models.BindFundPassword(bind_pwd, usr_t.Id)
+		if code != types.ReturnSuccess {
+			this.Data["json"] = RetResource(success, code, nil, err.Error())
+		} else {
+			this.Data["json"] = RetResource(true, types.ReturnSuccess, nil, "修改密码成功")
+		}
+		this.ServeJSON()
+		return
+	}
+}
+
+
 // @Title UpdatePassword
-// @Description 修改登陆 UpdatePassword
+// @Description 修改登陆或者支付密码 UpdatePassword
 // @Success 200 status bool, data interface{}, msg string
 // @router /update_password [post]
 func (this *UserController) UpdatePassword() {

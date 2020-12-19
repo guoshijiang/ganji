@@ -278,19 +278,50 @@ func LoginByPhoneOrEmail(login_parm type_user.UserLoginCheck) (bool, *type_user.
 }
 
 
+// 绑定支付密码
+func BindFundPassword(u_params type_user.BindFundPasswordCheck, user_id int64) (success bool, code int, err error)   {
+	u := User{}
+	if err := orm.NewOrm().QueryTable(u.TableName()).RelatedSel().Filter("id", user_id).One(&u); err != nil {
+		return false, types.UserIsNotExist, errors.New("用户不存在")
+	}
+	if u.FundPassword != "" {
+		return false, types.AlreadyBindPassword, errors.New("您已经绑定支付秘密")
+	}
+	u.FundPassword = common.ShaOne(u_params.PasswordOne)
+	err = u.Update()
+	if err != nil {
+		return false, types.SystemDbErr, errors.New("修改密码数据库操作失败")
+	}
+	return true, types.ReturnSuccess, nil
+}
+
+
 // 修改密码
 func UpdatePassword(u_params type_user.UpdatePasswordCheck, user_id int64) (success bool, code int, err error) {
 	u := User{}
 	if err := orm.NewOrm().QueryTable(u.TableName()).RelatedSel().Filter("id", user_id).One(&u); err != nil {
 		return false, types.UserIsNotExist, errors.New("用户不存在")
 	}
-	if u.Password == common.ShaOne(u_params.NewPassword) {
-		return false, types.NewOldPasswordEqual, errors.New("新老密码一样")
-	}
-	u.Password = common.ShaOne(u_params.NewPassword)
-	err = u.Update()
-	if err != nil {
-		return false, types.SystemDbErr, errors.New("修改密码数据库操作失败")
+	if u_params.UpdateWay == 1 {  // 修改登陆密码
+		if u.Password == common.ShaOne(u_params.NewPassword) {
+			return false, types.NewOldPasswordEqual, errors.New("新老密码一样")
+		}
+		u.Password = common.ShaOne(u_params.NewPassword)
+		err = u.Update()
+		if err != nil {
+			return false, types.SystemDbErr, errors.New("修改密码数据库操作失败")
+		}
+	} else if u_params.UpdateWay == 2 { // 修改支付密码
+		if u.FundPassword == common.ShaOne(u_params.NewPassword) {
+			return false, types.NewOldPasswordEqual, errors.New("新老密码一样")
+		}
+		u.FundPassword = common.ShaOne(u_params.NewPassword)
+		err = u.Update()
+		if err != nil {
+			return false, types.SystemDbErr, errors.New("修改密码数据库操作失败")
+		}
+	} else {
+		return true, types.InvalidVerifyWay, errors.New("无效的修改密码的方式")
 	}
 	return true, types.ReturnSuccess, nil
 }

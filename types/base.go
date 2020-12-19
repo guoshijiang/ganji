@@ -63,6 +63,7 @@ const (
 	IdCardEmpty                   = 4049  // 身份证号为空
 	IdCardFormatError             = 4050  // 身份证号格式错误
 	UserAuthError                 = 4051  // 实名认证失败
+	AlreadyBindPassword           = 4052  // 已经绑定支付密码
 )
 
 

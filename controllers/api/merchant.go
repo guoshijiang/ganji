@@ -39,6 +39,7 @@ func (this *MerchantController) MerchantList() {
 	var mct_list_ret []type_merchant.MerchantListRet
 	for _, merchant := range merchant_list {
 		mct_ret := type_merchant.MerchantListRet{
+			MctId: merchant.Id,
 			MctName: merchant.MerchantName,
 			MctIntroduce: merchant.MerchantIntro,
 			MctLogo: image_path + merchant.Logo,
@@ -81,8 +82,21 @@ func (this *MerchantController) MerchantDetail() {
 		this.ServeJSON()
 		return
 	}
-	mcrt_detail.Logo = image_path + mcrt_detail.Logo
-	this.Data["json"] = RetResource(true, types.ReturnSuccess, mcrt_detail, "获取商家详情成功")
+	mct_ret_dtl := type_merchant.MerchantDetailRet{
+		MctId: mcrt_detail.Id,
+		MctLogo: image_path + mcrt_detail.Logo,
+		MctName: mcrt_detail.MerchantName,
+		MctIntroduce: mcrt_detail.MerchantIntro,
+		MerchantDetail: mcrt_detail.MerchantDetail,
+		Address: mcrt_detail.Address,
+		GoodsNum: mcrt_detail.GoodsNum,
+		MctWay: mcrt_detail.MerchantWay,
+		ShopLevel: mcrt_detail.ShopLevel,
+		ShopServer: mcrt_detail.ShopServer,
+		CreatedAt:mcrt_detail.CreatedAt,
+		UpdatedAt: mcrt_detail.UpdatedAt,
+	}
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, mct_ret_dtl, "获取商家详情成功")
 	this.ServeJSON()
 	return
 }

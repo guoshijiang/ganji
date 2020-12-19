@@ -201,9 +201,58 @@ func (this UserLoginCheck) UserLoginCheckParamValidate() (int, error) {
 	return types.ReturnSuccess, nil
 }
 
+type BindFundPasswordCheck struct {
+	VerifyWay     int8    `json:"verify_way"`   // 1：手机号码验证； 2：邮箱验证
+	PhoneEmail    string  `json:"phone_email"`
+	PhonEmailCode string  `json:"phon_email_code"`
+	PasswordOne   string  `json:"password_one"`
+	PasswordTwo   string  `json:"password_two"`
+}
+
+func (this BindFundPasswordCheck) BindFundPasswordCheckParamValidate() (int, error) {
+	if this.VerifyWay == 1 { // 手机号码验证
+		if this.PhoneEmail == "" {
+			return types.ParamEmptyError, errors.New("手机号码为空")
+		}
+		result, _ := regexp.MatchString(PhoneNumRule, this.PhoneEmail)
+		if !result {
+			return types.PhoneFormatError, errors.New("手机号码格式不正确")
+		}
+		if this.PhonEmailCode == "" {
+			return types.PhoneVerifyCodeEmptyError, errors.New("手机号验证码为空")
+		}
+		phone_code := rds_conn.RdsConn.Get(this.PhoneEmail).Val()
+		if phone_code != this.PhonEmailCode {
+			return types.PhoneVerifyCodeError, errors.New("手机验证码不正确")
+		}
+	} else if this.VerifyWay == 2 { // 邮箱验证
+		if this.PhoneEmail == "" {
+			return types.ParamEmptyError, errors.New("邮箱为空")
+		}
+		result, _ := regexp.MatchString(EmailPattern, this.PhoneEmail)
+		if !result {
+			return types.EmailFormatError, errors.New("邮箱格式不正确")
+		}
+		email_code := rds_conn.RdsConn.Get(this.PhoneEmail).Val()
+		if email_code != this.PhonEmailCode {
+			return types.EmailVerifyCodeError, errors.New("邮箱验证码错误")
+		}
+	} else {
+		return types.InvalidVerifyWay, errors.New("无效的验证方式")
+	}
+	if this.PasswordOne == "" || this.PasswordTwo == "" {
+		return types.PasswordIsEmpty, errors.New("输入的密码不能为空")
+	}
+	if this.PasswordOne != this.PasswordTwo {
+		return types.NewOldPasswordEqual, errors.New("两次输入的密码不一样")
+	}
+	return types.ReturnSuccess, nil
+}
+
 
 type UpdatePasswordCheck struct {
 	VerifyWay     int8    `json:"verify_way"`   // 1：手机号码验证； 2：邮箱验证
+	UpdateWay     int8    `json:"update_way"`   // 1: 修改登陆密码  2：修改支付密码
 	PhoneEmail    string  `json:"phone_email"`
 	PhonEmailCode string  `json:"phon_email_code"`
 	OldPassword   string  `json:"old_password"`
@@ -247,6 +296,9 @@ func (this UpdatePasswordCheck) UpdatePasswordCheckParamValidate() (int, error) 
 	}
 	if this.NewPassword == this.OldPassword {
 		return types.NewOldPasswordEqual, errors.New("新密码和老密码相等")
+	}
+	if this.UpdateWay != 1 && if this.UpdateWay != 2 {
+		return types.InvalidVerifyWay, errors.New("无效的修改密码方式")
 	}
 	return types.ReturnSuccess, nil
 }

@@ -208,3 +208,5 @@ func GetGoodsDetail(id int64) (*Goods, int, error) {
 	}
 	return &goods, types.ReturnSuccess, nil
 }
+
+

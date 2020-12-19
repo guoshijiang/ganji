@@ -22,11 +22,11 @@ func init() {
 	if beego.AppConfig.String("runmode") == "dev" {
 		orm.Debug = true
 	}
-	orm.RunSyncdb(mysqlConfig["db_alias"], false, true)
-	//admin asd..123 aaa/bbb 123456
-	insertAdmin()
-	insertRole()
-	insertMenu()
+	//orm.RunSyncdb(mysqlConfig["db_alias"], false, true)
+	////admin asd..123 aaa/bbb 123456
+	//insertAdmin()
+	//insertRole()
+	//insertMenu()
 }
 
 type BaseModel struct {

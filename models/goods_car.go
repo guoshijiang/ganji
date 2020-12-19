@@ -2,8 +2,10 @@ package models
 
 import (
 	"ganji/common"
+	"ganji/types"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
+	"github.com/pkg/errors"
 )
 
 type GoodsCar struct {
@@ -52,5 +54,26 @@ func (this *GoodsCar) Insert() error {
 	}
 	return nil
 }
+
+func GetGoodsCarList(page, pageSize int, user_id int64) ([]*GoodsCar, int64, error) {
+	offset := (page - 1) * pageSize
+	gds_car_list := make([]*GoodsCar, 0)
+	query := orm.NewOrm().QueryTable(GoodsCar{}).Filter("UserId", user_id)
+	total, _ := query.Count()
+	_, err := query.Limit(pageSize, offset).All(&gds_car_list)
+	if err != nil {
+		return nil, types.SystemDbErr, errors.New("查询数据库失败")
+	}
+	return gds_car_list, total, nil
+}
+
+func GetGoodsCarDetail(id int64) (*GoodsCar, int, error) {
+	var goods_car GoodsCar
+	if err := orm.NewOrm().QueryTable(GoodsCar{}).Filter("Id", id).RelatedSel().One(&goods_car); err != nil {
+		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
+	}
+	return &goods_car, types.ReturnSuccess, nil
+}
+
 
 

@@ -64,6 +64,7 @@ const (
 	IdCardFormatError             = 4050  // 身份证号格式错误
 	UserAuthError                 = 4051  // 实名认证失败
 	AlreadyBindPassword           = 4052  // 已经绑定支付密码
+	GetGoodsCarListFail           = 4053  // 获取购物车失败
 )
 
 

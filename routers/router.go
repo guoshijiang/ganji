@@ -157,6 +157,9 @@ func init() {
 
 		//订单管理
 		beego.NSRouter("/order/index",&controllers.OrderController{},"get:Index"),
+		beego.NSRouter("/order/edit",&controllers.OrderController{},"get:Edit"),
+		beego.NSRouter("/order/update",&controllers.OrderController{},"post:Update"),
+		beego.NSRouter("/order/del",&controllers.OrderController{},"post:Del"),
 
 		//用户管理-用户管理
 		beego.NSRouter("/user/index", &controllers.UserController{}, "get:Index"),

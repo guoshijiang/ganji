@@ -11,104 +11,140 @@
                         </a>
                     </div>
                 </div>
-                <form id="dataForm" class="form-horizontal dataForm" action="/admin/merchant/create" method="post" enctype="multipart/form-data">
+
+                <div class="box-body table-responsive">
+                    <h4>订单信息</h4>
+                    <table class="table table-hover table-bordered datatable" width="100%">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>订单编号</th>
+                            <th>订单状态</th>
+                            <th>支付方式</th>
+                            <th>支付金额</th>
+                            <th>积分</th>
+                            <th>购买时间</th>
+                            <th>付款时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{.data.Id}}</td>
+                                <td>{{.data.OrderNumber}}</td>
+                                <td>{{.data.OrderStatus}}</td>
+                                <td>{{.data.PayWay}}</td>
+                                <td>{{.data.PayAmount}}</td>
+                                <td>{{.data.SendIntegral}}</td>
+                                <td>{{.data.CreatedAt}}</td>
+                                <td>{{.data.PayAt}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="box-body table-responsive">
+                    <h4>客户信息</h4>
+                    <table class="table table-hover table-bordered datatable" width="100%">
+                        <thead>
+                        <tr>
+                            <th>客户姓名</th>
+                            <th>联系方式</th>
+                            <th>地址</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+{{/*                            <td>{{.data.UserName}}</td>*/}}
+{{/*                            <td>{{.data.UserPhone}}</td>*/}}
+{{/*                            <td>{{.data.Address}}</td>*/}}
+                            <td>{{.data.PayAt}}</td>
+                            <td>{{.data.PayAt}}</td>
+                            <td>{{.data.PayAt}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="box-body table-responsive">
+                    <h4>商品信息</h4>
+                    <table class="table table-hover table-bordered datatable" width="100%">
+                        <thead>
+                        <tr>
+                            <th>商品标题</th>
+                            <th>产品名称</th>
+                            <th>购买数量</th>
+                            <th>购买时间</th>
+                            <th>付款时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{.data.GoodsTitle}}</td>
+                            <td>{{.data.GoodsName}}</td>
+                            <td>{{.data.BuyNums}}</td>
+                            <td>{{.data.CreatedAt}}</td>
+                            <td>{{.data.PayAt}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                {{if compare .data.OrderStatus 3}}
+                <div class="box-body table-responsive">
+                    <div class="alert alert-info" role="alert">{{.data.FailureReason}}</div>
+                </div>
+                {{end}}
+
+
+                {{if gt .data.OrderStatus 3 }}
+                <div class="box-body table-responsive">
+                    <h4>发货信息</h4>
+                    <table class="table table-hover table-bordered datatable" width="100%">
+                        <thead>
+                        <tr>
+                            <th>快递编号</th>
+                            <th>处理人</th>
+                            <th>处理时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{.data.ShipNumber}}</td>
+                            <td>{{.data.DealMerchant}}</td>
+                            <td>{{.data.DealAt}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {{end}}
+
+                {{if compare .data.OrderStatus 2}}
+                <div class="box-body table-responsive">
+                <form id="dataForm" class="form-horizontal dataForm" action="/admin/order/update" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="{{.data.Id}}">
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="nickname" class="col-sm-2 control-label">商家名称</label>
+                            <label for="ship_number" class="col-sm-2 control-label">快递编号</label>
                             <div class="col-sm-10 col-md-4">
-                                <input maxlength="50" class="form-control" id="merchant_name" placeholder="请输入昵称" name="merchant_name" value="">
+                                <input maxlength="50" class="form-control" id="ship_number" placeholder="请输入编号" name="ship_number" value="">
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="user_name" class="col-sm-2 control-label">登陆账号</label>
-                            <div class="col-sm-10 col-md-4">
-                                <input maxlength="50" class="form-control" id="user_name" placeholder="请输入登陆账号" name="user_name" value="">
-                            </div>
-                            <label for="user_name" class="col-sm-2 control-label">密码默认1qaz369*</label>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="nickname" class="col-sm-2 control-label">商家简介</label>
-                            <div class="col-sm-10 col-md-4">
-                                <input maxlength="50" class="form-control" id="merchant_intro" placeholder="请输入昵称" name="merchant_intro" value="">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="nickname" class="col-sm-2 control-label">商家详情</label>
-                            <div class="col-sm-10 col-md-4">
-                                <input maxlength="50" class="form-control" id="merchant_detail" placeholder="请输入昵称" name="merchant_detail" value="">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="nickname" class="col-sm-2 control-label">店铺地址</label>
-                            <div class="col-sm-10 col-md-4">
-                                <input maxlength="50" class="form-control" id="address" placeholder="请输入昵称" name="address" value="">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="nickname" class="col-sm-2 control-label">店铺等级</label>
-                            <div class="col-sm-10 col-md-4">
-                                <input maxlength="50" class="form-control" id="shop_level" placeholder="请输入昵称" name="shop_level" value="">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="nickname" class="col-sm-2 control-label">店铺服务</label>
-                            <div class="col-sm-10 col-md-4">
-                                <input maxlength="50" class="form-control" id="shop_server" placeholder="请输入昵称" name="shop_server" value="">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="icon" class="col-sm-2 control-label">Logo</label>
-                            <div class="col-sm-10 col-md-4">
-                                <input id="=logo" name="logo" placeholder="请上传logo" type="file" class="form-control field-image" >
-                            </div>
-                        </div>
-                        <script>
-                            $('#logo').fileinput({
-                                language: 'zh',
-                                overwriteInitial: true,
-                                browseLabel: '浏览',
-                                initialPreviewAsData: true,
-                                dropZoneEnabled: false,
-                                showUpload: false,
-                                showRemove: false,
-                                allowedFileTypes: ['image'],
-                                maxFileSize: 10240,
-                            });
-                        </script>
                     </div>
-
                     <!--表单底部-->
                     <div class="box-footer">
                         <div class="col-sm-2">
                         </div>
                         <div class="col-sm-10 col-md-4">
-                            <div class="btn-group pull-right">
-                                <label class="createContinue">
-                                    <input type="checkbox" value="1" id="_create" name="_create"
-                                           title="继续添加数据">继续添加</label>
-                            </div>
                             <div class="btn-group">
                                 <button type="submit" class="btn flat btn-info dataFormSubmit">
-                                    保存
-                                </button>
-                            </div>
-                            <div class="btn-group">
-                                <button type="reset" class="btn flat btn-default dataFormReset">
-                                    重置
+                                    发货
                                 </button>
                             </div>
                         </div>
                     </div>
-
                 </form>
+                </div>
+                {{end}}
             </div>
         </div>
     </div>

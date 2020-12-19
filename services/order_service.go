@@ -5,6 +5,7 @@ import (
 	"ganji/models"
 	"github.com/astaxie/beego/orm"
 	"net/url"
+	"time"
 )
 
 type OrderService struct {
@@ -65,4 +66,34 @@ func (*OrderService) Del(ids []int) int{
 	} else {
 		return 0
 	}
+}
+
+func (Self *OrderService) GetOrderById(id int64) *models.GoodsOrder {
+	var data  models.GoodsOrder
+	if AdminUserVal.MerchantId > 0 {
+		if err := orm.NewOrm().QueryTable(new(models.GoodsOrder)).Filter("id__eq", id).Filter("merchant_id", AdminUserVal.MerchantId).One(&data);err != nil {
+			return nil
+		}
+	}else {
+		data = models.GoodsOrder{Id: id}
+		if err := orm.NewOrm().Read(&data); err != nil{
+			return nil
+		}
+	}
+	return &data
+}
+
+func (Self *OrderService) UpdateShipNumber(cond *models.GoodsOrder) int{
+	o := orm.NewOrm()
+	data := models.GoodsOrder{Id: cond.Id}
+	if err := o.Read(&data);err == nil {
+		data.ShipNumber = cond.ShipNumber
+		data.OrderStatus = 4
+		data.DealMerchant = AdminUserVal.Username
+		data.DealAt = time.Now()
+		if _,err := o.Update(&data);err == nil {
+			return 1
+		}
+	}
+	return 0
 }

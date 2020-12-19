@@ -22,7 +22,7 @@ type GoodsOrder struct {
 	SendIntegral  float64    `orm:"default(1);digits(22);decimals(8)" json:"send_integral"` // 赠送积分
 	OrderNumber   string     `orm:"size(64);index" json:"order_number"`                     // 订单号
 	ShipNumber    string     `orm:"size(64);index;default('')" json:"ship_number"`          // 运单号
-	OrderStatus   int8       `orm:"index" json:"order_status"`                              // 0: 未支付，1: 支付中，2：支付成功；3：支付失败 5：已发货；5：已经收货
+	OrderStatus   int8       `orm:"index" json:"order_status"`                              // 0: 未支付，1: 支付中，2：支付成功；3：支付失败 4：已发货；5：已经收货
 	FailureReason string     `json:"failure_reason"`                                        // 失败原因
 	PayAt         *time.Time `orm:"type(datetime);null" json:"pay_at"`                      // 支付时间
 	DealMerchant  string     `orm:"default('')" json:"deal_user"`                           // 处理商家

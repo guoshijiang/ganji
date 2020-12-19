@@ -3,6 +3,7 @@ package controllers
 import (
 	"ganji/global"
 	"ganji/global/response"
+	"ganji/models"
 	"ganji/services"
 	"strconv"
 )
@@ -25,8 +26,35 @@ func (Self *OrderController) Index() {
 
 //订单编辑
 func (Self *OrderController) Edit() {
+	id, _ := Self.GetInt64("id", -1)
+	if id <= 0 {
+		response.ErrorWithMessage("Param is error.", Self.Ctx)
+	}
+	var srv services.OrderService
+
+	data := srv.GetOrderById(id)
+	if data == nil {
+		response.ErrorWithMessage("Not Found Info By Id.", Self.Ctx)
+	}
+
+	Self.Data["data"] = data
 	Self.Layout = "public/base.html"
 	Self.TplName = "order/edit.html"
+}
+
+
+
+func (Self *OrderController) Update() {
+	id,_ := Self.GetInt64("id",-1)
+	ship_number := Self.GetString("ship_number","")
+	if id < 0 {
+		response.ErrorWithMessage("订单不存在",Self.Ctx)
+	}
+	order := models.GoodsOrder{Id: id,ShipNumber: ship_number}
+	if new(services.OrderService).UpdateShipNumber(&order) > 0 {
+		response.Success(Self.Ctx)
+	}
+	response.Error(Self.Ctx)
 }
 
 

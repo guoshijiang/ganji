@@ -139,8 +139,6 @@ func (*GoodsServices) Update(form *form_validate.GoodsForm) int{
 		} else {
 			goods.MerchantId = form.MerchantId
 		}
-
-
 		num, err := o.Update(&goods)
 		if err == nil {
 			return int(num)

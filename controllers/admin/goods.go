@@ -31,6 +31,9 @@ func (Self *GoodsController) Index() {
 func (Self *GoodsController) Add() {
 	Self.Data["calcway"] = []models.Select{{Id: 0,Name: "件"},{Id: 1,Name: "斤"}}
 	Self.Data["cats"] = (&services.GoodsCateService{}).GetGoodsCats()
+	adminUser := admin["user"].(*models.AdminUser)
+	Self.Data["merchant_id"] = adminUser.MerchantId
+	Self.Data["merchants"] = (&services.MerchantService{}).GetMerchants()
 	Self.Layout = "public/base.html"
 	Self.TplName = "goods/add.html"
 }
@@ -87,6 +90,9 @@ func (Self *GoodsController) Edit() {
 	Self.Data["imgs"] = images
 	Self.Data["calcway"] = []models.Select{{Id: 0,Name: "件"},{Id: 1,Name: "斤"}}
 	Self.Data["cats"] = (&services.GoodsCateService{}).GetGoodsCats()
+	adminUser := admin["user"].(*models.AdminUser)
+	Self.Data["merchant_id"] = adminUser.MerchantId
+	Self.Data["merchants"] = (&services.MerchantService{}).GetMerchants()
 	Self.Data["data"] = goods
 	Self.Layout = "public/base.html"
 	Self.TplName = "goods/edit.html"

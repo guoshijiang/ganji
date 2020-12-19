@@ -93,6 +93,25 @@
                             </script>
                         </div>
 
+                        {{if eq .merchant_id 0}}
+                            <div class="form-group">
+                                <label for="merchant_id" class="col-sm-2 control-label">所属商户</label>
+                                <div class="col-sm-10 col-md-4">
+                                    <select name="merchant_id" id="merchant_id" class="form-control field-select" data-placeholder="请选择商户">
+                                        <option value=""></option>
+                                        {{range $key,$item := .merchants}}
+                                            <option value="{{$item.Id}}" {{if compare $.data.MerchantId $item.Id }} selected {{end}}>
+                                                {{$item.MerchantName}}
+                                            </option>
+                                        {{end}}
+                                    </select>
+                                </div>
+                                <script>
+                                    $('#merchant_id').select2();
+                                </script>
+                            </div>
+                        {{end}}
+
                         <div class="form-group">
                             <label for="total_amount" class="col-sm-2 control-label">商品总量</label>
                             <div class="col-sm-10 col-md-4">

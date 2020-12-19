@@ -297,7 +297,7 @@ func (this UpdatePasswordCheck) UpdatePasswordCheckParamValidate() (int, error) 
 	if this.NewPassword == this.OldPassword {
 		return types.NewOldPasswordEqual, errors.New("新密码和老密码相等")
 	}
-	if this.UpdateWay != 1 && if this.UpdateWay != 2 {
+	if this.UpdateWay != 1 && this.UpdateWay != 2 {
 		return types.InvalidVerifyWay, errors.New("无效的修改密码方式")
 	}
 	return types.ReturnSuccess, nil

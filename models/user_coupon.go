@@ -39,13 +39,13 @@ func (this *UserCoupon) Update(fields ...string) error {
 	return nil
 }
 
-func GetMyCoupon(user_id int64) (*UserCoupon, error) {
-	var user_cp UserCoupon
-	err := user_cp.Query().Filter("UserId", user_id).One(&user_cp)
+func GetMyCoupon(user_id int64) ([]*UserCoupon, error) {
+	var user_cp_lst []*UserCoupon
+	_, err := orm.NewOrm().QueryTable(UserCoupon{}).Filter("UserId", user_id).All(&user_cp_lst)
 	if err != nil {
 		return nil, err
 	}
-	return &user_cp, nil
+	return user_cp_lst, nil
 }
 
 

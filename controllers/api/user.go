@@ -37,7 +37,7 @@ func (this *UserController) SendPhoneCode() {
 		rds_conn.RdsConn.Del(phone_number.Phone)
 		rds_conn.RdsConn.Set(phone_number.Phone, fmt.Sprintf("%d", verify_code), time.Duration(1000)*time.Second).Err()
 		// utils.SendMesseageCode(phone_number.Phone, verify_code)
-		this.Data["json"] = RetResource(true, 20000, nil, "发送手机号验证码成功")
+		this.Data["json"] = RetResource(true, types.ReturnSuccess, nil, "发送手机号验证码成功")
 		this.ServeJSON()
 		return
 	}
@@ -262,7 +262,7 @@ func (u *UserController) UserLogin() {
 
 
 // @Title BindFundPassword
-// @Description 修改登陆或者支付密码 BindFundPassword
+// @Description 绑定支付密码 BindFundPassword
 // @Success 200 status bool, data interface{}, msg string
 // @router /bind_fund_password [post]
 func (this *UserController) BindFundPassword() {
@@ -281,7 +281,7 @@ func (this *UserController) BindFundPassword() {
 	}
 	bind_pwd := type_user.BindFundPasswordCheck{}
 	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &bind_pwd); err != nil {
-		this.Data["json"] = RetResource(false, types.InvalidFormatError, nil, "无效的参数格式,请联系客服处理")
+		this.Data["json"] = RetResource(false, types.InvalidFormatError, err.Error(), "无效的参数格式,请联系客服处理")
 		this.ServeJSON()
 		return
 	} else {
@@ -294,7 +294,7 @@ func (this *UserController) BindFundPassword() {
 		if code != types.ReturnSuccess {
 			this.Data["json"] = RetResource(success, code, nil, err.Error())
 		} else {
-			this.Data["json"] = RetResource(true, types.ReturnSuccess, nil, "修改密码成功")
+			this.Data["json"] = RetResource(true, types.ReturnSuccess, nil, "绑定支付密码成功")
 		}
 		this.ServeJSON()
 		return

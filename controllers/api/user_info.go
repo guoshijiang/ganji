@@ -209,8 +209,14 @@ func (this *UserInfoController) GetMyCoupon() {
 		this.ServeJSON()
 		return
 	}
-	user_cp, err := models.GetMyCoupon(user.Id)
-	if err != nil && user_cp != nil {
+	user_cplst, err := models.GetMyCoupon(user.Id)
+	if err != nil {
+		this.Data["json"] = RetResource(false, types.GetConponFail, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	var uclst []type_user.UserConponRet
+	for _, user_cp := range user_cplst {
 		ucp := type_user.UserConponRet {
 			ConponId: user_cp.Id,
 			ConponName: user_cp.ConponName,
@@ -219,10 +225,9 @@ func (this *UserInfoController) GetMyCoupon() {
 			StartTime: user_cp.StartTime,
 			EndTime: user_cp.EndTime,
 		}
-		this.Data["json"] = RetResource(true, types.ReturnSuccess, ucp, "获取我的优惠券成功")
-	} else {
-		this.Data["json"] = RetResource(false, types.GetConponFail, err, err.Error())
+		uclst = append(uclst, ucp)
 	}
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, uclst, "获取我的优惠券成功")
 	this.ServeJSON()
 	return
 }

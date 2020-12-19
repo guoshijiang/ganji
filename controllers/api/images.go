@@ -53,23 +53,27 @@ func (this *ImageController) UploadFiles() {
 				this.ServeJSON()
 				return
 			}
-			fpath := img_path + uploadDir + h.Filename
+			fpath := uploadDir + h.Filename
 			err = this.SaveToFile("file", fpath)
 			if err != nil {
-				this.Data["json"] = RetResource(false, types.FileIsBig, nil, "保存文件成功")
+				this.Data["json"] = RetResource(false, types.FileIsBig, err.Error(), "保存文件失败")
 				this.ServeJSON()
 				return
 			}
 			img_file := models.ImageFile{
 				Url: img_path + time_str + h.Filename,
 			}
-			err = img_file.Insert()
+			err, id := img_file.Insert()
 			if err != nil {
 				this.Data["json"] = RetResource(true, types.SaveFileFail, img_file, "保存文件失败")
 				this.ServeJSON()
 				return
 			}
-			this.Data["json"] = RetResource(true, types.ReturnSuccess, img_file, "上传文件成功")
+			data := map[string]interface{}{
+				"imgage_id": id,
+				"img_url": img_path + time_str + h.Filename,
+			}
+			this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "上传文件成功")
 			this.ServeJSON()
 			return
 		}

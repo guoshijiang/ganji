@@ -386,7 +386,7 @@ func UpdateOrCrearePhoneEmail(u_params type_user.UpdateCreatePhoneEmailCheck, us
 // 找回登陆密码
 func ForgetPassword(u_params type_user.ForgetPasswordCheck) (success bool, code int, err error) {
 	u := User{}
-	if u_params.VerifyWay == 0 { // 手机号码
+	if u_params.VerifyWay == 1 { // 手机号码
 		user_one, err := u.GetUserByPhone(u_params.PhoneEmail)
 		if err != nil {
 			return false, types.BindPhoneError, errors.New("没有绑定手机号码")
@@ -400,7 +400,7 @@ func ForgetPassword(u_params type_user.ForgetPasswordCheck) (success bool, code 
 			return false, types.SystemDbErr, errors.New("新密码和原密码一样")
 		}
 		return true, types.ReturnSuccess, nil
-	} else if u_params.VerifyWay == 1 {
+	} else if u_params.VerifyWay == 2 {
 		user_two, err := u.GetUserByEmail(u_params.PhoneEmail)
 		if err != nil {
 			return false, types.BindEamilError, errors.New("没有绑定邮箱")

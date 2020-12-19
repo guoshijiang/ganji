@@ -17,11 +17,12 @@ func (this *ImageFile) TableName() string {
 	return common.TableName("user_image")
 }
 
-func (this *ImageFile) Insert() error {
-	if _, err := orm.NewOrm().Insert(this); err != nil {
-		return err
+func (this *ImageFile) Insert() (error, int64) {
+	id, err := orm.NewOrm().Insert(this);
+	if err != nil {
+		return err, 0
 	}
-	return nil
+	return nil, id
 }
 
 func (this *ImageFile) Query() orm.QuerySeter {

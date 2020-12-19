@@ -80,13 +80,14 @@ func (this *GoodsController) MerchantGoodsList() {
 		this.ServeJSON()
 		return
 	}
+	img_path := beego.AppConfig.String("img_root_path")
 	var goods_ret_list []type_goods.CategoryGoodsRet
 	for _, value := range goods_list {
 		gds_ret := type_goods.CategoryGoodsRet{
 			GoodsId:   value.Id,
 			GoodsMark: value.GoodsMark,
 			Title: value.Title,
-			Logo: value.Logo,
+			Logo: img_path + value.Logo,
 			GoodsPrice: value.GoodsPrice,
 			GoodsDisPrice: value.GoodsDisPrice,
 			LeftTime: value.LeftTime,

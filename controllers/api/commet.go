@@ -160,9 +160,25 @@ func (this *CommentController) GetCommentList() {
 		img_mdl_one.Id = v.ImgOneId
 		img_mdl_two.Id = v.ImgTwoId
 		img_mdl_three.Id = v.ImgThreeId
+		var one_url, two_url, three_url string
 		ImgOne_img, _, _ := img_mdl_one.GetImageById(v.ImgOneId)
+		if ImgOne_img != nil {
+			one_url = ImgOne_img.Url
+		} else {
+			one_url = ""
+		}
 		ImgTwo_img, _, _ := img_mdl_one.GetImageById(v.ImgTwoId)
+		if ImgTwo_img != nil {
+			two_url = ImgTwo_img.Url
+		} else {
+			two_url = ""
+		}
 		ImgThree_img, _, _ := img_mdl_one.GetImageById(v.ImgThreeId)
+		if ImgThree_img != nil {
+			three_url = ImgThree_img.Url
+		} else {
+			three_url = ""
+		}
 		cl := type_comment.CommentListRep{
 			Id: v.Id,
 			GoodsId: v.GoodsId,
@@ -170,9 +186,9 @@ func (this *CommentController) GetCommentList() {
 			Title: v.Title,
 			Star: v.Star,
 			Content: v.Content,
-			ImgOne: ImgOne_img.Url,
-			ImgTwo: ImgTwo_img.Url,
-			ImgThree: ImgThree_img.Url,
+			ImgOne: one_url,
+			ImgTwo: two_url,
+			ImgThree: three_url,
 		}
 		cmt_list = append(cmt_list, cl)
 	}

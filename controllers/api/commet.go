@@ -131,7 +131,7 @@ func (this *CommentController) GetCommentList() {
 		return
 	}
 	token := strings.TrimPrefix(bearerToken, "Bearer ")
-	_, err := models.GetUserByToken(token)
+	u_tk, err := models.GetUserByToken(token)
 	if err != nil {
 		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
 		this.ServeJSON()
@@ -181,6 +181,8 @@ func (this *CommentController) GetCommentList() {
 		}
 		cl := type_comment.CommentListRep{
 			Id: v.Id,
+			UserName: u_tk.UserName,
+			UserPho: u_tk.Avator,
 			GoodsId: v.GoodsId,
 			UserId: v.UserId,
 			Title: v.Title,
@@ -189,6 +191,7 @@ func (this *CommentController) GetCommentList() {
 			ImgOne: one_url,
 			ImgTwo: two_url,
 			ImgThree: three_url,
+			CreateTime: v.CreatedAt,
 		}
 		cmt_list = append(cmt_list, cl)
 	}

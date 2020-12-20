@@ -45,6 +45,10 @@ func (this *GoodsController) GoodsCategoryList() {
 			GoodsPrice: value.GoodsPrice,
 			GoodsDisPrice: value.GoodsDisPrice,
 			LeftTime: value.LeftTime,
+			IsDiscount: value.IsDiscount,
+			IsIgExchange: value.IsIgExchange,
+			IsGroup: value.IsGroup,
+			IsIntegral: value.IsIntegral,
 		}
 		goods_ret_list = append(goods_ret_list, gds_ret)
 	}
@@ -91,6 +95,10 @@ func (this *GoodsController) MerchantGoodsList() {
 			GoodsPrice: value.GoodsPrice,
 			GoodsDisPrice: value.GoodsDisPrice,
 			LeftTime: value.LeftTime,
+			IsDiscount: value.IsDiscount,
+			IsIgExchange: value.IsIgExchange,
+			IsGroup: value.IsGroup,
+			IsIntegral: value.IsIntegral,
 		}
 		goods_ret_list = append(goods_ret_list, gds_ret)
 	}
@@ -183,10 +191,13 @@ func (this *GoodsController) GoodsDetail() {
 		"goods_img": gds_img_lst,
 		"user_address": user_address,
 		"merchant_info": merchant_info,
+		"is_discount": goods_dtl.IsDiscount,
+		"is_ig_exchange": goods_dtl.IsIgExchange,
+		"is_group": goods_dtl.IsGroup,
+		"is_integral": goods_dtl.IsIntegral,
 	}
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, goods_detail, "获取商品详情成功")
 	this.ServeJSON()
 	return
 }
-
 

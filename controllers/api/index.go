@@ -66,6 +66,10 @@ func (this *IndexController) AppIndexUp() {
 			GoodsPrice: gd.GoodsPrice,
 			GoodsDisPrice: gd.GoodsDisPrice,
 			LeftTime: gd.LeftTime,
+			IsDiscount: gd.IsDiscount,
+			IsIgExchange: gd.IsIgExchange,
+			IsGroup: gd.IsGroup,
+			IsIntegral: gd.IsIntegral,
 		}
 		limit_buy_list = append(limit_buy_list, time_gd_ret)
 	}
@@ -84,6 +88,10 @@ func (this *IndexController) AppIndexUp() {
 			Logo: image_path + hgd.Logo,
 			GoodsPrice: hgd.GoodsPrice,
 			GoodsDisPrice: hgd.GoodsDisPrice,
+			IsDiscount: hgd.IsDiscount,
+			IsIgExchange: hgd.IsIgExchange,
+			IsGroup: hgd.IsGroup,
+			IsIntegral: hgd.IsIntegral,
 		}
 		hot_sell_list = append(hot_sell_list, hot_gd_ret)
 	}
@@ -102,6 +110,10 @@ func (this *IndexController) AppIndexUp() {
 			Logo: image_path + bgd.Logo,
 			GoodsPrice: bgd.GoodsPrice,
 			GoodsDisPrice: bgd.GoodsDisPrice,
+			IsDiscount: bgd.IsDiscount,
+			IsIgExchange: bgd.IsIgExchange,
+			IsGroup: bgd.IsGroup,
+			IsIntegral: bgd.IsIntegral,
 		}
 		best_goods_list = append(best_goods_list, bst_gd_ret)
 	}
@@ -151,6 +163,10 @@ func (this *IndexController) AppIndexDown() {
 			GoodsPrice: value.GoodsPrice,
 			GoodsDisPrice: value.GoodsDisPrice,
 			GoodsIntegral: value.GoodsIntegral,
+			IsDiscount: value.IsDiscount,
+			IsIgExchange: value.IsIgExchange,
+			IsGroup: value.IsGroup,
+			IsIntegral: value.IsIntegral,
 		}
 		goods_list_down = append(goods_list_down, gds_down)
 	}

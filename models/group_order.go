@@ -62,3 +62,4 @@ func (this *GroupOrder) Insert() error {
 	}
 	return nil
 }
+

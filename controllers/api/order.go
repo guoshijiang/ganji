@@ -70,6 +70,7 @@ func (this *OrderController) CreateOrder() {
 	}
 	cmt := models.GoodsOrder{
 		GoodsId: gds.Id,
+		MerchantId: gds.MerchantId,
 		AddressId: create_order.AddressId,
 		GoodsTitle: gds.Title,
 		GoodsName: gds.GoodsName,
@@ -117,12 +118,52 @@ func (this *OrderController) OrderList() {
 		return
 	}
 	token := strings.TrimPrefix(bearerToken, "Bearer ")
-	_, err := models.GetUserByToken(token)
+	u_tk, err := models.GetUserByToken(token)
 	if err != nil {
 		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
 		this.ServeJSON()
 		return
 	}
+	var order_lst type_order.OrderListCheck
+	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &order_lst); err != nil {
+		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
+		this.ServeJSON()
+		return
+	}
+	if code, err := order_lst.OrderListCheckParamValidate(); err != nil {
+		this.Data["json"] = RetResource(false, code, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	ols, total, err := models.GetGoodsOrderList(order_lst.Page, order_lst.PageSize, u_tk.Id, order_lst.OrderStatus)
+	if err != nil {
+		this.Data["json"] = RetResource(false, types.SystemDbErr, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	var olst_ret []type_order.OrderListRet
+	for _, value := range ols {
+		m, _, _ := models.GetMerchantDetail(value.MerchantId)
+		gds, _, _ := models.GetGoodsDetail(value.GoodsId)
+		ordr := type_order.OrderListRet {
+			MerchantId: m.Id,
+			MerchantName: m.MerchantName,
+			OrderId:value.Id,
+			GoodsName: value.GoodsName,
+			GoodsPrice: gds.GoodsPrice,
+			OrderStatus: value.OrderStatus,
+			BuyNums: value.BuyNums,
+			PayAmount: value.PayAmount,
+		}
+		olst_ret = append(olst_ret, ordr)
+	}
+	data := map[string]interface{}{
+		"total":     total,
+		"order_lst": olst_ret,
+	}
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "获取订单列表成功")
+	this.ServeJSON()
+	return
 }
 
 
@@ -131,5 +172,63 @@ func (this *OrderController) OrderList() {
 // @Success 200 status bool, data interface{}, msg string
 // @router /order_detail [post]
 func (this *OrderController) OrderDetail() {
-
+	bearerToken := this.Ctx.Input.Header(HttpAuthKey)
+	if len(bearerToken) == 0 {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	token := strings.TrimPrefix(bearerToken, "Bearer ")
+	_, err := models.GetUserByToken(token)
+	if err != nil {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	var order_dtl type_order.OrderDetailCheck
+	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &order_dtl); err != nil {
+		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
+		this.ServeJSON()
+		return
+	}
+	if code, err := order_dtl.OrderDetailCheckParamValidate(); err != nil {
+		this.Data["json"] = RetResource(false, code, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	ord_dtl, code, err := models.GetGoodsOrderDetail(order_dtl.OrderId)
+	if err != nil {
+		this.Data["json"] = RetResource(false, code, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	var addr models.UserAddress
+	addr.Id = ord_dtl.AddressId
+	addrs, _, _ := addr.GetAddressById()
+	mct, _, _ := models.GetMerchantDetail(ord_dtl.MerchantId)
+	gdsdtl, _, _ := models.GetGoodsDetail(ord_dtl.GoodsId)
+	odl := type_order.OrderDetailRet{
+		OrderId: ord_dtl.Id,
+		ShipLogo: "",
+		ShipInfo: "已经自取，到达北京市西城区万博圆蜂槽智能柜",
+		RecUser: addrs.UserName,
+		RecPhone: addrs.Phone,
+		RecAddress:addrs.Address,
+		MerchantId: mct.Id,
+		MerchantName: mct.MerchantName,
+		GoodsName: gdsdtl.GoodsName,
+		GoodsPrice: gdsdtl.GoodsPrice,
+		OrderStatus: ord_dtl.OrderStatus,
+		BuyNums: ord_dtl.BuyNums,
+		PayAmount: ord_dtl.PayAmount,
+		ShipFee: 0,
+		Coupons: ord_dtl.PayCoupon,
+		PayWay: ord_dtl.PayWay,
+		OrderNumber: ord_dtl.OrderNumber,
+		PayTime: ord_dtl.PayAt,
+		CreateTime: ord_dtl.CreatedAt,
+	}
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, odl, "获取订单详情成功")
+	this.ServeJSON()
+	return
 }

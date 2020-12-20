@@ -2,15 +2,18 @@ package models
 
 import (
 "ganji/common"
-"github.com/astaxie/beego/logs"
+	"ganji/types"
+	"github.com/astaxie/beego/logs"
 "github.com/astaxie/beego/orm"
-"time"
+	"github.com/pkg/errors"
+	"time"
 )
 
 type GoodsOrder struct {
 	BaseModel
 	Id            int64      `json:"id"`
 	GoodsId       int64      `orm:"size(64);index" json:"goods_id"`                         // 商品 ID
+	MerchantId    int64       `orm:"size(64);index" json:"merchant_id"`                        // 商户 ID
 	AddressId     int64      `orm:"size(64);index" json:"address_id"`                       // 地址 ID
 	GoodsTitle    string     `orm:"size(64)" json:"goods_title"`                            // 商品标题
 	GoodsName    string    `orm:"size(512);index" json:"goods_name" form:"goods_name"`      // 产品名称
@@ -19,6 +22,8 @@ type GoodsOrder struct {
 	BuyNums       int64      `orm:"default(0)" json:"buy_nums"`                             // 购买数量
 	PayWay        int8       `orm:"index" json:"pay_way"`                                   // 0:积分兑换，1:账户余额支付，2:微信支付；3:支付宝支付
 	PayAmount     float64    `orm:"default(0);digits(22);decimals(8)" json:"pay_amount"`    // 支付金额
+	PayCoupon	  float64  	 `orm:"default(0);digits(22);decimals(8)" json:"pay_coupon"`    // 优惠券抵扣金额
+	PayIntegral   float64  	 `orm:"default(0);digits(22);decimals(8)" json:"pay_integral"`  // 支付的积分
 	SendIntegral  float64    `orm:"default(1);digits(22);decimals(8)" json:"send_integral"` // 赠送积分
 	OrderNumber   string     `orm:"size(64);index" json:"order_number"`                     // 订单号
 	ShipNumber    string     `orm:"size(64);index;default('')" json:"ship_number"`          // 运单号
@@ -66,4 +71,28 @@ func (this *GoodsOrder) Insert() (error, int64) {
 
 func (this *GoodsOrder) SearchField() []string {
 	return []string{"order_num"}
+}
+
+
+func GetGoodsOrderList(page, pageSize int, user_id int64, status int8) ([]*GoodsOrder, int64, error) {
+	offset := (page - 1) * pageSize
+	gds_order_list := make([]*GoodsOrder, 0)
+	query := orm.NewOrm().QueryTable(GoodsOrder{}).Filter("UserId", user_id)
+	if status >= 0  && status <= 5 {
+		query = query.Filter("OrderStatus", status)
+	}
+	total, _ := query.Count()
+	_, err := query.Limit(pageSize, offset).All(&gds_order_list)
+	if err != nil {
+		return nil, types.SystemDbErr, errors.New("查询数据库失败")
+	}
+	return gds_order_list, total, nil
+}
+
+func GetGoodsOrderDetail(id int64) (*GoodsOrder, int, error) {
+	var order_dtl GoodsOrder
+	if err := orm.NewOrm().QueryTable(GoodsOrder{}).Filter("Id", id).RelatedSel().One(&order_dtl); err != nil {
+		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
+	}
+	return &order_dtl, types.ReturnSuccess, nil
 }

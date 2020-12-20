@@ -42,7 +42,7 @@ func (this CreateOrderCheck) CreateOrderCheckParamValidate() (int, error) {
 type OrderListCheck struct {
 	types.PageSizeData
 	UserId int64 `json:"user_id"`
-	OrderStatus int8 `json:"order_status"`  // 0: 未支付，1: 支付中，2：支付成功；3：支付失败 4：已发货；5：已经收货
+	OrderStatus int8 `json:"order_status"`  // 0: 未支付，1: 支付中，2：支付成功；3：支付失败 4：已发货；5：已经收货; 6: 全部
 }
 
 func (this OrderListCheck) OrderListCheckParamValidate() (int, error) {
@@ -53,7 +53,7 @@ func (this OrderListCheck) OrderListCheckParamValidate() (int, error) {
 	if this.UserId <= 0 {
 		return types.ParamLessZero, errors.New("用户ID小于等于 0")
 	}
-	if this.OrderStatus < 0 || this.OrderStatus > 5 {
+	if this.OrderStatus < 0 || this.OrderStatus > 6 {
 		return types.InvalidFormatError, errors.New("查看的订单状态无效")
 	}
 	return types.ReturnSuccess, nil
@@ -61,7 +61,7 @@ func (this OrderListCheck) OrderListCheckParamValidate() (int, error) {
 
 
 type OrderDetailCheck struct {
-	OrderId int64 `json:"user_id"`
+	OrderId int64 `json:"order_id"`
 }
 
 func (this OrderDetailCheck) OrderDetailCheckParamValidate() (int, error) {

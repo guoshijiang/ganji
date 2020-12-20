@@ -107,7 +107,7 @@ func insertMenu(){
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (86, 83, '商品分类添加', 'admin/cat-goods/create', 'fa-list', 0, 1000, '不记录');").Exec()
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (87, 83, '商品分类编辑', 'admin/cat-goods/update', 'fa-list', 0, 1000, '不记录');").Exec()
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (88, 83, '商品分类删除', 'admin/cat-goods/del', 'fa-list', 0, 1000, '不记录');").Exec()
-	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (89, 77, '商品评价', 'admin/goods/comment', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (89, 76, '商品评价', 'admin/goods/comment', 'fa-list', 1, 1000, '不记录');").Exec()
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (90, 20, '订单编辑界面', 'admin/order/edit', 'fa-list', 0, 1000, '不记录');").Exec()
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (91, 0, '用户管理', 'admin/user', 'fa-list', 1, 1000, '不记录');").Exec()
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (92, 91, '用户管理', 'admin/user/index', 'fa-list', 1, 1000, '不记录');").Exec()
@@ -132,6 +132,7 @@ func insertMenu(){
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (111, 104, '版本编辑界面', 'admin/sys/version/edit', 'fa-list', 0, 1000, '不记录');").Exec()
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (112, 104, '版本添加', 'admin/sys/verison/create', 'fa-list', 0, 1000, '不记录');").Exec()
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (113, 104, '版本编辑', 'admin/sys/version/update', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (114, 19, '订单删除', 'admin/order/del', 'fa-list', 0, 1000, '不记录');").Exec()
 	fmt.Println("err---", err)
 }
 

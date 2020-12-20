@@ -256,6 +256,12 @@ func (this *GoodsCarController) GoodsCarList() {
 	for _, value := range goods_car_list {
 		gds, _, _ :=models.GetGoodsDetail(value.GoodsId)
 		mct, _, _ := models.GetMerchantDetail(gds.MerchantId)
+		var goods_price  float64
+		if gds.IsDiscount == 0 {
+			goods_price = gds.GoodsPrice
+		} else {
+			goods_price = gds.GoodsDisPrice
+		}
 		gdsc := type_goods_car.GoodsCarList{
 			MerchantId: gds.MerchantId,
 			MerchantName:mct.MerchantName,
@@ -265,6 +271,7 @@ func (this *GoodsCarController) GoodsCarList() {
 			GoodsTitle: gds.Title,
 			GoodsMark: gds.GoodsMark,
 			GoodsName: gds.GoodsName,
+			GoodsPrice: goods_price,
 			UserId: value.UserId,
 			BuyNums: value.BuyNums,
 			PayAmount: value.PayAmount,

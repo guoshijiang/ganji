@@ -56,11 +56,12 @@ func (this *GoodsOrder) Query() orm.QuerySeter {
 	return orm.NewOrm().QueryTable(this)
 }
 
-func (this *GoodsOrder) Insert() error {
-	if _, err := orm.NewOrm().Insert(this); err != nil {
-		return err
+func (this *GoodsOrder) Insert() (error, int64) {
+	id, err := orm.NewOrm().Insert(this)
+	if err != nil {
+		return err, 0
 	}
-	return nil
+	return nil, id
 }
 
 func (this *GoodsOrder) SearchField() []string {

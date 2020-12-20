@@ -9,6 +9,7 @@ type GoodsCarList struct {
 	GoodsTitle    string `json:"goods_title"`
 	GoodsMark     string `json:"goods_marks"`
 	GoodsName     string `json:"goods_name"`
+	GoodsPrice    float64 `json:"goods_price"`
 	UserId        int64  `json:"user_id"`
 	BuyNums       int64  `json:"buy_nums"`
 	PayAmount     float64 `json:"pay_amount"`

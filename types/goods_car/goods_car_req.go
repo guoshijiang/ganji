@@ -36,7 +36,7 @@ type EditGoodCarCheck struct {
 	UserId       int64    `json:"user_id"`
 	BuyNums      int64    `json:"buy_nums"`
 	PayAmount    float64  `json:"pay_amount"`
-	IsDis        int8     `json:"is_dis"`   // 1:非打折商品  2:打折商品
+	IsDis        int8     `json:"is_dis"`   // 0:非打折商品  1:打折商品
 }
 
 

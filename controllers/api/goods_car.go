@@ -140,13 +140,13 @@ func (this *GoodsCarController) EditGoodsCar() {
 		this.ServeJSON()
 		return
 	}
-	if goods_car_edit.IsDis == 1 { //非打折商品
+	if goods_car_edit.IsDis == 0 { //非打折商品
 		if goods_car_edit.PayAmount != goods_dtl.GoodsPrice * float64(goods_car_edit.BuyNums ){
 			this.Data["json"] = RetResource(false, types.InvalidGoodsPirce, nil, "无效的商品价格")
 			this.ServeJSON()
 			return
 		}
-	} else if goods_car_edit.IsDis == 2 { //打折商品
+	} else if goods_car_edit.IsDis == 1 { //打折商品
 		if goods_car_edit.PayAmount != goods_dtl.GoodsDisPrice * float64(goods_car_edit.BuyNums ){
 			this.Data["json"] = RetResource(false, types.InvalidGoodsPirce, nil, "无效的商品价格")
 			this.ServeJSON()

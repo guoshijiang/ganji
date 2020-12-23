@@ -3,8 +3,10 @@ package models
 
 import (
 	"ganji/common"
+	"ganji/types"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
+	"github.com/pkg/errors"
 )
 
 type IntegralRecord struct {
@@ -62,5 +64,26 @@ func (this *IntegralRecord) InsertDb (db orm.Ormer) error {
 		return err
 	}
 	return nil
+}
+
+func GetIntegralRecordList(page, pageSize int, user_id int64) ([]*IntegralRecord, int64, error) {
+	offset := (page - 1) * pageSize
+	ig_trade_list := make([]*IntegralRecord, 0)
+	query := orm.NewOrm().QueryTable(IntegralRecord{}).Filter("UserId", user_id)
+	total, _ := query.Count()
+	_, err := query.OrderBy("-CreatedAt").Limit(pageSize, offset).All(&ig_trade_list)
+	if err != nil {
+		return nil, types.SystemDbErr, errors.New("查询数据库失败")
+	}
+	return ig_trade_list, total, nil
+}
+
+
+func GetIntegralRecordDetail(id int64) (*IntegralRecord, int, error) {
+	var integral IntegralRecord
+	if err := orm.NewOrm().QueryTable(IntegralRecord{}).Filter("Id", id).RelatedSel().One(&integral); err != nil {
+		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
+	}
+	return &integral, types.ReturnSuccess, nil
 }
 

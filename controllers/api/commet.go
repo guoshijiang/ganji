@@ -120,7 +120,7 @@ func (this *CommentController) DelCommet() {
 
 
 // @Title GetCommentList finished
-// @Description 获取地址列表 GetCommentList
+// @Description 获取评论列表 GetCommentList
 // @Success 200 status bool, data interface{}, msg string
 // @router /comment_list [post]
 func (this *CommentController) GetCommentList() {

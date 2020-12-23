@@ -61,12 +61,30 @@ func (this OrderListCheck) OrderListCheckParamValidate() (int, error) {
 
 
 type OrderDetailCheck struct {
-	OrderId int64 `json:"order_id"`
+	OrderId int64  `json:"order_id"`
+	IsCancle int8  `json:"is_cancle"` //0:正常； 1.退换货
+
 }
 
 func (this OrderDetailCheck) OrderDetailCheckParamValidate() (int, error) {
 	if this.OrderId <= 0 {
 		return types.ParamLessZero, errors.New("订单 ID 小于等于 0")
+	}
+	return types.ReturnSuccess, nil
+}
+
+
+type ReturnGoodsOrderCheck struct {
+	OrderId  int64 `json:"order_id"`
+	IsCancle int8  `json:"is_cancle"` // 1.退货; 3:换货
+}
+
+func (this ReturnGoodsOrderCheck) ReturnGoodsOrderCheckParamValidate() (int, error) {
+	if this.OrderId <= 0 {
+		return types.ParamLessZero, errors.New("订单 ID 小于等于 0")
+	}
+	if this.IsCancle < 0 || this.IsCancle > 3 {
+		return types.InvalidVerifyWay, errors.New("无效的退换货选择方式")
 	}
 	return types.ReturnSuccess, nil
 }

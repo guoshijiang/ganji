@@ -154,6 +154,8 @@ func (this *OrderController) OrderList() {
 			OrderStatus: value.OrderStatus,
 			BuyNums: value.BuyNums,
 			PayAmount: value.PayAmount,
+			IsCancle: value.IsCancle,
+			IsComment: value.IsComment,
 		}
 		olst_ret = append(olst_ret, ordr)
 	}
@@ -227,8 +229,62 @@ func (this *OrderController) OrderDetail() {
 		OrderNumber: ord_dtl.OrderNumber,
 		PayTime: ord_dtl.PayAt,
 		CreateTime: ord_dtl.CreatedAt,
+		IsCancle: ord_dtl.IsCancle,
+		IsComment: ord_dtl.IsComment,
 	}
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, odl, "获取订单详情成功")
+	this.ServeJSON()
+	return
+}
+
+
+
+// @Title ReturnGoodsOrder finished
+// @Description 订单换退货 ReturnGoodsOrder
+// @Success 200 status bool, data interface{}, msg string
+// @router /return_goods_order [post]
+func (this *OrderController) ReturnGoodsOrder() {
+	bearerToken := this.Ctx.Input.Header(HttpAuthKey)
+	if len(bearerToken) == 0 {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	token := strings.TrimPrefix(bearerToken, "Bearer ")
+	_, err := models.GetUserByToken(token)
+	if err != nil {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	var order_ret type_order.ReturnGoodsOrderCheck
+	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &order_ret); err != nil {
+		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
+		this.ServeJSON()
+		return
+	}
+	if code, err := order_ret.ReturnGoodsOrderCheckParamValidate(); err != nil {
+		this.Data["json"] = RetResource(false, code, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	ord_dtl, code, err := models.GetGoodsOrderDetail(order_ret.OrderId)
+	if err != nil {
+		this.Data["json"] = RetResource(false, code, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	ord_dtl.IsCancle = order_ret.IsCancle
+	err = ord_dtl.Update()
+	if err != nil {
+		this.Data["json"] = RetResource(false, types.SystemDbErr, nil, "退换货失败")
+		this.ServeJSON()
+		return
+	}
+	data := map[string]interface{}{
+		"order_id": ord_dtl.Id,
+	}
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "退换货成功")
 	this.ServeJSON()
 	return
 }

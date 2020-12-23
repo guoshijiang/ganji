@@ -37,3 +37,53 @@ func (this IntegralExchangeCheck) IntegralExchangeCheckParamValidate() (int, err
 	}
 	return types.ReturnSuccess, nil
 }
+
+type IntegralExchangeRecordCheck struct {
+	types.PageSizeData
+	UserId  int64 `json:"user_id"`
+}
+
+
+func (this IntegralExchangeRecordCheck) IntegralExchangeRecordCheckParamValidate() (int, error) {
+	code, err := this.PageSizeDataParamValidate()
+	if err != nil {
+		return code, err
+	}
+	if this.UserId <= 0 {
+		return types.ParamLessZero, errors.New("用户ID小于等于 0")
+	}
+	return types.ReturnSuccess, nil
+}
+
+type IntegralExchangeDetailCheck struct {
+	IntegralId     int64   `json:"integral_id"`
+}
+
+type WalletRecordCheck struct {
+	types.PageSizeData
+	UserId int64 `json:"user_id"`
+}
+
+func (this WalletRecordCheck) WalletRecordCheckParamValidate() (int, error) {
+	code, err := this.PageSizeDataParamValidate()
+	if err != nil {
+		return code, err
+	}
+	if this.UserId <= 0 {
+		return types.ParamLessZero, errors.New("用户ID小于等于 0")
+	}
+	return types.ReturnSuccess, nil
+}
+
+type WalletDetailCheck struct {
+	WalletId int64 `json:"wallet_id"`
+}
+
+func (this WalletDetailCheck) WalletDetailCheckParamValidate() (int, error) {
+	if this.WalletId <= 0 {
+		return types.ParamLessZero, errors.New("钱包ID小于等于 0")
+	}
+	return types.ReturnSuccess, nil
+}
+
+

@@ -11,6 +11,8 @@ type OrderListRet struct {
 	OrderStatus int8    `json:"order_status"`
 	BuyNums     int64   `json:"buy_nums"`
 	PayAmount   float64 `json:"pay_amount"`
+	IsCancle    int8      `json:"is_cancle"`
+	IsComment   int8     `json:"is_comment"`
 }
 
 
@@ -34,4 +36,6 @@ type OrderDetailRet struct {
 	OrderNumber string  `json:"order_number"`
 	PayTime     *time.Time `json:"pay_time"`
 	CreateTime  time.Time `json:"create_time"`
+	IsCancle    int8      `json:"is_cancle"`
+	IsComment   int8     `json:"is_comment"`
 }

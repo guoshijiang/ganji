@@ -3,11 +3,12 @@ package order
 import "time"
 
 type OrderListRet struct {
-	MerchantId int64    `json:"merchant_id"`
+	MerchantId   int64    `json:"merchant_id"`
 	MerchantName string `json:"merchant_name"`
-	OrderId  int64      `json:"order_id"`
-	GoodsName string    `json:"goods_name"`
-	GoodsPrice float64  `json:"goods_price"`
+	OrderId      int64      `json:"order_id"`
+	GoodsName    string    `json:"goods_name"`
+	GoodsLogo    string    `json:"goods_logo"`
+	GoodsPrice  float64  `json:"goods_price"`
 	OrderStatus int8    `json:"order_status"`
 	BuyNums     int64   `json:"buy_nums"`
 	PayAmount   float64 `json:"pay_amount"`

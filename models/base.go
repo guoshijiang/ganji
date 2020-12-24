@@ -18,8 +18,9 @@ func init() {
 	}
 	orm.RegisterModel(new(User), new(UserInfo), new(UserWallet), new(UserIntegral), new(UserCoupon),
 		new(AdminUser), new(AdminMenu), new(AdminRole), new(Goods), new(GoodsCar), new(Merchant),
-		new(GoodsComment), new(GoodsCat), new(GoodsImage), new(GoodsOrder), new(OrderProcess), new(GroupOrder), new(ImageFile),
-		new(IntegralRecord), new(IntegralTrade), new(UserAddress), new(Version), new(WalletRecord), new(Banner))
+		new(GoodsComment), new(GoodsCat), new(GoodsImage), new(GoodsOrder), new(OrderProcess), new(GroupOrder),
+		new(GroupHelper), new(ImageFile),  new(IntegralRecord), new(IntegralTrade), new(UserAddress),
+		new(Version), new(WalletRecord), new(Banner))
 	if beego.AppConfig.String("runmode") == "dev" {
 		orm.Debug = true
 	}

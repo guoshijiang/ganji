@@ -67,6 +67,8 @@ const (
 	GetGoodsCarListFail           = 4053  // 获取购物车失败
 	ExchangeAmountError           = 4054  // 兑换金额不对
 	AlreadyCancleOrder            = 4055  // 订单已经取消
+	GroupOrderExist               = 4056  // 拼团订单已经存在
+	AlreadyHelp                   = 4057  // 已经助力
 )
 
 

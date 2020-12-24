@@ -8,6 +8,7 @@ import (
 type AddGoodCarCheck struct {
 	GoodsId    int64   `json:"goods_id"`
 	UserId     int64   `json:"user_id"`
+	AddressId  int64   `json:"address_id"`
 	BuyNums    int64   `json:"buy_nums"`
 	PayAmount  float64 `json:"pay_amount"`
 	IsDis      int8    `json:"is_dis"`   // 1:非打折商品  2:打折商品
@@ -19,6 +20,9 @@ func (this AddGoodCarCheck) AddGoodCarCheckParamValidate() (int, error) {
 	}
 	if this.UserId <= 0 {
 		return types.ParamLessZero, errors.New("用户 ID 不能小于等于 0")
+	}
+	if this.AddressId <= 0 {
+		return types.ParamLessZero, errors.New("地址 ID 不能小于等于 0")
 	}
 	if this.BuyNums <= 0 {
 		return types.ParamLessZero, errors.New("购买数量不能小于等于 0")
@@ -61,11 +65,11 @@ func (this EditGoodCarCheck) EditGoodCarCheckParamValidate() (int, error) {
 
 
 type DelGoodCarCheck struct {
-	GoodsIds   string  `json:"goods_ids"`
+	GoodsIds   []int64  `json:"goods_ids"`
 }
 
 func (this DelGoodCarCheck) DelGoodCarCheckParamValidate() (int, error) {
-	if this.GoodsIds == "" {
+	if this.GoodsIds == nil {
 		return types.ParamLessZero, errors.New("商品 ID 数组长度不能小于等于 0")
 	}
 	return types.ReturnSuccess, nil

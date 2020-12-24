@@ -14,8 +14,9 @@ type Merchant struct {
 	MerchantName   string    `orm:"size(512);index" json:"merchant_name"`   // 商家名称
 	MerchantIntro  string    `orm:"size(512);index" json:"merchant_intro"`  // 商家简介
 	MerchantDetail string    `orm:"type(text)" json:"merchant_detail"`      // 商家详情
-	Phone          string    `orm:"size(11);default('13611267041');index" json:"phone"`           // 商家联系电话
-	WeChat         string    `orm:"size(64);default('13611267041');index" json:"we_chat"`         // 商家联系微信
+	ContactUser    string    `orm:"size(128);index" json:"contact_user"`         // 商家联系人
+	Phone          string    `orm:"size(64);index" json:"phone"`           // 商家联系电话
+	WeChat         string    `orm:"size(64);index" json:"we_chat"`         // 商家联系微信
 	Address        string    `orm:"size(512);index" json:"address"`         // 店铺地址
 	GoodsNum       int64     `json:"goods_num"`                             // 商品总数
 	MerchantWay    int8      `orm:"default(0);index" json:"merchant_way"`   // 0:自营商家； 1:认证商家  2:普通商家

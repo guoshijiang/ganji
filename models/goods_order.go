@@ -26,13 +26,14 @@ type GoodsOrder struct {
 	PayIntegral   float64  	 `orm:"default(0);digits(22);decimals(8)" json:"pay_integral"`  // 支付的积分
 	SendIntegral  float64    `orm:"default(1);digits(22);decimals(8)" json:"send_integral"` // 赠送积分
 	OrderNumber   string     `orm:"size(64);index" json:"order_number"`                     // 订单号
+	Logistics	  string     `orm:"size(64);index;default('')" json:"logistics"`            // 物流公司
 	ShipNumber    string     `orm:"size(64);index;default('')" json:"ship_number"`          // 运单号
-	OrderStatus   int8       `orm:"index" json:"order_status"`                              // 0: 未支付，1: 支付中，2：支付成功；3：支付失败 4：已发货；5：已经收货
+	OrderStatus   int8       `orm:"index" json:"order_status"`                              // 0: 未支付，1: 支付中，2：支付成功；3：支付失败 4：已发货；5：已完成
 	FailureReason string     `json:"failure_reason"`                                        // 失败原因
 	PayAt         *time.Time `orm:"type(datetime);null" json:"pay_at"`                      // 支付时间
 	DealMerchant  string     `orm:"default('')" json:"deal_user"`                           // 处理商家
 	DealAt        time.Time  `orm:"null;type(datetime);" json:"deal_at"`                    // 处理时间
-	IsCancle      int8       `orm:"default(0);index" json:"is_cancle"`                      // 0 正常；1.退货; 3:换货
+	IsCancle      int8       `orm:"default(0);index" json:"is_cancle"`                      // 0 正常；1.退货; 2:换货; 3:退货成功; 4:换货成功
 	IsComment     int8       `orm:"default(0);index" json:"is_comment"`                     // 0 正常；1.已评价
 }
 

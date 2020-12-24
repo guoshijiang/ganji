@@ -10,7 +10,7 @@ import (
 type GoodsComment struct {
 	BaseModel
 	Id           int64     `json:"id"`
-	GoodsId      int64     `orm:"size(64)" json:"goods_id"`                          // 商品ID
+	GoodsId      int64     `orm:"size(64)" json:"goods_id"`                             // 商品ID
 	UserId       int64     `orm:"default(1);" json:"user_id"`                           // 评论用户
 	Title        string    `orm:"size(512);index" json:"title" form:"title"`            // 评论标题
 	Star         int8      `orm:"default(5);index" json:"star"`                         // 评论级别 1-10 没增加一个数字代表半星

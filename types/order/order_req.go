@@ -38,6 +38,21 @@ func (this CreateOrderCheck) CreateOrderCheckParamValidate() (int, error) {
 	return types.ReturnSuccess, nil
 }
 
+type CreateOrderGoodsCarCheck struct {
+	UserId       int64   `json:"user_id"`
+	GoodsCarIds  []int64  `json:"goods_car_ids"`
+}
+
+func (this CreateOrderGoodsCarCheck) CreateOrderGoodsCarCheckParamValidate() (int, error) {
+	if this.UserId <= 0 {
+		return types.ParamLessZero, errors.New("用户ID小于等于 0")
+	}
+	if this.GoodsCarIds == nil {
+		return types.ParamLessZero, errors.New("商品购物车IDS数组不能为空")
+	}
+	return types.ReturnSuccess, nil
+}
+
 
 type OrderListCheck struct {
 	types.PageSizeData
@@ -76,7 +91,7 @@ func (this OrderDetailCheck) OrderDetailCheckParamValidate() (int, error) {
 
 type ReturnGoodsOrderCheck struct {
 	OrderId  int64 `json:"order_id"`
-	IsCancle int8  `json:"is_cancle"` // 1.退货; 3:换货
+	IsCancle int8  `json:"is_cancle"` // 1.退货,资金返回钱包账号; 2:退货,资金原路返回; 3:换货
 }
 
 func (this ReturnGoodsOrderCheck) ReturnGoodsOrderCheckParamValidate() (int, error) {

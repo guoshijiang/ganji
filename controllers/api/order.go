@@ -16,7 +16,7 @@ type OrderController struct {
 
 
 // @Title CreateOrder finished
-// @Description 创建订单 CreateOrder
+// @Description 直接创建订单 CreateOrder
 // @Success 200 status bool, data interface{}, msg string
 // @router /create_order [post]
 func (this *OrderController) CreateOrder() {
@@ -94,6 +94,87 @@ func (this *OrderController) CreateOrder() {
 		this.ServeJSON()
 		return
 	}
+}
+
+
+// @Title CreateOrderByGoodsCar finished
+// @Description 创建订单 CreateOrderByGoodsCar
+// @Success 200 status bool, data interface{}, msg string
+// @router /create_order_by_gdscar [post]
+func (this *OrderController) CreateOrderByGoodsCar() {
+	bearerToken := this.Ctx.Input.Header(HttpAuthKey)
+	if len(bearerToken) == 0 {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	token := strings.TrimPrefix(bearerToken, "Bearer ")
+	requestUser, err := models.GetUserByToken(token)
+	if err != nil {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	var create_order_gdscar type_order.CreateOrderGoodsCarCheck
+	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &create_order_gdscar); err != nil {
+		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
+		this.ServeJSON()
+		return
+	}
+	if code, err := create_order_gdscar.CreateOrderGoodsCarCheckParamValidate(); err != nil {
+		this.Data["json"] = RetResource(false, code, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	if requestUser.Id != create_order_gdscar.UserId {
+		this.Data["json"] = RetResource(false, types.UserIsNotExist, err, "Token 和用户不匹配，拒绝添加地址")
+		this.ServeJSON()
+		return
+	}
+	ids_list := create_order_gdscar.GoodsCarIds
+	for i := 0; i < len(ids_list); i++ {
+		gds_car_dtl, code, err := models.GetGoodsCarDetail(ids_list[i])
+		if err != nil {
+			this.Data["json"] = RetResource(false, code, err.Error(), "获取购物车详细信息失败")
+			this.ServeJSON()
+			return
+		}
+		goods_dtl, _, _ := models.GetGoodsDetail(gds_car_dtl.GoodsId)
+		order_nmb := uuid.NewV4()
+		send_integral := gds_car_dtl.PayAmount
+		cmt := models.GoodsOrder{
+			GoodsId: goods_dtl.Id,
+			MerchantId: goods_dtl.MerchantId,
+			AddressId: gds_car_dtl.AddresId,
+			GoodsTitle: goods_dtl.Title,
+			GoodsName: goods_dtl.GoodsName,
+			Logo: goods_dtl.Logo,
+			UserId: create_order_gdscar.UserId,
+			BuyNums: gds_car_dtl.BuyNums,
+			PayWay: 5,
+			PayAmount: gds_car_dtl.PayAmount,
+			SendIntegral: send_integral,
+			OrderNumber: order_nmb.String(),
+			OrderStatus: 0,
+			FailureReason: "未支付",
+		}
+		err, _ = cmt.Insert()
+		if err != nil {
+			this.Data["json"] = RetResource(false, types.SystemDbErr, err.Error(), "创建订单失败")
+			this.ServeJSON()
+			return
+		} else {
+			err = gds_car_dtl.Delete()
+			if err != nil {
+				this.Data["json"] = RetResource(false, types.SystemDbErr, err.Error(), "数据库操作错误")
+				this.ServeJSON()
+				return
+			}
+		}
+	}
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, nil, "创建订单成功")
+	this.ServeJSON()
+	return
 }
 
 
@@ -211,8 +292,8 @@ func (this *OrderController) OrderDetail() {
 	gdsdtl, _, _ := models.GetGoodsDetail(ord_dtl.GoodsId)
 	odl := type_order.OrderDetailRet{
 		OrderId: ord_dtl.Id,
-		ShipLogo: "",
-		ShipInfo: "已经自取，到达北京市西城区万博圆蜂槽智能柜",
+		Logistics: ord_dtl.Logistics,
+		ShipNumber: ord_dtl.ShipNumber,
 		RecUser: addrs.UserName,
 		RecPhone: addrs.Phone,
 		RecAddress:addrs.Address,
@@ -236,7 +317,6 @@ func (this *OrderController) OrderDetail() {
 	this.ServeJSON()
 	return
 }
-
 
 
 // @Title ReturnGoodsOrder finished

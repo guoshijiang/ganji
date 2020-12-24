@@ -13,6 +13,7 @@ type GoodsCar struct {
 	Id           int64      `orm:"column(id);auto;size(11)" json:"id" form:"id"`
 	GoodsId      int64      `orm:"default(1)" json:"goods_id"`  // 商品ID
 	Logo         string     `orm:"size(150);default(/static/upload/default/user-default-60x60.png)" json:"logo" form:"logo"` // 商品LOGO
+	AddresId     int64      `orm:"default(1)" json:"addres_id"`  // 地址ID
 	GoodsTitle   string     `orm:"size(64)" json:"goods_title"`                              // 商品标题
 	GoodsName    string     `orm:"size(512);index" json:"goods_name" form:"goods_name"`      // 产品名称
 	UserId       int64      `orm:"size(64);index" json:"user_id"`                            // 购买用户
@@ -68,12 +69,22 @@ func GetGoodsCarList(page, pageSize int, user_id int64) ([]*GoodsCar, int64, err
 }
 
 func GetGoodsCarDetail(id int64) (*GoodsCar, int, error) {
-	var goods_car GoodsCar
+	goods_car := GoodsCar{}
 	if err := orm.NewOrm().QueryTable(GoodsCar{}).Filter("Id", id).RelatedSel().One(&goods_car); err != nil {
 		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
 	}
 	return &goods_car, types.ReturnSuccess, nil
 }
 
+
+func GetGoodsCarDetailByGoodsId(user_id, goods_id int64) (*GoodsCar, int, error) {
+	goods_car := GoodsCar{}
+	if err := orm.NewOrm().QueryTable(GoodsCar{}).
+		Filter("UserId", user_id).
+		Filter("GoodsId", goods_id).RelatedSel().One(&goods_car); err != nil {
+		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
+	}
+	return &goods_car, types.ReturnSuccess, nil
+}
 
 

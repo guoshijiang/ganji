@@ -17,12 +17,15 @@ func init() {
 	}
 	orm.RegisterModel(new(User), new(UserInfo), new(UserWallet), new(UserIntegral), new(UserCoupon),
 		new(AdminUser), new(AdminMenu), new(AdminRole), new(Goods), new(GoodsCar), new(Merchant),
-		new(GoodsComment), new(GoodsCat), new(GoodsImage), new(GoodsOrder), new(GroupOrder), new(ImageFile),
+		new(GoodsComment), new(GoodsCat), new(GoodsImage), new(GoodsOrder), new(OrderProcess), new(GroupOrder), new(ImageFile),
 		new(IntegralRecord), new(IntegralTrade), new(UserAddress), new(Version), new(WalletRecord), new(Banner))
 	if beego.AppConfig.String("runmode") == "dev" {
 		orm.Debug = true
 	}
-	// orm.RunSyncdb(mysqlConfig["db_alias"], false, true)
+	//err := orm.RunSyncdb(mysqlConfig["db_alias"], true, true)
+	//if err != nil {
+	//	logs.Error(err.Error())
+	//}
 	////admin asd..123 aaa/bbb 123456
 	//insertAdmin()
 	//insertRole()

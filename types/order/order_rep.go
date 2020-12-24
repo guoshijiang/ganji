@@ -18,8 +18,6 @@ type OrderListRet struct {
 
 type OrderDetailRet struct {
 	OrderId  int64      `json:"order_id"`
-	ShipLogo   string   `json:"ship_logo"`
-	ShipInfo   string   `json:"ship_info"`
 	RecUser    string   `json:"rec_user"`
 	RecPhone   string   `json:"rec_phone"`
 	RecAddress string   `json:"rec_address"`
@@ -31,6 +29,8 @@ type OrderDetailRet struct {
 	BuyNums     int64   `json:"buy_nums"`
 	PayAmount   float64 `json:"pay_amount"`
 	ShipFee     float64 `json:"ship_fee"`
+	Logistics	string  `json:"logistics"`
+	ShipNumber  string  `json:"ship_number"`
 	Coupons     float64 `json:"coupons"`
 	PayWay      int8    `json:"pay_way"`
 	OrderNumber string  `json:"order_number"`

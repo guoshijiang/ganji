@@ -6,7 +6,6 @@ import (
 	"ganji/types"
 	type_goods_car "ganji/types/goods_car"
 	"github.com/astaxie/beego"
-	"strconv"
 	"strings"
 )
 
@@ -54,7 +53,7 @@ func (this *GoodsCarController) AddGoodsToCar() {
 	//	this.ServeJSON()
 	//	return
 	//}
-	if goods_car.IsDis == 0 { //非打折商品
+	if goods_car.IsDis == 0 { // 非打折商品
 		if goods_car.PayAmount != goods_dtl.GoodsPrice * float64(goods_car.BuyNums ){
 			this.Data["json"] = RetResource(false, types.InvalidGoodsPirce, nil, "无效的商品价格")
 			this.ServeJSON()
@@ -72,20 +71,32 @@ func (this *GoodsCarController) AddGoodsToCar() {
 		return
 	}
 	if goods_dtl != nil {
-		gdc := models.GoodsCar {
-			GoodsId: goods_dtl.Id,
-			Logo: goods_dtl.Logo,
-			GoodsTitle: goods_dtl.Title,
-			GoodsName: goods_dtl.GoodsName,
-			UserId: user_token.Id,
-			BuyNums: goods_car.BuyNums,
-			PayAmount: goods_car.PayAmount,
-		}
-		err := gdc.Insert()
-		if err != nil {
-			this.Data["json"] = RetResource(false, types.SystemDbErr, nil, "数据库操作错误")
-			this.ServeJSON()
-			return
+		gdsc, _, _ := models.GetGoodsCarDetailByGoodsId(user_token.Id, goods_dtl.Id)
+		if gdsc == nil {  // 用户的购物车里面没有这个商品
+			gdc := models.GoodsCar {
+				GoodsId: goods_dtl.Id,
+				Logo: goods_dtl.Logo,
+				GoodsTitle: goods_dtl.Title,
+				GoodsName: goods_dtl.GoodsName,
+				UserId: user_token.Id,
+				BuyNums: goods_car.BuyNums,
+				PayAmount: goods_car.PayAmount,
+			}
+			err := gdc.Insert()
+			if err != nil {
+				this.Data["json"] = RetResource(false, types.SystemDbErr, nil, "数据库操作错误")
+				this.ServeJSON()
+				return
+			}
+		} else {  // 用户的购物车里面有这个商品
+			gdsc.BuyNums = gdsc.BuyNums + goods_car.BuyNums
+			gdsc.PayAmount = gdsc.PayAmount + goods_car.PayAmount
+			err = gdsc.Update()
+			if err != nil {
+				this.Data["json"] = RetResource(false, types.SystemDbErr, nil, "数据库操作错误")
+				this.ServeJSON()
+				return
+			}
 		}
 		this.Data["json"] = RetResource(true, types.ReturnSuccess, nil, "添加购物车成功")
 		this.ServeJSON()
@@ -200,10 +211,9 @@ func (this *GoodsCarController) DelGoodsCar() {
 		this.ServeJSON()
 		return
 	}
-	str_list := strings.Split(goods_car_del.GoodsIds, ",")
-	for _, v := range str_list {
-		gcid, _ := strconv.Atoi(v)
-		gcr, _, _ := models.GetGoodsCarDetail(int64(gcid))
+	ids_list := goods_car_del.GoodsIds
+	for i := 0; i < len(ids_list); i++ {
+		gcr, _, _ := models.GetGoodsCarDetail(ids_list[i])
 		err = gcr.Delete()
 		if err != nil {
 			this.Data["json"] = RetResource(true, types.SystemDbErr, nil, "删除购物车操作数据库失败")

@@ -59,7 +59,10 @@ func (this *BaseService) ScopeWhere(seter orm.QuerySeter, parameters url.Values)
 	if merchantId > 0 {
 		cond = cond.And("merchant_id",merchantId)
 	}
-
+	UserId,_ := strconv.Atoi(parameters.Get("_user_id"))
+	if UserId > 0 {
+		cond = cond.And("user_id",UserId)
+	}
 	//字段条件查询
 	if len(this.WhereField) > 0 && len(parameters) > 0 {
 		for k, v := range parameters {

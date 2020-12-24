@@ -21,6 +21,10 @@ type UserAddress struct {
 	UpdatedAt time.Time `orm:"auto_now_add;type(datetime);index" json:"updated_at"`
 }
 
+func (this *UserAddress) SearchField() []string{
+	return []string{"username","phone","user_id"}
+}
+
 func (this *UserAddress) TableName() string {
 	return common.TableName("user_address")
 }

@@ -164,3 +164,18 @@ func (Self *UserController) Integral() {
 	Self.Layout = "public/base.html"
 	Self.TplName = "user/integral.html"
 }
+
+func (Self *UserController) Address() {
+	var srv services.UserService
+	id, _ := Self.GetInt("id", -1)
+	if id < 0 {
+		response.ErrorWithMessage("用户不存在",Self.Ctx)
+	}
+	gQueryParams.Set("_user_id",strconv.Itoa(id))
+	data, pagination := srv.GetPaginateAddressData(admin["per_page"].(int), gQueryParams)
+	Self.Data["data"] = data
+	Self.Data["paginate"] = pagination
+
+	Self.Layout = "public/base.html"
+	Self.TplName = "user/address.html"
+}

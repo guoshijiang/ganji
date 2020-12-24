@@ -177,6 +177,8 @@ func init() {
 		beego.NSRouter("/user/wallet", &controllers.UserController{}, "get:Wallet"),
 		//用户积分
 		beego.NSRouter("/user/integral", &controllers.UserController{}, "get:Integral"),
+		//用户地址
+		beego.NSRouter("/user/address", &controllers.UserController{}, "get:Address"),
 
 		//积分管理-积分记录
 		beego.NSRouter("/integral/index", &controllers.IntegralController{}, "get:Index"),

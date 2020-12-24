@@ -1,5 +1,5 @@
 <section class="content">
-    <div class="row">
+    <div class="row hidden">
         <div class="col-md-12">
             <div class="box">
                 <div class="box-body">
@@ -31,12 +31,12 @@
                 <!--数据列表顶部-->
                 <div class="box-header">
                     <div>
-                        <a title="添加" data-toggle="tooltip" class="btn btn-primary btn-sm"  href="/admin/user/add">
-                            <i class="fa fa-plus"></i> 添加
-                        </a>
-                        <a class="btn btn-danger btn-sm AjaxButton" data-toggle="tooltip" title="删除选中数据" data-confirm-title="删除确认" data-confirm-content="您确定要删除选中的数据吗？" data-id="checked" data-url="/admin/user/del">
-                            <i class="fa fa-trash"></i> 删除
-                        </a>
+                        {{/*                        <a title="添加" data-toggle="tooltip" class="btn btn-primary btn-sm"  href="/admin/user/add">*/}}
+                        {{/*                            <i class="fa fa-plus"></i> 添加*/}}
+                        {{/*                        </a>*/}}
+                        {{/*                        <a class="btn btn-danger btn-sm AjaxButton" data-toggle="tooltip" title="删除选中数据" data-confirm-title="删除确认" data-confirm-content="您确定要删除选中的数据吗？" data-id="checked" data-url="/admin/user/del">*/}}
+                        {{/*                            <i class="fa fa-trash"></i> 删除*/}}
+                        {{/*                        </a>*/}}
                         <a class="btn btn-success btn-sm ReloadButton" data-toggle="tooltip" title="刷新">
                             <i class="fa fa-refresh"></i> 刷新
                         </a>
@@ -52,12 +52,9 @@
                             <th>ID</th>
                             <th>用户昵称</th>
                             <th>手机号</th>
-                            <th>邮箱</th>
-                            <th>头像</th>
-                            <th>等级</th>
-                            <th>邀请码</th>
-                            <th>邀请人</th>
-                            <th>操作</th>
+                            <th>地址</th>
+                            <th>是否默认</th>
+                            <th>时间</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -69,29 +66,9 @@
                                 <td>{{$item.Id}}</td>
                                 <td>{{$item.UserName}}</td>
                                 <td>{{$item.Phone}}</td>
-                                <td>{{$item.Email}}</td>
-                                <td><img style="max-width: 40px" src="{{$item.Avator}}"></td>
-                                <td>{{$item.MemberLevel}}</td>
-                                <td>{{$item.MyInviteCode}}</td>
-                                <td>{{$item.InviteMeUserId}}</td>
-                                <td class="td-do">
-                                    <a href="/admin/user/edit?id={{$item.Id}}"
-                                       class="btn btn-primary btn-xs" title="修改" data-toggle="tooltip">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                    <a href="/admin/user/wallet?id={{$item.Id}}"
-                                       class="btn btn-primary btn-xs" title="钱包" data-toggle="tooltip"><i class="fa fa-google-wallet"></i>
-                                    </a>
-                                    <a href="/admin/user/integral?id={{$item.Id}}"
-                                       class="btn btn-primary btn-xs" title="积分" data-toggle="tooltip"><i class="fa fa-address-book-o"></i>
-                                    </a>
-                                    <a href="/admin/user/address?id={{$item.Id}}"
-                                       class="btn btn-primary btn-xs" title="地址" data-toggle="tooltip"><i class="fa fa-file-powerpoint-o"></i>
-                                    </a>
-                                    <a class="btn btn-danger btn-xs AjaxButton" data-toggle="tooltip" title="删除" data-csrf-token="" data-id="{{$item.Id}}" data-confirm-title="删除确认" data-confirm-content='您确定要删除ID为 <span class="text-red">{{$item.Id}}</span> 的数据吗' data-url="/admin/merchant/del">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                </td>
+                                <td>{{$item.Address}}</td>
+                                <td>{{if eq 1 $item.IsSet}} <span class="label label-success">默认</span> {{else}} <span class="label label-warning">否</span> {{end}}</td>
+                                <td>{{$item.CreatedAt}}</td>
                             </tr>
                         {{end}}
                         </tbody>

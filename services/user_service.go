@@ -57,8 +57,8 @@ func (Self *UserService) GetPaginateDataWalletRaw(listRows int, params url.Value
 	return data,Self.Pagination
 }
 
-func (Self *UserService) GetPaginateDataIntegralRaw(listRows int, params url.Values) ([]*models.UserIntegralList, beego_pagination.Pagination) {
-	var data []*models.UserIntegralList
+func (Self *UserService) GetPaginateDataIntegralRaw(listRows int, params url.Values) ([]*models.UserAddressList, beego_pagination.Pagination) {
+	var data []*models.UserAddressList
 	var total int64
 	om := orm.NewOrm()
 	inner := "from  user_integral as t0 inner join user as t1 on t1.id = t0.user_id where t0.id > 0 "
@@ -144,5 +144,19 @@ func (*UserService) Del(ids []int) int{
 		return int(count)
 	} else {
 		return 0
+	}
+}
+
+func (self *UserService) GetPaginateAddressData(listRows int, params url.Values) ([]*models.UserAddress, beego_pagination.Pagination) {
+	//搜索、查询字段赋值
+	self.SearchField = append(self.SearchField, new(models.UserAddress).SearchField()...)
+
+	var data []*models.UserAddress
+	o := orm.NewOrm().QueryTable(new(models.UserAddress))
+	_, err := self.PaginateAndScopeWhere(o, listRows, params).All(&data)
+	if err != nil {
+		return nil, self.Pagination
+	} else {
+		return data, self.Pagination
 	}
 }

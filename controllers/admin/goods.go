@@ -129,6 +129,7 @@ func (Self *GoodsController) Update(){
 	if goodsService.Update(&goodsForm) > 0  || err == nil {
 		response.Success(Self.Ctx)
 	} else {
+		fmt.Println("err---",err)
 		response.Error(Self.Ctx)
 	}
 }

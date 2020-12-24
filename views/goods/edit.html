@@ -164,12 +164,12 @@
                         </script>
 
                         <div class="form-group">
-                            <label for="merchant_id" class="col-sm-2 control-label">商品所属分类</label>
+                            <label for="goods_cat_id" class="col-sm-2 control-label">商品所属分类</label>
                             <div class="col-sm-10 col-md-4">
-                                <select name="merchant_id" id="merchant_id" class="form-control field-select" data-placeholder="请选择商品所属分类">
+                                <select name="goods_cat_id" id="goods_cat_id" class="form-control field-select" data-placeholder="请选择商品所属分类">
                                     <option value=""></option>
                                     {{range $key,$item := .cats}}
-                                        <option value="{{$item.Id}}">
+                                        <option value="{{$item.Id}}" {{if compare $.data.GoodsCatId $item.Id }} selected {{end}}>
                                             {{$item.Name}}
                                         </option>
                                     {{end}}
@@ -177,7 +177,7 @@
                             </div>
                         </div>
                         <script>
-                            $('#merchant_id').select2();
+                            $('#goods_cat_id').select2();
                         </script>
 
 
@@ -197,7 +197,7 @@
                         <div class="form-group">
                             <label for="nickname" class="col-sm-2 control-label">折扣</label>
                             <div class="col-sm-10 col-md-4">
-                                <input maxlength="50" class="form-control" id="discount" placeholder="请输入折扣" name="discount" value="{{.goodsDiscount}}">
+                                <input maxlength="50" class="form-control" id="discount" placeholder="请输入折扣" name="discount" value="{{.data.Discount}}">
                             </div>
                         </div>
                         <div class="form-group">

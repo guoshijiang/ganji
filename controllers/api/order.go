@@ -98,7 +98,7 @@ func (this *OrderController) CreateOrder() {
 
 
 // @Title CreateOrderByGoodsCar finished
-// @Description 创建订单 CreateOrderByGoodsCar
+// @Description 通过购物车 IDS 创建订单 CreateOrderByGoodsCar
 // @Success 200 status bool, data interface{}, msg string
 // @router /create_order_by_gdscar [post]
 func (this *OrderController) CreateOrderByGoodsCar() {

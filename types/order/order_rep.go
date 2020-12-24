@@ -15,9 +15,19 @@ type OrderListRet struct {
 	IsComment   int8     `json:"is_comment"`
 }
 
+type ReturnOrderProcess struct {
+	ProcessId     int64  `json:"process_id"`
+	ReturnUser    string `json:"return_user"`
+	ReturnPhone   string `json:"return_phone"`
+	ReturnAddress string `json:"return_address"`
+	// 0:等待卖家确认; 1:卖家已同意; 2:卖家拒绝; 3:等待买家邮寄; 4:等待卖家收货; 5:卖家已经发货; 6:等待买家收货; 7:已完成
+	Process       int8  `json:"process"`
+	LeftTime      int64 `json:"left_time"`
+}
 
 type OrderDetailRet struct {
-	OrderId  int64      `json:"order_id"`
+	OrderId    int64    `json:"order_id"`
+	GoodsId   int64     `json:"goods_id"`
 	RecUser    string   `json:"rec_user"`
 	RecPhone   string   `json:"rec_phone"`
 	RecAddress string   `json:"rec_address"`
@@ -38,4 +48,5 @@ type OrderDetailRet struct {
 	CreateTime  time.Time `json:"create_time"`
 	IsCancle    int8      `json:"is_cancle"`
 	IsComment   int8     `json:"is_comment"`
+	RetrurnOrder  *ReturnOrderProcess `json:"retrurn_order"`
 }

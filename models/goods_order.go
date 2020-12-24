@@ -99,3 +99,35 @@ func GetGoodsOrderDetail(id int64) (*GoodsOrder, int, error) {
 	}
 	return &order_dtl, types.ReturnSuccess, nil
 }
+
+
+// 1.退货,资金返回钱包账号; 2:退货,资金原路返回; 3:换货
+func ReturnGoodsOrder(order_id int64, is_cancle int8) (*GoodsOrder, int, error) {
+	var order_dtl GoodsOrder
+	if err := orm.NewOrm().QueryTable(GoodsOrder{}).Filter("Id", order_id).RelatedSel().One(&order_dtl); err != nil {
+		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
+	}
+	if is_cancle == 1 || is_cancle == 2 {
+		order_dtl.IsCancle = 1
+	}
+	if is_cancle == 3 {
+		order_dtl.IsCancle = 2
+	}
+	err := order_dtl.Update()
+	if err != nil {
+		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
+	}
+	order_p := OrderProcess{
+		OrderId: order_dtl.Id,
+		MerchantId: order_dtl.MerchantId,
+		AddressId: order_dtl.AddressId,
+		GoodsId: order_dtl.GoodsId,
+		Process: 0,
+		LeftTime: 604800,
+	}
+	err, _ = order_p.Insert()
+	if err != nil {
+		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
+	}
+	return &order_dtl, types.ReturnSuccess, nil
+}

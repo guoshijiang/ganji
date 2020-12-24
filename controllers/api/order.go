@@ -290,6 +290,21 @@ func (this *OrderController) OrderDetail() {
 	addrs, _, _ := addr.GetAddressById()
 	mct, _, _ := models.GetMerchantDetail(ord_dtl.MerchantId)
 	gdsdtl, _, _ := models.GetGoodsDetail(ord_dtl.GoodsId)
+	var ret_ordr *type_order.ReturnOrderProcess
+	if ord_dtl.IsCancle != 0 {
+		order_process, _, _ := models.GetOrderProcessDetail(ord_dtl.Id)
+		ret_ordr = &type_order.ReturnOrderProcess{
+			ProcessId: order_process.Id,
+			ReturnUser: mct.ContactUser,
+			ReturnPhone: mct.Phone,
+			ReturnAddress: mct.Address,
+			// 0:等待卖家确认; 1:卖家已同意; 2:卖家拒绝; 3:等待买家邮寄; 4:等待卖家收货; 5:卖家已经发货; 6:等待买家收货; 7:已完成
+			Process: order_process.Process,
+			LeftTime: order_process.LeftTime,
+		}
+	} else {
+		ret_ordr = nil
+	}
 	odl := type_order.OrderDetailRet{
 		OrderId: ord_dtl.Id,
 		Logistics: ord_dtl.Logistics,
@@ -312,6 +327,7 @@ func (this *OrderController) OrderDetail() {
 		CreateTime: ord_dtl.CreatedAt,
 		IsCancle: ord_dtl.IsCancle,
 		IsComment: ord_dtl.IsComment,
+		RetrurnOrder: ret_ordr,
 	}
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, odl, "获取订单详情成功")
 	this.ServeJSON()
@@ -348,16 +364,15 @@ func (this *OrderController) ReturnGoodsOrder() {
 		this.ServeJSON()
 		return
 	}
-	ord_dtl, code, err := models.GetGoodsOrderDetail(order_ret.OrderId)
-	if err != nil {
-		this.Data["json"] = RetResource(false, code, err, err.Error())
+	odr, _, _ := models.GetGoodsOrderDetail(order_ret.OrderId)
+	if odr.IsCancle != 0 {
+		this.Data["json"] = RetResource(false, types.AlreadyCancleOrder, nil, "该订单已经发起退换货")
 		this.ServeJSON()
 		return
 	}
-	ord_dtl.IsCancle = order_ret.IsCancle
-	err = ord_dtl.Update()
+	ord_dtl, code, err := models.ReturnGoodsOrder(order_ret.OrderId, order_ret.IsCancle)
 	if err != nil {
-		this.Data["json"] = RetResource(false, types.SystemDbErr, nil, "退换货失败")
+		this.Data["json"] = RetResource(false, code, err, err.Error())
 		this.ServeJSON()
 		return
 	}
@@ -365,6 +380,109 @@ func (this *OrderController) ReturnGoodsOrder() {
 		"order_id": ord_dtl.Id,
 	}
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "退换货成功")
+	this.ServeJSON()
+	return
+}
+
+
+// @Title CancleReturnGoodsOrder finished
+// @Description 撤销换退货 CancleReturnGoodsOrder
+// @Success 200 status bool, data interface{}, msg string
+// @router /cancle_return_goods_order [post]
+func (this *OrderController) CancleReturnGoodsOrder() {
+	bearerToken := this.Ctx.Input.Header(HttpAuthKey)
+	if len(bearerToken) == 0 {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	token := strings.TrimPrefix(bearerToken, "Bearer ")
+	_, err := models.GetUserByToken(token)
+	if err != nil {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	var cancle_order type_order.CancleReturnGoodsOrderCheck
+	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &cancle_order); err != nil {
+		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
+		this.ServeJSON()
+		return
+	}
+	if code, err := cancle_order.CancleReturnGoodsOrderCheckParamValidate(); err != nil {
+		this.Data["json"] = RetResource(false, code, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	order_dtl, code, err := models.GetGoodsOrderDetail(cancle_order.OrderId)
+	if err != nil {
+		this.Data["json"] = RetResource(false, code, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	order_dtl.IsCancle = 0
+	err = order_dtl.Update()
+	if err != nil {
+		this.Data["json"] = RetResource(false, types.SystemDbErr, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	data := map[string]interface{}{
+		"order_id": order_dtl.Id,
+	}
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "撤销退换货成功")
+	this.ServeJSON()
+	return
+}
+
+
+
+// @Title ConfirmRecvGoods finished
+// @Description 确认收货 ConfirmRecvGoods
+// @Success 200 status bool, data interface{}, msg string
+// @router /confirm_revc_goods [post]
+func (this *OrderController) ConfirmRecvGoods() {
+	bearerToken := this.Ctx.Input.Header(HttpAuthKey)
+	if len(bearerToken) == 0 {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	token := strings.TrimPrefix(bearerToken, "Bearer ")
+	_, err := models.GetUserByToken(token)
+	if err != nil {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	var cancle_order type_order.CancleReturnGoodsOrderCheck
+	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &cancle_order); err != nil {
+		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
+		this.ServeJSON()
+		return
+	}
+	if code, err := cancle_order.CancleReturnGoodsOrderCheckParamValidate(); err != nil {
+		this.Data["json"] = RetResource(false, code, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	order_dtl, code, err := models.GetGoodsOrderDetail(cancle_order.OrderId)
+	if err != nil {
+		this.Data["json"] = RetResource(false, code, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	order_dtl.OrderStatus = 5
+	err = order_dtl.Update()
+	if err != nil {
+		this.Data["json"] = RetResource(false, types.SystemDbErr, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	data := map[string]interface{}{
+		"order_id": order_dtl.Id,
+	}
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "确认收货成功")
 	this.ServeJSON()
 	return
 }

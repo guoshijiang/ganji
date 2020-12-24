@@ -222,6 +222,7 @@ func (this *UserInfoController) GetMyCoupon() {
 			ConponName: user_cp.ConponName,
 			IsUsed: user_cp.IsUsed,
 			TotalAmount: user_cp.TotalAmount,
+			IsInvlid: user_cp.IsInvalid,
 			StartTime: user_cp.StartTime,
 			EndTime: user_cp.EndTime,
 		}

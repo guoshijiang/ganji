@@ -66,6 +66,7 @@ const (
 	AlreadyBindPassword           = 4052  // 已经绑定支付密码
 	GetGoodsCarListFail           = 4053  // 获取购物车失败
 	ExchangeAmountError           = 4054  // 兑换金额不对
+	AlreadyCancleOrder            = 4055  // 订单已经取消
 )
 
 

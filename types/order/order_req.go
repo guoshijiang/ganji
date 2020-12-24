@@ -103,3 +103,15 @@ func (this ReturnGoodsOrderCheck) ReturnGoodsOrderCheckParamValidate() (int, err
 	}
 	return types.ReturnSuccess, nil
 }
+
+
+type CancleReturnGoodsOrderCheck struct {
+	OrderId  int64 `json:"order_id"`
+}
+
+func (this CancleReturnGoodsOrderCheck) CancleReturnGoodsOrderCheckParamValidate() (int, error) {
+	if this.OrderId <= 0 {
+		return types.ParamLessZero, errors.New("订单 ID 小于等于 0")
+	}
+	return types.ReturnSuccess, nil
+}

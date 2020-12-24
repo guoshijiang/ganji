@@ -15,6 +15,7 @@ type UserCoupon struct {
 	TotalAmount float64   `orm:"default(150);digits(22);decimals(8)" json:"total_amount"`
 	StartTime   time.Time `orm:"auto_now_add;type(datetime);index" json:"start_time"`
 	EndTime     time.Time `orm:"auto_now_add;type(datetime);index" json:"end_time"`
+	IsInvalid   int8      `orm:"default(0)" json:"is_invalid"`     // 0 未过期； 1:已经过期
 }
 
 func (this *UserCoupon) TableName() string {

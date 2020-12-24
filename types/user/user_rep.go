@@ -36,6 +36,7 @@ type UserConponRet struct {
 	TotalAmount float64   `json:"total_amount"`
 	StartTime   time.Time `json:"start_time"`
 	EndTime     time.Time `json:"end_time"`
+	IsInvlid    int8      `json:"is_invlid"`
 }
 
 

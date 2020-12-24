@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/pkg/errors"
@@ -22,10 +23,10 @@ func init() {
 	if beego.AppConfig.String("runmode") == "dev" {
 		orm.Debug = true
 	}
-	//err := orm.RunSyncdb(mysqlConfig["db_alias"], true, true)
-	//if err != nil {
-	//	logs.Error(err.Error())
-	//}
+	err := orm.RunSyncdb(mysqlConfig["db_alias"], false, true)
+	if err != nil {
+		logs.Error(err.Error())
+	}
 	////admin asd..123 aaa/bbb 123456
 	//insertAdmin()
 	//insertRole()

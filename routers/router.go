@@ -259,7 +259,11 @@ func init() {
 			),
 		),
 
-
+		beego.NSNamespace("/group_order",
+			beego.NSInclude(
+				&api.GroupOrderController{},
+			),
+		),
 	)
 	beego.AddNamespace(api_path)
 }

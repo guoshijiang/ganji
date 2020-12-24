@@ -35,6 +35,7 @@ type Goods struct {
 	IsDiscount     int8      `orm:"default(0);index" json:"is_discount"`                  // 0:不打折，1:打折活动产品
 	IsIgExchange   int8      `orm:"default(0);index" json:"is_ig_exchange"`               // 0:正常，1:可以积分兑换
 	IsGroup        int8      `orm:"default(0);index" json:"is_group"`                     // 0:非拼购产品 1:拼购产品
+	GroupNumber    int64     `orm:"default(100);index" json:"group_number"`               // 助力人数
 	IsIntegral     int8      `orm:"default(0);index" json:"is_integral"`                  // 0:非积分兑换产品 1:积分兑换产品
 	LeftTime       int64     `orm:"default(0);index" json:"left_time"`                    // 限时产品剩余时间
 	IsLimitTime    int8      `orm:"default(0);index" json:"is_limit_time"`                // 0:不是限时产品 1:是限时

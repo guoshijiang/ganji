@@ -231,6 +231,7 @@ func (this *OrderController) OrderList() {
 			MerchantName: m.MerchantName,
 			OrderId:value.Id,
 			GoodsName: value.GoodsName,
+			GoodsLogo: value.Logo,
 			GoodsPrice: gds.GoodsPrice,
 			OrderStatus: value.OrderStatus,
 			BuyNums: value.BuyNums,

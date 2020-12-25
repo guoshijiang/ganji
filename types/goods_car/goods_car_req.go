@@ -22,7 +22,7 @@ func (this AddGoodCarCheck) AddGoodCarCheckParamValidate() (int, error) {
 		return types.ParamLessZero, errors.New("用户 ID 不能小于等于 0")
 	}
 	if this.AddressId <= 0 {
-		return types.ParamLessZero, errors.New("地址 ID 不能小于等于 0")
+		return types.ParamLessZero, errors.New("您没有选择地址，或者您还没有添加地址，请去选择或者添加")
 	}
 	if this.BuyNums <= 0 {
 		return types.ParamLessZero, errors.New("购买数量不能小于等于 0")

@@ -57,8 +57,8 @@ func (Self *UserService) GetPaginateDataWalletRaw(listRows int, params url.Value
 	return data,Self.Pagination
 }
 
-func (Self *UserService) GetPaginateDataIntegralRaw(listRows int, params url.Values) ([]*models.UserAddressList, beego_pagination.Pagination) {
-	var data []*models.UserAddressList
+func (Self *UserService) GetPaginateDataIntegralRaw(listRows int, params url.Values) ([]*models.UserAddress, beego_pagination.Pagination) {
+	var data []*models.UserAddress
 	var total int64
 	om := orm.NewOrm()
 	inner := "from  user_integral as t0 inner join user as t1 on t1.id = t0.user_id where t0.id > 0 "

@@ -21,7 +21,7 @@ func (this CreateOrderCheck) CreateOrderCheckParamValidate() (int, error) {
 		return types.ParamLessZero, errors.New("商品ID小于等于 0")
 	}
 	if this.AddressId <= 0 {
-		return types.ParamLessZero, errors.New("地址ID小于等于 0")
+		return types.ParamLessZero, errors.New("您没有选择地址，或者您还没有添加地址，请去选择或者添加")
 	}
 	if this.UserId <= 0 {
 		return types.ParamLessZero, errors.New("用户ID小于等于 0")

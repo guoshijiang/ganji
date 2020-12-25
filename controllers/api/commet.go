@@ -179,6 +179,7 @@ func (this *CommentController) GetCommentList() {
 		} else {
 			three_url = ""
 		}
+		image_path := beego.AppConfig.String("img_root_path")
 		cl := type_comment.CommentListRep{
 			Id: v.Id,
 			UserName: u_tk.UserName,
@@ -188,9 +189,9 @@ func (this *CommentController) GetCommentList() {
 			Title: v.Title,
 			Star: v.Star,
 			Content: v.Content,
-			ImgOne: one_url,
-			ImgTwo: two_url,
-			ImgThree: three_url,
+			ImgOne: image_path + one_url,
+			ImgTwo: image_path + two_url,
+			ImgThree: image_path + three_url,
 			CreateTime: v.CreatedAt,
 		}
 		cmt_list = append(cmt_list, cl)

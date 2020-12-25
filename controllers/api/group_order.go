@@ -131,6 +131,7 @@ func (this *GroupOrderController) GroupOrderList () {
 		this.ServeJSON()
 		return
 	}
+	img_path := beego.AppConfig.String("img_root_path")
 	var golst []group_order.GroupOrderListRet
 	for _, value := range order_list {
 		m, _, _ := models.GetMerchantDetail(value.MerchantId)
@@ -140,7 +141,7 @@ func (this *GroupOrderController) GroupOrderList () {
 			MerchantName: m.MerchantName,
 			OrderId: value.Id,
 			GoodsName: gds.GoodsName,
-			GoodsLogo: value.Logo,
+			GoodsLogo: img_path + value.Logo,
 			GoodsPrice: gds.GoodsPrice,
 			OrderStatus: value.OrderStatus,
 			GroupNumber: value.GroupNumber,
@@ -195,6 +196,7 @@ func (this *GroupOrderController) GroupOrderDetail () {
 		this.ServeJSON()
 		return
 	}
+	img_path := beego.AppConfig.String("img_root_path")
 	var addr models.UserAddress
 	addr.Id = order_detail.AddressId
 	addrs, _, _ := addr.GetAddressById()
@@ -211,6 +213,7 @@ func (this *GroupOrderController) GroupOrderDetail () {
 		MerchantId: mct.Id,
 		MerchantName: mct.MerchantName,
 		GoodsName: gdsdtl.GoodsName,
+		GoodsLogo: img_path + gdsdtl.Logo,
 		GoodsPrice: gdsdtl.GoodsPrice,
 		OrderStatus: order_detail.OrderStatus,
 		GroupNumber: order_detail.GroupNumber,

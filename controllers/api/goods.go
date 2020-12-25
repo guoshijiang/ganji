@@ -35,13 +35,14 @@ func (this *GoodsController) GoodsCategoryList() {
 		this.ServeJSON()
 		return
 	}
+	image_path := beego.AppConfig.String("img_root_path")
 	var goods_ret_list []type_goods.CategoryGoodsRet
 	for _, value := range good_list {
 		gds_ret := type_goods.CategoryGoodsRet{
 			GoodsId:   value.Id,
 			GoodsMark: value.GoodsMark,
 			Title: value.Title,
-			Logo: value.Logo,
+			Logo: image_path + value.Logo,
 			GoodsPrice: value.GoodsPrice,
 			GoodsDisPrice: value.GoodsDisPrice,
 			LeftTime: value.LeftTime,
@@ -162,14 +163,13 @@ func (this *GoodsController) GoodsDetail() {
 	}
 	user_address := make(map[string]interface{})
 	if goods_detil.UserId > 0 {
-		user_addr, code, err := models.GetUserAddressDefault(goods_detil.UserId)
+		user_addr, _, err := models.GetUserAddressDefault(goods_detil.UserId)
 		if err != nil {
-			this.Data["json"] = RetResource(false, code, err.Error(), "获取用户默认地址失败失败")
-			this.ServeJSON()
-			return
+			user_address = nil
+		} else {
+			user_address["address_id"] = user_addr.Id
+			user_address["address_name"] = user_addr.Address
 		}
-		user_address["address_id"] = user_addr.Id
-		user_address["address_name"] = user_addr.Address
 	} else {
 		user_address = nil
 	}

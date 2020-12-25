@@ -36,6 +36,7 @@ type OrderDetailRet struct {
 	MerchantName string `json:"merchant_name"`
 	GoodsName string    `json:"goods_name"`
 	GoodsPrice float64  `json:"goods_price"`
+	GoodsLogo string `json:"goods_logo"`
 	OrderStatus int8    `json:"order_status"`
 	BuyNums     int64   `json:"buy_nums"`
 	PayAmount   float64 `json:"pay_amount"`

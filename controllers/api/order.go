@@ -223,6 +223,7 @@ func (this *OrderController) OrderList() {
 		return
 	}
 	var olst_ret []type_order.OrderListRet
+	img_path := beego.AppConfig.String("img_root_path")
 	for _, value := range ols {
 		m, _, _ := models.GetMerchantDetail(value.MerchantId)
 		gds, _, _ := models.GetGoodsDetail(value.GoodsId)
@@ -231,7 +232,7 @@ func (this *OrderController) OrderList() {
 			MerchantName: m.MerchantName,
 			OrderId:value.Id,
 			GoodsName: value.GoodsName,
-			GoodsLogo: value.Logo,
+			GoodsLogo: img_path + value.Logo,
 			GoodsPrice: gds.GoodsPrice,
 			OrderStatus: value.OrderStatus,
 			BuyNums: value.BuyNums,
@@ -286,6 +287,7 @@ func (this *OrderController) OrderDetail() {
 		this.ServeJSON()
 		return
 	}
+	img_path := beego.AppConfig.String("img_root_path")
 	var addr models.UserAddress
 	addr.Id = ord_dtl.AddressId
 	addrs, _, _ := addr.GetAddressById()
@@ -316,6 +318,7 @@ func (this *OrderController) OrderDetail() {
 		MerchantId: mct.Id,
 		MerchantName: mct.MerchantName,
 		GoodsName: gdsdtl.GoodsName,
+		GoodsLogo: img_path + gdsdtl.Logo,
 		GoodsPrice: gdsdtl.GoodsPrice,
 		OrderStatus: ord_dtl.OrderStatus,
 		BuyNums: ord_dtl.BuyNums,

@@ -26,6 +26,7 @@ type GroupOrderDetailRet struct {
 	MerchantId int64    `json:"merchant_id"`
 	MerchantName string `json:"merchant_name"`
 	GoodsName string    `json:"goods_name"`
+	GoodsLogo string `json:"goods_logo"`
 	GoodsPrice float64  `json:"goods_price"`
 	OrderStatus int8    `json:"order_status"`
 	GroupNumber  int64   `json:"group_number"`

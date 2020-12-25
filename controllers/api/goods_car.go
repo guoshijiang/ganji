@@ -263,6 +263,7 @@ func (this *GoodsCarController) GoodsCarList() {
 		return
 	}
 	var gds_car_lst []type_goods_car.GoodsCarList
+	img_path := beego.AppConfig.String("img_root_path")
 	for _, value := range goods_car_list {
 		gds, _, _ :=models.GetGoodsDetail(value.GoodsId)
 		mct, _, _ := models.GetMerchantDetail(gds.MerchantId)
@@ -277,7 +278,7 @@ func (this *GoodsCarController) GoodsCarList() {
 			MerchantName:mct.MerchantName,
 			GoodsCarId: value.Id,
 			GoodsId: gds.Id,
-			GoodsLogo: value.Logo,
+			GoodsLogo: img_path + value.Logo,
 			GoodsTitle: gds.Title,
 			GoodsMark: gds.GoodsMark,
 			GoodsName: gds.GoodsName,

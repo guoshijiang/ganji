@@ -15,7 +15,9 @@ type WalletRecord struct {
 	OrderNumber  string      `orm:"size(256)" json:"order_number"`                    // 交易订单号
 	Type         int8        `orm:"index" json:"type"`                                // 0:充值；1:提现 2:积分兑换 3:消费
 	Source       int8        `orm:"default(0);index" json:"source"`                   // 0：支付宝 1:微信; 2:积分兑换
-	Status       int8        `orm:"default(0);index" json:"status"`                   // 0:入账成功；2: 入账失败
+	IsHanle      int8        `orm:"default(0);index" json:"is_hanle"`                 // 0:审核中；1:审核通过；2:已打款; 3:审核拒绝
+	DealUser   	 string      `orm:"size(256)" json:"deal_user"`                       // 处理人
+	Status       int8        `orm:"default(0);index" json:"status"`                   // 0:入账中; 1:入账成功; 2:入账失败
 }
 
 func (this *WalletRecord) TableName() string {

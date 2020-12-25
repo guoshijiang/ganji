@@ -70,6 +70,8 @@ const (
 	GroupOrderExist               = 4056  // 拼团订单已经存在
 	AlreadyHelp                   = 4057  // 已经助力
 	FileAlreadUpload              = 5058  // 图片已经上传过了
+	NoBindAccount                 = 5059  // 没用绑定账号
+	UpdateAccountFail             = 5060  // 更新账号失败
 )
 
 

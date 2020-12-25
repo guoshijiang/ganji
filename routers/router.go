@@ -273,6 +273,24 @@ func init() {
 			),
 		),
 
+		beego.NSNamespace("/user_account",
+			beego.NSInclude(
+				&api.UserAccountController{},
+			),
+		),
+
+		beego.NSNamespace("/w_or_d",
+			beego.NSInclude(
+				&api.DepositWithdrawController{},
+			),
+		),
+
+		beego.NSNamespace("/pay",
+			beego.NSInclude(
+				&api.PayController{},
+			),
+		),
+
 		beego.NSNamespace("/version",
 			beego.NSInclude(
 				&api.VersionController{},

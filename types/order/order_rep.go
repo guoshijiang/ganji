@@ -5,6 +5,7 @@ import "time"
 type OrderListRet struct {
 	MerchantId   int64    `json:"merchant_id"`
 	MerchantName string `json:"merchant_name"`
+	MerchantPhone string `json:"merchant_phone"`
 	OrderId      int64      `json:"order_id"`
 	GoodsName    string    `json:"goods_name"`
 	GoodsLogo    string    `json:"goods_logo"`

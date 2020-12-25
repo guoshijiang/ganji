@@ -230,6 +230,7 @@ func (this *OrderController) OrderList() {
 		ordr := type_order.OrderListRet {
 			MerchantId: m.Id,
 			MerchantName: m.MerchantName,
+			MerchantPhone: m.Phone,
 			OrderId:value.Id,
 			GoodsName: value.GoodsName,
 			GoodsLogo: img_path + value.Logo,

@@ -507,3 +507,60 @@ func (this *OrderController) ConfirmRecvGoods() {
 	this.ServeJSON()
 	return
 }
+
+
+// @Title BatchOrderList finished
+// @Description 订单列表 BatchOrderList
+// @Success 200 status bool, data interface{}, msg string
+// @router /batch_order_list [post]
+func (this *OrderController) BatchOrderList() {
+	bearerToken := this.Ctx.Input.Header(HttpAuthKey)
+	if len(bearerToken) == 0 {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	token := strings.TrimPrefix(bearerToken, "Bearer ")
+	u_tk, err := models.GetUserByToken(token)
+	if err != nil {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	var order_lst type_order.BatchOrderListCheck
+	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &order_lst); err != nil {
+		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
+		this.ServeJSON()
+		return
+	}
+	ols, code, err := models.GetGoodsOrderBatchList(order_lst.BatchOrderId, u_tk.Id)
+	if err != nil {
+		this.Data["json"] = RetResource(false, code, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	var olst_ret []type_order.OrderListRet
+	img_path := beego.AppConfig.String("img_root_path")
+	for _, value := range ols {
+		m, _, _ := models.GetMerchantDetail(value.MerchantId)
+		gds, _, _ := models.GetGoodsDetail(value.GoodsId)
+		ordr := type_order.OrderListRet {
+			MerchantId: m.Id,
+			MerchantName: m.MerchantName,
+			MerchantPhone: m.Phone,
+			OrderId:value.Id,
+			GoodsName: value.GoodsName,
+			GoodsLogo: img_path + value.Logo,
+			GoodsPrice: gds.GoodsPrice,
+			OrderStatus: value.OrderStatus,
+			BuyNums: value.BuyNums,
+			PayAmount: value.PayAmount,
+			IsCancle: value.IsCancle,
+			IsComment: value.IsComment,
+		}
+		olst_ret = append(olst_ret, ordr)
+	}
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, olst_ret, "获取订单列表成功")
+	this.ServeJSON()
+	return
+}

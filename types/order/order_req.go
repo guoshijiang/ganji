@@ -118,3 +118,8 @@ func (this CancleReturnGoodsOrderCheck) CancleReturnGoodsOrderCheckParamValidate
 	}
 	return types.ReturnSuccess, nil
 }
+
+
+type BatchOrderListCheck struct {
+	BatchOrderId  string `json:"batch_order_id"`
+}

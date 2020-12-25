@@ -375,7 +375,7 @@ func (this *OrderController) ReturnGoodsOrder() {
 		this.ServeJSON()
 		return
 	}
-	ord_dtl, code, err := models.ReturnGoodsOrder(order_ret.OrderId, order_ret.IsCancle)
+	ord_dtl, code, err := models.ReturnGoodsOrder(order_ret)
 	if err != nil {
 		this.Data["json"] = RetResource(false, code, err, err.Error())
 		this.ServeJSON()

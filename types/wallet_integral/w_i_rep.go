@@ -34,7 +34,7 @@ type WalletRecordDetailRet struct {
 	RecordId     int64     `json:"record_id"`
 	IntegralType string    `json:"integral_type"`
 	IntegralSource string  `json:"integral_source"`
-	TotalAmount  float64   `json:"total_amount"`
+	TotalAmount  string   `json:"total_amount"`
 	OrderNumber  string    `json:"order_number"`
 	CreateTime   time.Time `json:"create_time"`
 }

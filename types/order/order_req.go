@@ -90,16 +90,19 @@ func (this OrderDetailCheck) OrderDetailCheckParamValidate() (int, error) {
 
 
 type ReturnGoodsOrderCheck struct {
-	OrderId  int64 `json:"order_id"`
-	IsCancle int8  `json:"is_cancle"` // 1.退货,资金返回钱包账号; 2:退货,资金原路返回; 3:换货
+	OrderId       int64  `json:"order_id"`
+	RetGoodsRs    string `json:"ret_goods_rs"`    // 退货原因
+	QsDescribe    string `json:"qs_describe"`     // 问题描述
+	QsImgOne      string `json:"qs_img_one"`
+	QsImgTwo      string `json:"qs_img_two"`
+	QsImgThree    string `json:"qs_img_three"`
+	IsRecvGoods   int8   `json:"is_recv_goods"`   // 0:未收到货物，1:已经收到货物
+	FundRet       int8   `json:"fund_ret"`        // 1.退货,资金返回钱包账号; 2:退货,资金原路返回; 3:换货
 }
 
 func (this ReturnGoodsOrderCheck) ReturnGoodsOrderCheckParamValidate() (int, error) {
 	if this.OrderId <= 0 {
 		return types.ParamLessZero, errors.New("订单 ID 小于等于 0")
-	}
-	if this.IsCancle < 0 || this.IsCancle > 3 {
-		return types.InvalidVerifyWay, errors.New("无效的退换货选择方式")
 	}
 	return types.ReturnSuccess, nil
 }

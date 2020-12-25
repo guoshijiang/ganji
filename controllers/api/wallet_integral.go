@@ -474,15 +474,20 @@ func (this *WalletIntegralController) WalletRecordDetail () {
 		return
 	}
 	// 0:充值；1:提现 2:积分兑换 3:消费
-	var type_str, source_str string
+	var type_str, source_str, amount string
+	amount_s := strconv.FormatFloat(wt_dtl.Amount, 'E', -1, 64)
 	if wt_dtl.Type == 0 {
 		type_str = "充值"
+		amount = "+" + amount_s
 	} else if wt_dtl.Type == 1 {
 		type_str = "提现"
+		amount = "-" + amount_s
 	} else if wt_dtl.Type == 2 {
 		type_str = "积分兑换"
+		amount = "+" + amount_s
 	} else {
 		type_str = "消费"
+		amount = "-" + amount_s
 	}
 	// 0：支付宝 1:微信; 2:积分兑换
 	if wt_dtl.Source == 0 {
@@ -496,7 +501,7 @@ func (this *WalletIntegralController) WalletRecordDetail () {
 		RecordId: wt_dtl.Id,
 		IntegralType: type_str,
  		IntegralSource: source_str,
-		TotalAmount:wt_dtl.Amount,
+		TotalAmount: amount,
 		OrderNumber: wt_dtl.OrderNumber,
 		CreateTime: wt_dtl.CreatedAt,
 	}

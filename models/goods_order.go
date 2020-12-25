@@ -3,6 +3,7 @@ package models
 import (
 "ganji/common"
 	"ganji/types"
+	type_order "ganji/types/order"
 	"github.com/astaxie/beego/logs"
 "github.com/astaxie/beego/orm"
 	"github.com/pkg/errors"
@@ -102,15 +103,15 @@ func GetGoodsOrderDetail(id int64) (*GoodsOrder, int, error) {
 
 
 // 1.退货,资金返回钱包账号; 2:退货,资金原路返回; 3:换货
-func ReturnGoodsOrder(order_id int64, is_cancle int8) (*GoodsOrder, int, error) {
+func ReturnGoodsOrder(oret type_order.ReturnGoodsOrderCheck) (*GoodsOrder, int, error) {
 	var order_dtl GoodsOrder
-	if err := orm.NewOrm().QueryTable(GoodsOrder{}).Filter("Id", order_id).RelatedSel().One(&order_dtl); err != nil {
+	if err := orm.NewOrm().QueryTable(GoodsOrder{}).Filter("Id", oret.OrderId).RelatedSel().One(&order_dtl); err != nil {
 		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
 	}
-	if is_cancle == 1 || is_cancle == 2 {
+	if oret.FundRet == 1 || oret.FundRet == 2 {
 		order_dtl.IsCancle = 1
 	}
-	if is_cancle == 3 {
+	if oret.FundRet == 3 {
 		order_dtl.IsCancle = 2
 	}
 	err := order_dtl.Update()
@@ -122,8 +123,15 @@ func ReturnGoodsOrder(order_id int64, is_cancle int8) (*GoodsOrder, int, error) 
 		MerchantId: order_dtl.MerchantId,
 		AddressId: order_dtl.AddressId,
 		GoodsId: order_dtl.GoodsId,
+		RetGoodsRs: oret.RetGoodsRs,
+		QsDescribe: oret.QsDescribe,
+		QsImgOne: oret.QsImgOne,
+		QsImgTwo: oret.QsImgTwo,
+		QsImgThree: oret.QsImgThree,
 		Process: 0,
 		LeftTime: 604800,
+		IsRecvGoods: oret.IsRecvGoods,    // 0:未收到货物，1:已经收到货物
+		FundRet: oret.FundRet,
 	}
 	err, _ = order_p.Insert()
 	if err != nil {

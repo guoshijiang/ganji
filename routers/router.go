@@ -266,6 +266,12 @@ func init() {
 				&api.GroupOrderController{},
 			),
 		),
+
+		beego.NSNamespace("/market",
+			beego.NSInclude(
+				&api.MarketController{},
+			),
+		),
 	)
 	beego.AddNamespace(api_path)
 }

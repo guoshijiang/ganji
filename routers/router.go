@@ -272,7 +272,7 @@ func init() {
 				&api.MarketController{},
 			),
 		),
-		
+
 		beego.NSNamespace("/version",
 			beego.NSInclude(
 				&api.VersionController{},

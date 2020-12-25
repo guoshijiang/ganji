@@ -79,6 +79,15 @@ func (this *User) GetInviteMeUser(inviteCode string) (*User, error) {
 }
 
 
+func GetUserById(id int64) (User, error) {
+	var query_user User
+	err := query_user.Query().Filter("Id", id).Limit(1).One(&query_user)
+	if err != nil {
+		return query_user, errors.New("user is not exist")
+	}
+	return query_user, nil
+}
+
 func (u *User) GetUserByPhone(phone string) (User, error) {
 	var query_user User
 	err := query_user.Query().Filter("phone", phone).Limit(1).One(&query_user)

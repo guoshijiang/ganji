@@ -124,19 +124,6 @@ func (this *CommentController) DelCommet() {
 // @Success 200 status bool, data interface{}, msg string
 // @router /comment_list [post]
 func (this *CommentController) GetCommentList() {
-	bearerToken := this.Ctx.Input.Header(HttpAuthKey)
-	if len(bearerToken) == 0 {
-		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
-		this.ServeJSON()
-		return
-	}
-	token := strings.TrimPrefix(bearerToken, "Bearer ")
-	u_tk, err := models.GetUserByToken(token)
-	if err != nil {
-		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
-		this.ServeJSON()
-		return
-	}
 	var clist type_comment.CommentListCheck
 	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &clist); err != nil {
 		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
@@ -180,10 +167,11 @@ func (this *CommentController) GetCommentList() {
 			three_url = ""
 		}
 		image_path := beego.AppConfig.String("img_root_path")
+		user_s, _ := models.GetUserById(v.UserId)
 		cl := type_comment.CommentListRep{
 			Id: v.Id,
-			UserName: u_tk.UserName,
-			UserPho: u_tk.Avator,
+			UserName: user_s.UserName,
+			UserPho: user_s.Avator,
 			GoodsId: v.GoodsId,
 			UserId: v.UserId,
 			Title: v.Title,

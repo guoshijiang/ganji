@@ -36,7 +36,7 @@ func (this *ImageController) UploadFiles() {
 		this.ServeJSON()
 		return
 	}
-	var Filebytes = 1 << 24 //文件小于16兆
+	var Filebytes = 1 << 24 // 文件小于16兆
 	if fileSizer, ok := f.(Sizer); ok {
 		fileSize := fileSizer.Size()
 		if fileSize > int64(Filebytes) {
@@ -65,7 +65,7 @@ func (this *ImageController) UploadFiles() {
 			}
 			err, id := img_file.Insert()
 			if err != nil {
-				this.Data["json"] = RetResource(true, types.SaveFileFail, img_file, "保存文件失败")
+				this.Data["json"] = RetResource(true, types.FileAlreadUpload, nil, "该图片已经上传过了")
 				this.ServeJSON()
 				return
 			}

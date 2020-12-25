@@ -20,7 +20,7 @@ type GoodsOrder struct {
 	Logo          string     `orm:"size(150);default(/static/upload/default/user-default-60x60.png)" json:"image"` // 商品Logo
 	UserId        int64      `orm:"size(64);index" json:"user_id"`                          // 购买用户
 	BuyNums       int64      `orm:"default(0)" json:"buy_nums"`                             // 购买数量
-	PayWay        int8       `orm:"index" json:"pay_way"`                                   // 0:积分兑换，1:账户余额支付，2:微信支付；3:支付宝支付
+	PayWay        int8       `orm:"index" json:"pay_way"`                                   // 0:积分兑换，1:账户余额支付，2:微信支付；3:支付宝支付; 4:未知支付方式
 	PayAmount     float64    `orm:"default(0);digits(22);decimals(8)" json:"pay_amount"`    // 支付金额
 	PayCoupon	  float64  	 `orm:"default(0);digits(22);decimals(8)" json:"pay_coupon"`    // 优惠券抵扣金额
 	PayIntegral   float64  	 `orm:"default(0);digits(22);decimals(8)" json:"pay_integral"`  // 支付的积分

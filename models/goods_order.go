@@ -17,7 +17,7 @@ type GoodsOrder struct {
 	MerchantId    int64       `orm:"size(64);index" json:"merchant_id"`                        // 商户 ID
 	AddressId     int64      `orm:"size(64);index" json:"address_id"`                       // 地址 ID
 	GoodsTitle    string     `orm:"size(64)" json:"goods_title"`                            // 商品标题
-	GoodsName     string    `orm:"size(512);index" json:"goods_name" form:"goods_name"`      // 产品名称
+	GoodsName     string     `orm:"size(512);index" json:"goods_name" form:"goods_name"`      // 产品名称
 	Logo          string     `orm:"size(150);default(/static/upload/default/user-default-60x60.png)" json:"image"` // 商品Logo
 	UserId        int64      `orm:"size(64);index" json:"user_id"`                          // 购买用户
 	BuyNums       int64      `orm:"default(0)" json:"buy_nums"`                             // 购买数量
@@ -36,6 +36,7 @@ type GoodsOrder struct {
 	DealAt        time.Time  `orm:"null;type(datetime);" json:"deal_at"`                    // 处理时间
 	IsCancle      int8       `orm:"default(0);index" json:"is_cancle"`                      // 0 正常；1.退货; 2:换货; 3:退货成功; 4:换货成功
 	IsComment     int8       `orm:"default(0);index" json:"is_comment"`                     // 0 正常；1.已评价
+	BatchId       string     `orm:"size(128);index" json:"batch_id"`                         // 订单批 ID
 }
 
 func (this *GoodsOrder) TableName() string {

@@ -83,6 +83,7 @@ func (this *OrderController) CreateOrder() {
 		OrderNumber: order_nmb.String(),
 		OrderStatus: 0,
 		FailureReason: "未支付",
+		BatchId: order_nmb.String(),
 	}
 	err, id := cmt.Insert()
 	if err != nil {
@@ -135,6 +136,7 @@ func (this *OrderController) CreateOrderByGoodsCar() {
 	var order_ids []int64
 	var total_pay_amount float64
 	total_pay_amount = 0
+	batch_id := uuid.NewV4()
 	for i := 0; i < len(ids_list); i++ {
 		gds_car_dtl, code, err := models.GetGoodsCarDetail(ids_list[i])
 		if err != nil {
@@ -161,6 +163,7 @@ func (this *OrderController) CreateOrderByGoodsCar() {
 			OrderNumber: order_nmb.String(),
 			OrderStatus: 0,
 			FailureReason: "未支付",
+			BatchId: batch_id.String(),
 		}
 		err, id := cmt.Insert()
 		if err != nil {
@@ -178,7 +181,7 @@ func (this *OrderController) CreateOrderByGoodsCar() {
 		}
 	}
 	data := map[string]interface{}{
-		"order_ids": order_ids,
+		"order_bath_id": batch_id.String(),
 		"total_pay_amount": total_pay_amount,
 	}
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "创建订单成功")

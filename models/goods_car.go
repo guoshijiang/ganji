@@ -12,6 +12,7 @@ type GoodsCar struct {
 	BaseModel
 	Id           int64      `orm:"column(id);auto;size(11)" json:"id" form:"id"`
 	GoodsId      int64      `orm:"default(1)" json:"goods_id"`  // 商品ID
+	MerchantId   int64      `json:"merchant_id"`                // 商品所属商家ID
 	Logo         string     `orm:"size(150);default(/static/upload/default/user-default-60x60.png)" json:"logo" form:"logo"` // 商品LOGO
 	AddresId     int64      `orm:"default(1)" json:"addres_id"`  // 地址ID
 	GoodsTitle   string     `orm:"size(64)" json:"goods_title"`                              // 商品标题

@@ -76,6 +76,7 @@ func (this *GoodsCarController) AddGoodsToCar() {
 			gdc := models.GoodsCar {
 				GoodsId: goods_dtl.Id,
 				Logo: goods_dtl.Logo,
+				MerchantId: goods_dtl.MerchantId,
 				GoodsTitle: goods_dtl.Title,
 				GoodsName: goods_dtl.GoodsName,
 				UserId: user_token.Id,

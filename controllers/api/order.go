@@ -132,6 +132,9 @@ func (this *OrderController) CreateOrderByGoodsCar() {
 		return
 	}
 	ids_list := create_order_gdscar.GoodsCarIds
+	var order_ids []int64
+	var total_pay_amount float64
+	total_pay_amount = 0
 	for i := 0; i < len(ids_list); i++ {
 		gds_car_dtl, code, err := models.GetGoodsCarDetail(ids_list[i])
 		if err != nil {
@@ -142,6 +145,7 @@ func (this *OrderController) CreateOrderByGoodsCar() {
 		goods_dtl, _, _ := models.GetGoodsDetail(gds_car_dtl.GoodsId)
 		order_nmb := uuid.NewV4()
 		send_integral := gds_car_dtl.PayAmount
+		total_pay_amount = total_pay_amount + gds_car_dtl.PayAmount
 		cmt := models.GoodsOrder{
 			GoodsId: goods_dtl.Id,
 			MerchantId: goods_dtl.MerchantId,
@@ -158,7 +162,7 @@ func (this *OrderController) CreateOrderByGoodsCar() {
 			OrderStatus: 0,
 			FailureReason: "未支付",
 		}
-		err, _ = cmt.Insert()
+		err, id := cmt.Insert()
 		if err != nil {
 			this.Data["json"] = RetResource(false, types.SystemDbErr, err.Error(), "创建订单失败")
 			this.ServeJSON()
@@ -170,9 +174,14 @@ func (this *OrderController) CreateOrderByGoodsCar() {
 				this.ServeJSON()
 				return
 			}
+			order_ids =append(order_ids, id)
 		}
 	}
-	this.Data["json"] = RetResource(true, types.ReturnSuccess, nil, "创建订单成功")
+	data := map[string]interface{}{
+		"order_ids": order_ids,
+		"total_pay_amount": total_pay_amount,
+	}
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "创建订单成功")
 	this.ServeJSON()
 	return
 }

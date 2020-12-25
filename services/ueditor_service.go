@@ -88,7 +88,8 @@ func (*UeditorService) upFile(fieldName string, ctx *context.Context) map[string
 		err = os.MkdirAll(saveRealDir, os.ModePerm)
 	}
 
-	saveUrl := "/static/uploads/ueditor/" + saveName + fileExt
+	image_path := beego.AppConfig.String("img_root_path")
+	saveUrl := image_path + "static/uploads/ueditor/" + saveName + fileExt
 
 	f, err := os.OpenFile(savePath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0666)
 	if err != nil {

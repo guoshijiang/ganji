@@ -3,7 +3,7 @@ package comment
 import "time"
 
 type CommentListRep struct {
-	Id          int64  `json:"id"`
+	CommentId   int64  `json:"comment_id"`
 	UserName    string `json:"user_name"`
 	UserPho     string `json:"user_pho"`
 	GoodsId     int64  `json:"goods_id"`

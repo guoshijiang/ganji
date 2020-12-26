@@ -177,7 +177,7 @@ func (this *CommentController) GetCommentList() {
 		image_path := beego.AppConfig.String("img_root_path")
 		user_s, _ := models.GetUserById(v.UserId)
 		cl := type_comment.CommentListRep{
-			Id: v.Id,
+			CommentId: v.Id,
 			UserName: user_s.UserName,
 			UserPho: user_s.Avator,
 			GoodsId: v.GoodsId,

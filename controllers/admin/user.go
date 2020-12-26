@@ -179,3 +179,19 @@ func (Self *UserController) Address() {
 	Self.Layout = "public/base.html"
 	Self.TplName = "user/address.html"
 }
+
+
+func (Self *UserController) Coupon() {
+	var srv services.UserService
+	id, _ := Self.GetInt("id", -1)
+	if id < 0 {
+		response.ErrorWithMessage("用户不存在",Self.Ctx)
+	}
+	gQueryParams.Set("user_id",strconv.Itoa(id))
+	data, pagination := srv.GetPaginateDataCouponRaw(admin["per_page"].(int), gQueryParams)
+	Self.Data["data"] = data
+	Self.Data["paginate"] = pagination
+
+	Self.Layout = "public/base.html"
+	Self.TplName = "user/coupon.html"
+}

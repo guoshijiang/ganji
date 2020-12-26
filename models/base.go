@@ -153,6 +153,11 @@ type UserWalletList struct {
 	UserName				string					`json:"user_name"`
 }
 
+type UserCouponList struct {
+	UserCoupon
+	UserName				string					`json:"user_name"`
+}
+
 type UserIntegralList struct {
 	UserIntegral
 	UserName				string					`json:"user_name"`
@@ -162,4 +167,9 @@ type IntegralRecordeList struct {
 	IntegralRecord
 	UserName				string					`json:"user_name"`
 	SourceName				string					`json:"source_name"`
+}
+
+type WalletRecordList struct {
+	WalletRecord
+	UserName				string					`json:"user_name"`
 }

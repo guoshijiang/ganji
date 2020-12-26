@@ -17,6 +17,9 @@ type UserIntegral struct {
 	TodayIg        float64    `orm:"default(0);digits(22);decimals(8)" json:"today_ig"`     // 今日已赠送LSDT积分
 }
 
+func (this *UserIntegral) SearchField() []string {
+	return []string{"integral_name"}
+}
 
 func (this *UserIntegral) TableName() string {
 	return common.TableName("user_integral")

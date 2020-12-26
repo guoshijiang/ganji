@@ -20,6 +20,11 @@ type WalletRecord struct {
 	Status       int8        `orm:"default(0);index" json:"status"`                   // 0:入账中; 1:入账成功; 2:入账失败
 }
 
+
+func (this *WalletRecord) SearchField() []string{
+	return []string{"order_number"}
+}
+
 func (this *WalletRecord) TableName() string {
 	return common.TableName("wallet_record")
 }

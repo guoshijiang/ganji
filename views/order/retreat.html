@@ -3,11 +3,11 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-body">
-                    <form class="form-inline searchForm" id="searchForm" action="/admin/user/index" method="GET">
+                    <form class="form-inline searchForm" id="searchForm" action="/admin/order/index" method="GET">
 
                         <div class="form-group">
                             <input value="{{._keywords}}"
-                                   name="_keywords" id="_keywords" class="form-control input-sm" placeholder="昵称/账号">
+                                   name="_keywords" id="_keywords" class="form-control input-sm" placeholder="订单号">
                         </div>
 
                         <div class="form-group">
@@ -31,10 +31,7 @@
                 <!--数据列表顶部-->
                 <div class="box-header">
                     <div>
-                        <a title="添加" data-toggle="tooltip" class="btn btn-primary btn-sm"  href="/admin/user/add">
-                            <i class="fa fa-plus"></i> 添加
-                        </a>
-                        <a class="btn btn-danger btn-sm AjaxButton" data-toggle="tooltip" title="删除选中数据" data-confirm-title="删除确认" data-confirm-content="您确定要删除选中的数据吗？" data-id="checked" data-url="/admin/user/del">
+                        <a class="btn btn-danger btn-sm AjaxButton" data-toggle="tooltip" title="删除选中数据" data-confirm-title="删除确认" data-confirm-content="您确定要删除选中的数据吗？" data-id="checked" data-url="/admin/order/del">
                             <i class="fa fa-trash"></i> 删除
                         </a>
                         <a class="btn btn-success btn-sm ReloadButton" data-toggle="tooltip" title="刷新">
@@ -50,13 +47,12 @@
                                 <input id="dataCheckAll" type="checkbox" onclick="checkAll(this)" class="checkbox" placeholder="全选/取消">
                             </th>
                             <th>ID</th>
-                            <th>用户昵称</th>
-                            <th>手机号</th>
-                            <th>邮箱</th>
-                            <th>头像</th>
-                            <th>等级</th>
-                            <th>邀请码</th>
-                            <th>邀请人</th>
+                            <th>订单编号</th>
+                            <th>商品标题</th>
+                            <th>产品名称</th>
+                            <th>购买数量</th>
+                            <th>支付方式</th>
+                            <th>支付金额</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -64,34 +60,23 @@
                         {{range $key, $item := .data}}
                             <tr>
                                 <td>
-                                    <input type="checkbox" onclick="checkThis(this)" name="data-checkbox" data-id="{{$item.Id}}" class="checkbox data-list-check" value="{{$item.Id}}" placeholder="选择/取消">
+                                    <input type="checkbox" onclick="checkThis(this)" name="data-checkbox"
+                                           data-id="{{$item.Id}}" class="checkbox data-list-check" value="{{$item.Id}}"
+                                           placeholder="选择/取消">
                                 </td>
                                 <td>{{$item.Id}}</td>
-                                <td>{{$item.UserName}}</td>
-                                <td>{{$item.Phone}}</td>
-                                <td>{{$item.Email}}</td>
-                                <td><img style="max-width: 40px" src="{{$item.Avator}}"></td>
-                                <td>{{$item.MemberLevel}}</td>
-                                <td>{{$item.MyInviteCode}}</td>
-                                <td>{{$item.InviteMeUserId}}</td>
+                                <td>{{$item.OrderNumber}}</td>
+                                <td>{{$item.GoodsTitle}}</td>
+                                <td>{{$item.GoodsName}}</td>
+                                <td>{{$item.BuyNums}}</td>
+                                <td>{{$item.PayWay}}</td>
+                                <td>{{$item.PayAmount}}</td>
                                 <td class="td-do">
-                                    <a href="/admin/user/edit?id={{$item.Id}}"
+                                    <a href="/admin/order/edit?id={{$item.Id}}"
                                        class="btn btn-primary btn-xs" title="修改" data-toggle="tooltip">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <a href="/admin/user/wallet?id={{$item.Id}}"
-                                       class="btn btn-primary btn-xs" title="钱包" data-toggle="tooltip"><i class="fa fa-google-wallet"></i>
-                                    </a>
-                                    <a href="/admin/user/integral?id={{$item.Id}}"
-                                       class="btn btn-primary btn-xs" title="积分" data-toggle="tooltip"><i class="fa fa-address-book-o"></i>
-                                    </a>
-                                    <a href="/admin/user/address?id={{$item.Id}}"
-                                       class="btn btn-primary btn-xs" title="地址" data-toggle="tooltip"><i class="fa fa-file-powerpoint-o"></i>
-                                    </a>
-                                    <a href="/admin/user/coupon?id={{$item.Id}}"
-                                       class="btn btn-primary btn-xs" title="用户优惠券" data-toggle="tooltip"><i class="fa fa-barcode"></i>
-                                    </a>
-                                    <a class="btn btn-danger btn-xs AjaxButton" data-toggle="tooltip" title="删除" data-csrf-token="" data-id="{{$item.Id}}" data-confirm-title="删除确认" data-confirm-content='您确定要删除ID为 <span class="text-red">{{$item.Id}}</span> 的数据吗' data-url="/admin/merchant/del">
+                                    <a class="btn btn-danger btn-xs AjaxButton" data-toggle="tooltip" title="删除" data-csrf-token="" data-id="{{$item.Id}}" data-confirm-title="删除确认" data-confirm-content='您确定要删除ID为 <span class="text-red">{{$item.Id}}</span> 的数据吗' data-url="/admin/order/del">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 </td>

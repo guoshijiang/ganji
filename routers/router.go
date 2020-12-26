@@ -179,10 +179,13 @@ func init() {
 		beego.NSRouter("/user/integral", &controllers.UserController{}, "get:Integral"),
 		//用户地址
 		beego.NSRouter("/user/address", &controllers.UserController{}, "get:Address"),
-
+		beego.NSRouter("/user/coupon", &controllers.UserController{}, "get:Coupon"),
 		//积分管理-积分记录
 		beego.NSRouter("/integral/index", &controllers.IntegralController{}, "get:Index"),
 		beego.NSRouter("/integral/trade", &controllers.IntegralController{}, "get:Trade"),
+
+		//充值记录
+		beego.NSRouter("/sys/wallet/record", &controllers.SysController{}, "get:WalletRecord"),
 
 
 	)

@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "ganji/common/template"
 	_ "ganji/routers"
 	_ "ganji/session"
 	"github.com/astaxie/beego"

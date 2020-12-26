@@ -57,8 +57,8 @@ func (Self *UserService) GetPaginateDataWalletRaw(listRows int, params url.Value
 	return data,Self.Pagination
 }
 
-func (Self *UserService) GetPaginateDataIntegralRaw(listRows int, params url.Values) ([]*models.UserAddress, beego_pagination.Pagination) {
-	var data []*models.UserAddress
+func (Self *UserService) GetPaginateDataIntegralRaw(listRows int, params url.Values) ([]*models.UserIntegralList, beego_pagination.Pagination) {
+	var data []*models.UserIntegralList
 	var total int64
 	om := orm.NewOrm()
 	inner := "from  user_integral as t0 inner join user as t1 on t1.id = t0.user_id where t0.id > 0 "
@@ -66,7 +66,7 @@ func (Self *UserService) GetPaginateDataIntegralRaw(listRows int, params url.Val
 	sql1 := "select count(*) total " + inner
 
 	//搜索、查询字段赋值
-	Self.SearchField = append(Self.SearchField, new(models.UserWallet).SearchField()...)
+	Self.SearchField = append(Self.SearchField, new(models.UserIntegral).SearchField()...)
 	where,param := Self.ScopeWhereRaw(params)
 	Self.PaginateRaw(listRows,params)
 	//用户条件过滤
@@ -159,4 +159,33 @@ func (self *UserService) GetPaginateAddressData(listRows int, params url.Values)
 	} else {
 		return data, self.Pagination
 	}
+}
+
+
+func (Self *UserService) GetPaginateDataCouponRaw(listRows int, params url.Values)([]*models.UserCouponList, beego_pagination.Pagination){
+	var data []*models.UserCouponList
+	var total int64
+	om := orm.NewOrm()
+	inner := "from  user_coupon as t0 inner join user as t1 on t1.id = t0.user_id where t0.id > 0 "
+	sql := "select t0.*,t1.user_name " + inner
+	sql1 := "select count(*) total " + inner
+
+	//搜索、查询字段赋值
+	Self.SearchField = append(Self.SearchField, new(models.UserCoupon).SearchField()...)
+	where,param := Self.ScopeWhereRaw(params)
+	Self.PaginateRaw(listRows,params)
+	//用户条件过滤
+	userId := params.Get("user_id")
+	where += " and user_id = ?"
+	param = append(param,userId)
+
+	if err := om.Raw(sql1+where,param).QueryRow(&total);err != nil {
+		return nil,beego_pagination.Pagination{}
+	}
+	Self.Pagination.Total = int(total)
+	param = append(param,listRows*(Self.Pagination.CurrentPage-1),listRows)
+	if _,err := om.Raw(sql+where+" order by created_at desc limit ?,?",param).QueryRows(&data);err != nil {
+		return nil,beego_pagination.Pagination{}
+	}
+	return data,Self.Pagination
 }

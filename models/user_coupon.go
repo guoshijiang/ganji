@@ -18,6 +18,10 @@ type UserCoupon struct {
 	IsInvalid   int8      `orm:"default(0)" json:"is_invalid"`     // 0 未过期； 1:已经过期
 }
 
+func (this *UserCoupon) SearchField() []string {
+	return []string{"conpon_name"}
+}
+
 func (this *UserCoupon) TableName() string {
 	return common.TableName("user_coupon")
 }

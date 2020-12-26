@@ -242,3 +242,14 @@ func (Self *SysController) VerDel() {
 		response.Error(Self.Ctx)
 	}
 }
+
+//充值记录
+func (Self *SysController) WalletRecord() {
+	var srv services.SysService
+	data, pagination := srv.GetPaginateDataWalletRecordRaw(admin["per_page"].(int), gQueryParams)
+	Self.Data["data"] = data
+	Self.Data["paginate"] = pagination
+
+	Self.Layout = "public/base.html"
+	Self.TplName = "user/wallet_record.html"
+}

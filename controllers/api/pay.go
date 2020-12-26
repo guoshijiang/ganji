@@ -305,7 +305,7 @@ func (this *PayController) BatchOrderPay() {
 		this.ServeJSON()
 		return
 	}
-	if batch_order.PayWay == 2 {  // 支付宝支付
+	if batch_order.PayWay == 3 {  // 支付宝支付
 		zhifubao_config, _ := beego.AppConfig.GetSection("zhifubu")
 		this.Data["json"] = RetResource(true, types.ReturnSuccess, zhifubao_config, "支付进入支付中状态")
 		this.ServeJSON()

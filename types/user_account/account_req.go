@@ -30,7 +30,6 @@ func (this UserAccountAddCheck) UserAddressAddCheckParamValidate() (int, error) 
 type UserAccountUpdCheck struct {
 	UserId        int64  `json:"user_id"`
 	UserAccountId int64  `json:"user_account_id"`
-	AcountType    int8   `json:"acount_type"`  // 0 支付宝； 1:微信; 2:银行卡
 	AccountName   string `json:"account_name"` // 账号名称; 银行名称
 	UserName      string `json:"user_name"`    // 用户名字; 银行开户名字
 	CardNum       string `json:"card_num"`     // 账号；银行卡号
@@ -41,9 +40,6 @@ type UserAccountUpdCheck struct {
 func (this UserAccountUpdCheck) UserAccountUpdCheckParamValidate() (int, error) {
 	if this.UserId <= 0 || this.UserAccountId <= 0{
 		return types.UserIsNotExist, errors.New("用户不存在或者用户账号不存在, 请联系客服处理")
-	}
-	if this.AcountType < 0 || this.AcountType > 2 {
-		return types.InvalidVerifyWay, errors.New("无效的支付方式")
 	}
 	if this.AccountName == "" || this.UserName == "" || this.CardNum == ""{
 		return types.ParamEmptyError, errors.New("您填写的账号名称，用户名字或者账号为空")

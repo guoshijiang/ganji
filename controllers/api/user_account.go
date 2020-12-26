@@ -48,21 +48,33 @@ func (this *UserAccountController) AddAccount() {
 		this.ServeJSON()
 		return
 	}
-	account := models.UserAccount{
-		UserId: add_acct.UserId,
-		AcountType: add_acct.AcountType,
-		AccountName: add_acct.AccountName,
-		UserName: add_acct.UserName,
-		CardNum: add_acct.CardNum,
-		Address: add_acct.Address,
-		IsInvalid: 0,
-	}
-	if err := account.Insert(); err != nil {
-		this.Data["json"] = RetResource(false, types.CreateAddressFail, nil, "创建用户账户失败，请联系客服处理")
+	if add_acct.AcountType == 2 {
+		this.Data["json"] = RetResource(false, types.InvalidVerifyWay, nil, "暂时不支持银行卡绑定")
 		this.ServeJSON()
 		return
+	}
+	exist := models.AccountExist(requestUser.Id,  add_acct.AcountType)
+	if exist == false {
+		account := models.UserAccount{
+			UserId: add_acct.UserId,
+			AcountType: add_acct.AcountType,
+			AccountName: add_acct.AccountName,
+			UserName: add_acct.UserName,
+			CardNum: add_acct.CardNum,
+			Address: add_acct.Address,
+			IsInvalid: 0,
+		}
+		if err := account.Insert(); err != nil {
+			this.Data["json"] = RetResource(false, types.CreateAddressFail, nil, "创建用户账户失败，请联系客服处理")
+			this.ServeJSON()
+			return
+		} else {
+			this.Data["json"] = RetResource(true, types.ReturnSuccess, nil, "添加用户账号成功")
+			this.ServeJSON()
+			return
+		}
 	} else {
-		this.Data["json"] = RetResource(true, types.ReturnSuccess, nil, "添加用户账号成功")
+		this.Data["json"] = RetResource(false, types.AlreadyBindAccount, nil, "已经绑定改类型的账号，请勿重复绑定")
 		this.ServeJSON()
 		return
 	}
@@ -104,12 +116,21 @@ func (this *UserAccountController) UpdAccount() {
 		this.ServeJSON()
 		return
 	}
-	usr_acct.AcountType = upd_acct.AcountType
-	usr_acct.AccountName = upd_acct.AccountName
-	usr_acct.UserName = upd_acct.UserName
-	usr_acct.CardNum = upd_acct.CardNum
-	usr_acct.Address = upd_acct.Address
-	usr_acct.IsInvalid = upd_acct.IsInvalid
+	if upd_acct.AccountName != "" {
+		usr_acct.AccountName = upd_acct.AccountName
+	}
+	if upd_acct.UserName != "" {
+		usr_acct.UserName = upd_acct.UserName
+	}
+	if upd_acct.CardNum != "" {
+		usr_acct.CardNum = upd_acct.CardNum
+	}
+	if upd_acct.Address != "" {
+		usr_acct.Address = upd_acct.Address
+	}
+	if upd_acct.IsInvalid == 0 || upd_acct.IsInvalid ==1 {
+		usr_acct.IsInvalid = upd_acct.IsInvalid
+	}
 	err = usr_acct.Update()
 	if err != nil {
 		this.Data["json"] = RetResource(false, types.UpdateAccountFail, nil, err.Error())
@@ -123,7 +144,7 @@ func (this *UserAccountController) UpdAccount() {
 }
 
 // @Title DelAccount finished
-// @Description 删除地址 DelAccount
+// @Description 删除账号 DelAccount
 // @Success 200 status bool, data interface{}, msg string
 // @router /del_account [post]
 func (this *UserAccountController) DelAccount () {

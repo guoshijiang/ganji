@@ -72,6 +72,7 @@ const (
 	FileAlreadUpload              = 5058  // 图片已经上传过了
 	NoBindAccount                 = 5059  // 没用绑定账号
 	UpdateAccountFail             = 5060  // 更新账号失败
+	AlreadyBindAccount            = 5061  // 已经绑定账号
 )
 
 

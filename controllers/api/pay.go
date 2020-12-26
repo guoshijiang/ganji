@@ -14,8 +14,8 @@ type PayController struct {
 }
 
 
-// @Title PayOrder finished
-// @Description 单个订单支付 PayOrder
+// @Title SingleOrderPay finished
+// @Description 单个订单支付 SingleOrderPay
 // @Success 200 status bool, data interface{}, msg string
 // @router /single_order_pay [post]
 func (this *PayController) SingleOrderPay() {
@@ -161,8 +161,8 @@ func (this *PayController) SingleOrderPay() {
 
 
 
-// @Title PayOrder finished
-// @Description 批量订单支付 PayOrder
+// @Title BatchOrderPay finished
+// @Description 批量订单支付 BatchOrderPay
 // @Success 200 status bool, data interface{}, msg string
 // @router /batch_order_pay [post]
 func (this *PayController) BatchOrderPay() {

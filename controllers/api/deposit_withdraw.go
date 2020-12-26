@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"ganji/models"
 	"ganji/types"
-	type_order "ganji/types/order"
 	"ganji/types/w_or_d"
 	"github.com/astaxie/beego"
 	uuid "github.com/satori/go.uuid"
@@ -34,22 +33,6 @@ func (this *DepositWithdrawController) Deposit() {
 		this.ServeJSON()
 		return
 	}
-	var create_order type_order.CreateOrderCheck
-	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &create_order); err != nil {
-		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
-		this.ServeJSON()
-		return
-	}
-	if code, err := create_order.CreateOrderCheckParamValidate(); err != nil {
-		this.Data["json"] = RetResource(false, code, err, err.Error())
-		this.ServeJSON()
-		return
-	}
-	if requestUser.Id != create_order.UserId {
-		this.Data["json"] = RetResource(false, types.UserIsNotExist, err, "Token 和用户不匹配，拒绝添加地址")
-		this.ServeJSON()
-		return
-	}
 	var deposit w_or_d.DepositCheck
 	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &deposit); err != nil {
 		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
@@ -58,6 +41,11 @@ func (this *DepositWithdrawController) Deposit() {
 	}
 	if code, err := deposit.DepositCheckParamValidate(); err != nil {
 		this.Data["json"] = RetResource(false, code, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	if requestUser.Id != deposit.UserId {
+		this.Data["json"] = RetResource(false, types.UserIsNotExist, err, "Token 和用户不匹配，拒绝添加地址")
 		this.ServeJSON()
 		return
 	}
@@ -79,11 +67,12 @@ func (this *DepositWithdrawController) Deposit() {
 		return
 	}
 	if deposit.PayWay == 0 {  // 支付宝
-		this.Data["json"] = RetResource(true, types.ReturnSuccess, nil, "暂时不支持该充值方式")
+		zhifubao_config, _ := beego.AppConfig.GetSection("zhifubu")
+		this.Data["json"] = RetResource(true, types.ReturnSuccess, zhifubao_config, "充值成功")
 		this.ServeJSON()
 		return
 	} else if deposit.PayWay == 1 { // 微信
-		this.Data["json"] = RetResource(true, types.InvalidVerifyWay, nil, "暂时不支持该充值方式, 不久的将来将会上线")
+		this.Data["json"] = RetResource(true, types.ReturnSuccess, nil, "暂时不支持该充值方式, 不久的将来将会上线")
 		this.ServeJSON()
 		return
 	} else {

@@ -73,6 +73,9 @@ const (
 	NoBindAccount                 = 5059  // 没用绑定账号
 	UpdateAccountFail             = 5060  // 更新账号失败
 	AlreadyBindAccount            = 5061  // 已经绑定账号
+	IntegralNotEnogh              = 5062  // 积分余额不足
+	UserWalletNotEnogh            = 5063  // 积分余额不足
+	PayAmountError                = 5064  // 支付金额错误
 )
 
 

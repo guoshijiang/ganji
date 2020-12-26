@@ -14,7 +14,7 @@ type IntegralRecord struct {
 	Id             int64      `json:"id"`
 	UserId         int64      `orm:"index" json:"user_id"`
 	IntegralName   string     `orm:"size(128);index" json:"integral_name"`
-	IntegralType   int8       `orm:"index" json:"integral_type"` // 1:邀请积分; 2:购买积分; 3: 管理奖励
+	IntegralType   int8       `orm:"index" json:"integral_type"` // 1:邀请积分; 2:购买积分; 3: 管理奖励;  4:积分消费
 	IntegralSource string     `orm:"size(128);index" json:"integral_source"`
 	IntegralAmount float64    `orm:"default(0);digits(22);decimals(8)" json:"integral_amount"`
 	OrderNumber    string     `orm:"size(128);index" json:"order_number"`

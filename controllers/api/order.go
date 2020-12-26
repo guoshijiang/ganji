@@ -189,16 +189,6 @@ func (this *OrderController) CreateOrderByGoodsCar() {
 	return
 }
 
-
-// @Title PayOrder finished
-// @Description 支付订单 PayOrder
-// @Success 200 status bool, data interface{}, msg string
-// @router /pay_order [post]
-func (this *OrderController) PayOrder() {
-
-}
-
-
 // @Title OrderList finished
 // @Description 订单列表 OrderList
 // @Success 200 status bool, data interface{}, msg string

@@ -306,6 +306,9 @@ func (this *OrderController) OrderDetail() {
 				ReturnUser: mct.ContactUser,
 				ReturnPhone: mct.Phone,
 				ReturnAddress: mct.Address,
+				ReturnReson: order_process.RetGoodsRs,
+				ReturnAmount: ord_dtl.PayAmount,
+				AskTime: order_process.CreatedAt,
 				// 0:等待卖家确认; 1:卖家已同意; 2:卖家拒绝; 3:等待买家邮寄; 4:等待卖家收货; 5:卖家已经发货; 6:等待买家收货; 7:已完成
 				Process: order_process.Process,
 				LeftTime: order_process.LeftTime,

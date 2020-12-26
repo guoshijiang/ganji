@@ -321,6 +321,7 @@ func (this *OrderController) OrderDetail() {
 	}
 	odl := type_order.OrderDetailRet{
 		OrderId: ord_dtl.Id,
+		GoodsId: ord_dtl.GoodsId,
 		Logistics: ord_dtl.Logistics,
 		ShipNumber: ord_dtl.ShipNumber,
 		RecUser: addrs.UserName,

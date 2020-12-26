@@ -300,12 +300,15 @@ func (this *OrderController) OrderDetail() {
 	var ret_ordr *type_order.ReturnOrderProcess
 	if ord_dtl.IsCancle != 0 {
 		order_process, _, err := models.GetOrderProcessDetail(ord_dtl.Id)
-		if err != nil && order_process != nil {
+		if err == nil && order_process != nil{
 			ret_ordr = &type_order.ReturnOrderProcess{
 				ProcessId: order_process.Id,
 				ReturnUser: mct.ContactUser,
 				ReturnPhone: mct.Phone,
 				ReturnAddress: mct.Address,
+				ReturnReson: order_process.RetGoodsRs,
+				ReturnAmount: ord_dtl.PayAmount,
+				AskTime: order_process.CreatedAt,
 				// 0:等待卖家确认; 1:卖家已同意; 2:卖家拒绝; 3:等待买家邮寄; 4:等待卖家收货; 5:卖家已经发货; 6:等待买家收货; 7:已完成
 				Process: order_process.Process,
 				LeftTime: order_process.LeftTime,
@@ -318,6 +321,7 @@ func (this *OrderController) OrderDetail() {
 	}
 	odl := type_order.OrderDetailRet{
 		OrderId: ord_dtl.Id,
+		GoodsId: ord_dtl.GoodsId,
 		Logistics: ord_dtl.Logistics,
 		ShipNumber: ord_dtl.ShipNumber,
 		RecUser: addrs.UserName,

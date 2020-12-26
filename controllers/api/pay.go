@@ -145,7 +145,7 @@ func (this *PayController) SingleOrderPay() {
 		this.ServeJSON()
 		return
 	}
-	if single_order.PayWay == 2 {  // 支付宝支付
+	if single_order.PayWay == 3 {  // 支付宝支付
 		err = ordr.Update()
 		if err != nil {
 			this.Data["json"] = RetResource(false, types.SystemDbErr, nil, "支付失败")

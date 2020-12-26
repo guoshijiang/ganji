@@ -64,6 +64,14 @@ func (this *CommentController) AddCommet() {
 		this.ServeJSON()
 		return
 	} else {
+		order_detail, _, _ := models.GetGoodsOrderDetail(add_comment.OrderId)
+		order_detail.IsComment  = 1
+		err = order_detail.Update()
+		if err != nil {
+			this.Data["json"] = RetResource(false, types.SystemDbErr, nil, "更新评论状态失败")
+			this.ServeJSON()
+			return
+		}
 		this.Data["json"] = RetResource(true, types.ReturnSuccess, map[string]interface{}{"id": id}, "添加评论成功")
 		this.ServeJSON()
 		return
@@ -169,7 +177,7 @@ func (this *CommentController) GetCommentList() {
 		image_path := beego.AppConfig.String("img_root_path")
 		user_s, _ := models.GetUserById(v.UserId)
 		cl := type_comment.CommentListRep{
-			Id: v.Id,
+			CommentId: v.Id,
 			UserName: user_s.UserName,
 			UserPho: user_s.Avator,
 			GoodsId: v.GoodsId,

@@ -6,6 +6,7 @@ import (
 )
 
 type AddCommentCheck struct {
+	OrderId      int64  `json:"order_id"`
 	GoodsId      int64  `json:"goods_id"`
 	UserId       int64  `json:"user_id"`
 	Title        string `json:"title"`
@@ -32,13 +33,13 @@ func (this AddCommentCheck) AddCommentCheckParamValidate() (int, error) {
 	if this.Content == "" {
 		return types.ParamEmptyError, errors.New("评论内容为空")
 	}
-	if this.ImgOneId <= 0 {
+	if this.ImgOneId < 0 {
 		return types.ParamEmptyError, errors.New("评论图片一ID小于0")
 	}
-	if this.ImgTwoId <= 0 {
+	if this.ImgTwoId < 0 {
 		return types.ParamEmptyError, errors.New("评论图片二ID小于0")
 	}
-	if this.ImgThreeId <= 0 {
+	if this.ImgThreeId < 0 {
 		return types.ParamEmptyError, errors.New("评论图片三ID小于0")
 	}
 	return types.ReturnSuccess, nil

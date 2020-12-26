@@ -6,6 +6,7 @@ import (
 	"ganji/types"
 	type_order "ganji/types/order"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	uuid "github.com/satori/go.uuid"
 	"strings"
 )
@@ -524,6 +525,7 @@ func (this *OrderController) BatchOrderList() {
 		return
 	}
 	ols, code, err := models.GetGoodsOrderBatchList(order_lst.BatchOrderId, u_tk.Id)
+	logs.Info("ols len = %d", len(ols))
 	if err != nil {
 		this.Data["json"] = RetResource(false, code, err, err.Error())
 		this.ServeJSON()

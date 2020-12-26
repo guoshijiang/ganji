@@ -96,7 +96,10 @@ func GetGoodsOrderList(page, pageSize int, user_id int64, status int8) ([]*Goods
 
 func GetGoodsOrderBatchList(batch_id string, user_id int64) ([]*GoodsOrder, int, error) {
 	gds_order_list := make([]*GoodsOrder, 0)
-	_, err := orm.NewOrm().QueryTable(GoodsOrder{}).Filter("UserId", user_id).Filter("BatchId", batch_id).Filter("OrderStatus", 0).All(&gds_order_list)
+	_, err := orm.NewOrm().QueryTable(GoodsOrder{}).
+		Filter("UserId", user_id).
+		Filter("BatchId", batch_id).
+		Filter("OrderStatus", 0).All(&gds_order_list)
 	if err != nil {
 		return nil, types.SystemDbErr, errors.New("查询数据库失败")
 	}

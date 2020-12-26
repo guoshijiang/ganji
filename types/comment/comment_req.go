@@ -6,6 +6,7 @@ import (
 )
 
 type AddCommentCheck struct {
+	OrderId      int64  `json:"order_id"`
 	GoodsId      int64  `json:"goods_id"`
 	UserId       int64  `json:"user_id"`
 	Title        string `json:"title"`

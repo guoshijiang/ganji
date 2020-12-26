@@ -300,7 +300,7 @@ func (this *OrderController) OrderDetail() {
 	var ret_ordr *type_order.ReturnOrderProcess
 	if ord_dtl.IsCancle != 0 {
 		order_process, _, err := models.GetOrderProcessDetail(ord_dtl.Id)
-		if err != nil && order_process != nil {
+		if err == nil && order_process != nil{
 			ret_ordr = &type_order.ReturnOrderProcess{
 				ProcessId: order_process.Id,
 				ReturnUser: mct.ContactUser,

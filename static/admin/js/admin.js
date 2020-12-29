@@ -484,3 +484,37 @@ function exportData(url) {
 }
 
 
+$(function () {
+    $('body').on('click', '.AjaxModelButton', function (event) {
+        event.preventDefault();
+
+        if (adminDebug) {
+            console.log('AjaxButton clicked.');
+        }
+        //访问的url
+        var url = $(this).data("url");
+        //访问方式，默认post
+        var layerMethod = $(this).data("method") || 'post';
+        //访问成功后跳转的页面，不设置此参数默认根据后台返回的url跳转
+        var go = $(this).data("go") || 'url://reload';
+        var label = $(this).data("label")
+
+        //ajax设置beego 的 xsrf token验证
+        $.ajaxSetup({
+            headers: {
+                'X-XSRFToken': $('meta[name="_xsrf"]').attr('content')
+            }
+        });
+        let dataData = {}
+        dataData.id = $("[name='id']").val()
+        dataData.raft = $("[name='raft']").val()
+        dataData.reason = $("[name='reason']").val()
+        if (typeof (dataData) != 'object') {
+            dataData = JSON.parse(dataData);
+        }
+        ajaxRequest(url, layerMethod, dataData, go);
+        $("#"+label).modal("hide")
+    });
+});
+
+

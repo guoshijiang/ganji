@@ -139,6 +139,11 @@ func insertMenu(){
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (113, 104, '版本编辑', 'admin/sys/version/update', 'fa-list', 0, 1000, '不记录');").Exec()
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (114, 19, '订单删除', 'admin/order/del', 'fa-list', 0, 1000, '不记录');").Exec()
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (115, 92, '用户地址', 'admin/user/address', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (116, 92, '用户优惠券', 'admin/user/coupon', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (117, 2, '资金日志', 'admin/sys/wallet/record', 'fa-list', 1, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (118, 19, '退货管理', 'admin/order/process', 'fa-list', 1, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (119, 118, '退货审核', 'admin/order/process/verify', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (120, 118, '退货单详情', 'admin/order/process/detail', 'fa-list', 0, 1000, '不记录');").Exec()
 	fmt.Println("err---", err)
 }
 
@@ -172,4 +177,13 @@ type IntegralRecordeList struct {
 type WalletRecordList struct {
 	WalletRecord
 	UserName				string					`json:"user_name"`
+}
+
+type OrderProcessList struct {
+	OrderProcess
+	UserName				string					`json:"user_name"`
+	OrderNumber				string					`json:"order_number"`
+	GoodsName				string					`json:"goods_name"`
+	GoodsTitle				string					`json:"goods_title"`
+	PayAmount				float64					`json:"pay_amount"`
 }

@@ -12,6 +12,9 @@ func init() {
 	beego.AddFuncMap("WalletRecordIsHandle", WalletRecordIsHandle)
 	beego.AddFuncMap("WalletRecordSource", WalletRecordSource)
 	beego.AddFuncMap("WalletRecordStatus", WalletRecordStatus)
+	beego.AddFuncMap("ProcessStatus", ProcessStatus)
+	beego.AddFuncMap("ProcessIsRecvGoods", ProcessIsRecvGoods)
+	beego.AddFuncMap("ProcessFundRet", ProcessFundRet)
 }
 
 func TimeForFormat(t interface{}) string {
@@ -74,6 +77,52 @@ func WalletRecordStatus(t int8) string{
 		return "入账成功"
 	case 2:
 		return "入账失败"
+	default:
+		return "未知"
+	}
+}
+
+//退款订单状态
+func ProcessStatus(t int8) string {
+	switch t {
+	case 0:
+		return "等待卖家确认"
+	case 1:
+		return "卖家已同意"
+	case 2:
+		return "卖家拒绝"
+	case 3:
+		return "等待买家邮寄"
+	case 4:
+		return "等待卖家收货"
+	case 5:
+		return "卖家已经发货"
+	case 6:
+		return "等待买家收货"
+	case 7:
+		return "已完成"
+	default:
+		return "未知"
+	}
+}
+
+func ProcessIsRecvGoods(t int8) string {
+	switch t {
+	case 0:
+		return "未收到货物"
+	case 1:
+		return "已收到货物"
+	default:
+		return "未知"
+	}
+}
+
+func ProcessFundRet(t int8) string {
+	switch t {
+	case 0:
+		return "返回到平台钱包"
+	case 1:
+		return "原路返回"
 	default:
 		return "未知"
 	}

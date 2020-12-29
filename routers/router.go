@@ -160,6 +160,9 @@ func init() {
 		beego.NSRouter("/order/edit",&controllers.OrderController{},"get:Edit"),
 		beego.NSRouter("/order/update",&controllers.OrderController{},"post:Update"),
 		beego.NSRouter("/order/del",&controllers.OrderController{},"post:Del"),
+		beego.NSRouter("/order/process",&controllers.OrderController{},"get:Process"),
+		beego.NSRouter("/order/process/verify",&controllers.OrderController{},"post:Verify"),
+		beego.NSRouter("/order/process/detail",&controllers.OrderController{},"get:Detail"),
 
 		//用户管理-用户管理
 		beego.NSRouter("/user/index", &controllers.UserController{}, "get:Index"),

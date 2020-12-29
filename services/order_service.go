@@ -50,6 +50,40 @@ func (Self *OrderService) GetPaginateDataRaw(listRows int, params url.Values) ([
 	return data,Self.Pagination
 }
 
+func (Self *OrderService) GetPaginateProcessDataRaw(listRows int, params url.Values) ([]*models.OrderProcessList, beego_pagination.Pagination){
+	var data []*models.OrderProcessList
+	var total int64
+	om := orm.NewOrm()
+	inner := "from  order_process as t0 inner join goods_order as t1 on t1.id = t0.order_id inner join user as t2 on t2.id = t0.user_id where t0.id > 0 "
+	sql := "select t0.*,t2.user_name,t1.goods_title,t1.order_number,t1.goods_title,t1.pay_amount " + inner
+	sql1 := "select count(*) total " + inner
+
+	//搜索、查询字段赋值
+	Self.SearchField = append(Self.SearchField, new(models.OrderProcess).SearchField()...)
+	where,param := Self.ScopeWhereRaw(params)
+	Self.PaginateRaw(listRows,params)
+	if err := om.Raw(sql1+where).QueryRow(&total);err != nil {
+		return nil,beego_pagination.Pagination{}
+	}
+	Self.Pagination.Total = int(total)
+	param = append(param,listRows*(Self.Pagination.CurrentPage-1),listRows)
+	if _,err := om.Raw(sql+where+" order by created_at desc limit ?,?",param).QueryRows(&data);err != nil {
+		return nil,beego_pagination.Pagination{}
+	}
+	return data,Self.Pagination
+}
+
+func (Self *OrderService) GetPaginateProcessDetailRaw (id int64)(*models.OrderProcessList, error) {
+	var data models.OrderProcessList
+	om := orm.NewOrm()
+	inner := "from  order_process as t0 inner join goods_order as t1 on t1.id = t0.order_id inner join user as t2 on t2.id = t0.user_id where t0.id  = ?"
+	sql := "select t0.*,t2.user_name,t1.goods_title,t1.order_number,t1.goods_title,t1.pay_amount " + inner
+
+	if err := om.Raw(sql+" limit 1", id).QueryRow(&data); err != nil {
+		return nil,err
+	}
+	return &data, nil
+}
 
 func (*OrderService) Del(ids []int) int{
 	var (

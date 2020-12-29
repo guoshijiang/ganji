@@ -14,10 +14,12 @@ type OrderProcess struct {
 	BaseModel
 	Id            int64      `json:"id"`
 	OrderId       int64      `orm:"size(64);index" json:"order_id"`                       // 商品 ID
+	UserId	      int64		 `orm:"size(64);index" json:"user_id"`						  // 用户ID
 	MerchantId    int64      `orm:"size(64);index" json:"merchant_id"`                    // 商户 ID
 	AddressId     int64      `orm:"size(64);index" json:"address_id"`                     // 地址 ID
 	GoodsId       int64      `orm:"size(64);index" json:"goods_id"`                       // 地址 ID
 	RetGoodsRs    string     `orm:"size(512);index" json:"ret_goods_rs"`                  // 退货原因
+	RetPayRs	  string	 `orm:"size(512);default('')" json:"ret_pay_rs"`						  // 拒绝原因
 	QsDescribe    string      `orm:"size(512);index" json:"qs_describe"`                  // 问题描述
 	QsImgOne      string     `orm:"size(150);default(/static/upload/default/user-default-60x60.png)" json:"qs_img_one"`
 	QsImgTwo      string     `orm:"size(150);default(/static/upload/default/user-default-60x60.png)" json:"qs_img_two"`
@@ -78,4 +80,11 @@ func GetOrderProcessDetail(id int64) (*OrderProcess, int, error) {
 	return &order_ps, types.ReturnSuccess, nil
 }
 
+func GetOrderProcessDetailById(id int64) (*OrderProcess, int, error) {
+	order_ps := OrderProcess{}
+	if err := orm.NewOrm().QueryTable(OrderProcess{}).Filter("id", id).RelatedSel().Limit(1).One(&order_ps); err != nil {
+		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
+	}
+	return &order_ps, types.ReturnSuccess, nil
+}
 

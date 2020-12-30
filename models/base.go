@@ -144,6 +144,8 @@ func insertMenu(){
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (118, 19, '退货管理', 'admin/order/process', 'fa-list', 1, 1000, '不记录');").Exec()
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (119, 118, '退货审核', 'admin/order/process/verify', 'fa-list', 0, 1000, '不记录');").Exec()
 	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (120, 118, '退货单详情', 'admin/order/process/detail', 'fa-list', 0, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (121, 2, '常见问题', 'admin/sys/customer/question', 'fa-list', 1, 1000, '不记录');").Exec()
+	_, err = orm.NewOrm().Raw("INSERT INTO `admin_menu` VALUES (122, 2, '客户服务', 'admin/sys/customer/service', 'fa-list', 1, 1000, '不记录');").Exec()
 	fmt.Println("err---", err)
 }
 

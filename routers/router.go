@@ -189,7 +189,8 @@ func init() {
 
 		//充值记录
 		beego.NSRouter("/sys/wallet/record", &controllers.SysController{}, "get:WalletRecord"),
-
+		beego.NSRouter("/sys/customer/service", &controllers.SysController{}, "get:CustomerService"),
+		beego.NSRouter("/sys/customer/question", &controllers.SysController{}, "get:CustomerQuestion"),
 
 	)
 	beego.AddNamespace(admin)

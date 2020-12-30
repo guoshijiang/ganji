@@ -253,3 +253,25 @@ func (Self *SysController) WalletRecord() {
 	Self.Layout = "public/base.html"
 	Self.TplName = "user/wallet_record.html"
 }
+
+//客户服务信息
+func (Self *SysController) CustomerService() {
+	var srv services.CustomerService
+	data, pagination := srv.GetPaginateData(admin["per_page"].(int), gQueryParams)
+	Self.Data["data"] = data
+	Self.Data["paginate"] = pagination
+
+	Self.Layout = "public/base.html"
+	Self.TplName = "service/customer.html"
+}
+
+//客户服务信息
+func (Self *SysController) CustomerQuestion() {
+	var srv services.CustomerService
+	data, pagination := srv.GetPaginateQuestionData(admin["per_page"].(int), gQueryParams)
+	Self.Data["data"] = data
+	Self.Data["paginate"] = pagination
+
+	Self.Layout = "public/base.html"
+	Self.TplName = "service/question.html"
+}

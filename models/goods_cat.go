@@ -61,7 +61,7 @@ func GetOneLevelCategoryList() ([]*GoodsCat, int, error) {
 	if _, err := orm.NewOrm().QueryTable(GoodsCat{}).
 		Filter("IsDispay", 1).
 		Filter("CatLevel", 1).
-		OrderBy("CreatedAt").All(&goods_cat_list); err != nil {
+		OrderBy("-id").All(&goods_cat_list); err != nil {
 		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
 	}
 	return goods_cat_list, types.ReturnSuccess, nil

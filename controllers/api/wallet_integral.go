@@ -200,7 +200,7 @@ func (this *WalletIntegralController) IntegralExchangeRecordList () {
 		"total": total,
 		"ig_record_r": ig_record_r,
 	}
-	this.Data["json"] = RetResource(false, types.ReturnSuccess, data, "获取积分兑换记录成功")
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "获取积分兑换记录成功")
 	this.ServeJSON()
 	return
 }
@@ -246,7 +246,7 @@ func (this *WalletIntegralController) IntegralRecordDetail () {
 		Status: igt_db.Status,
 		CreateTime: igt_db.CreatedAt,
 	}
-	this.Data["json"] = RetResource(false, types.ReturnSuccess, idt, "获取积分兑换详情成功")
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, idt, "获取积分兑换详情成功")
 	this.ServeJSON()
 	return
 }
@@ -301,7 +301,7 @@ func (this *WalletIntegralController) IntegralSourceRecordList () {
 		"total": total,
 		"ig_source_r": ig_source_r,
 	}
-	this.Data["json"] = RetResource(false, types.ReturnSuccess, data, "获取积分来源记录成功")
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "获取积分来源记录成功")
 	this.ServeJSON()
 	return
 }
@@ -337,7 +337,7 @@ func (this *WalletIntegralController) IntegralSourceRecordDetail () {
 		this.ServeJSON()
 		return
 	}
-	this.Data["json"] = RetResource(false, types.ReturnSuccess, igt, "获取积分来源详情成功")
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, igt, "获取积分来源详情成功")
 	this.ServeJSON()
 	return
 }
@@ -437,7 +437,7 @@ func (this *WalletIntegralController) WalletRecordList () {
 		"total": total,
 		"ig_source_r": wallet_record_list,
 	}
-	this.Data["json"] = RetResource(false, types.ReturnSuccess, data, "获取钱包记录列表成功")
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "获取钱包记录列表成功")
 	this.ServeJSON()
 	return
 }
@@ -505,7 +505,7 @@ func (this *WalletIntegralController) WalletRecordDetail () {
 		OrderNumber: wt_dtl.OrderNumber,
 		CreateTime: wt_dtl.CreatedAt,
 	}
-	this.Data["json"] = RetResource(false, types.ReturnSuccess, wlt_dtl, "获取钱包记录详情成功")
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, wlt_dtl, "获取钱包记录详情成功")
 	this.ServeJSON()
 	return
 }

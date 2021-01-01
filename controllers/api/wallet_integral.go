@@ -95,7 +95,7 @@ func (this *WalletIntegralController) IntegralExchange () {
 		OrderNumber:order_nmb.String(),
 		IntegralSize: ig_excg.IntegralAmount,
 		CnySize: ig_excg.ExchangeCny,
-		Fee: ig_excg.ExchangeFee,
+		Fee: ig_excg.IntegralTradeFee,
 		Status: 1,
 	}
 	err = ig_trade.Insert()

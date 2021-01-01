@@ -11,7 +11,7 @@ type UserAccount struct {
 	BaseModel
 	Id          int64       `json:"id"`
 	UserId      int64       `orm:"index" json:"user_id"`
-	AcountType  int8        `orm:"default(0)" json:"acount_type"`          // 0 支付宝； 1:微信; 2:银行卡
+	AcountType  int8        `orm:"default(0)" json:"acount_type"`          // 0 支付宝； 1:微信; 2:银行卡; 3:平台账户
 	AccountName string      `orm:"size(128);index" json:"account_name"`    // 账号名称; 银行名称
 	UserName    string 		`orm:"size(128);index" json:"user_name"`       // 用户名字; 银行开户名字
 	CardNum     string      `orm:"size(128);index" json:"card_num"`        // 账号；银行卡号

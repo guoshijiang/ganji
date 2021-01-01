@@ -18,7 +18,6 @@ type OrderProcess struct {
 	MerchantId    int64      `orm:"size(64);index" json:"merchant_id"`                    // 商户 ID
 	AddressId     int64      `orm:"size(64);index" json:"address_id"`                     // 地址 ID
 	GoodsId       int64      `orm:"size(64);index" json:"goods_id"`                       // 商品 ID
-	UserAccountId int64      `orm:"size(64);index" json:"user_account_id"`                // 用户退款账号 ID
 	RetGoodsRs    string     `orm:"size(512);index" json:"ret_goods_rs"`                  // 退货原因
 	RetPayRs	  string	 `orm:"size(512);default('')" json:"ret_pay_rs"`			  // 拒绝原因
 	QsDescribe    string      `orm:"size(512);index" json:"qs_describe"`                  // 问题描述

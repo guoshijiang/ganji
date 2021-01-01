@@ -144,7 +144,7 @@ func (this *WalletIntegralController) IntegralExchange () {
 		this.ServeJSON()
 		return
 	}
-	this.Data["json"] = RetResource(false, types.SystemDbErr, nil, "积分兑换成功")
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, nil, "积分兑换成功")
 	this.ServeJSON()
 	return
 }

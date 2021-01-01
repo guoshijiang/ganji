@@ -191,6 +191,16 @@ func init() {
 		beego.NSRouter("/sys/wallet/record", &controllers.SysController{}, "get:WalletRecord"),
 		beego.NSRouter("/sys/customer/service", &controllers.SysController{}, "get:CustomerService"),
 		beego.NSRouter("/sys/customer/question", &controllers.SysController{}, "get:CustomerQuestion"),
+		beego.NSRouter("/sys/question/add", &controllers.SysController{}, "get:CustomerQuestionAdd"),
+		beego.NSRouter("/sys/question/update", &controllers.SysController{}, "post:CustomerQuestionUpdate"),
+		beego.NSRouter("/sys/question/create", &controllers.SysController{}, "post:CustomerQuestionCreate"),
+		beego.NSRouter("/sys/question/del", &controllers.SysController{}, "post:CustomerQuestionDel"),
+		beego.NSRouter("/sys/question/edit", &controllers.SysController{}, "get:CustomerQuestionEdit"),
+		beego.NSRouter("/sys/customer/add", &controllers.SysController{}, "get:CustomerServiceAdd"),
+		beego.NSRouter("/sys/customer/edit", &controllers.SysController{}, "get:CustomerServiceEdit"),
+		beego.NSRouter("/sys/customer/update", &controllers.SysController{}, "post:CustomerServiceUpdate"),
+		beego.NSRouter("/sys/customer/create", &controllers.SysController{}, "post:CustomerServiceCreate"),
+		beego.NSRouter("/sys/customer/del", &controllers.SysController{}, "post:CustomerServiceDel"),
 
 	)
 	beego.AddNamespace(admin)

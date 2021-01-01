@@ -265,6 +265,88 @@ func (Self *SysController) CustomerService() {
 	Self.TplName = "service/customer.html"
 }
 
+func (Self *SysController) CustomerServiceAdd() {
+	Self.Layout = "public/base.html"
+	Self.TplName = "service/add_customer.html"
+}
+
+func (Self *SysController) CustomerServiceCreate() {
+	var vForm form_validate.CustomerServiceForm
+	var srv services.CustomerService
+	if err := Self.ParseForm(&vForm); err != nil {
+		response.ErrorWithMessage(err.Error(), Self.Ctx)
+	}
+	v := validate.Struct(vForm)
+	if !v.Validate() {
+		response.ErrorWithMessage(v.Errors.One(), Self.Ctx)
+	}
+
+	imgPath, err := new(services.UploadService).Upload(Self.Ctx, "wc_qrcode")
+	if err != nil {
+		log.Println("upload--err",err)
+	}
+	vForm.WcQrcode = imgPath
+	insertId := srv.CreateService(&vForm)
+	url := global.URL_BACK
+
+	if vForm.IsCreate == 1 {
+		url = global.URL_RELOAD
+	}
+	if insertId > 0 {
+		response.SuccessWithMessageAndUrl("添加成功", url, Self.Ctx)
+	} else {
+		response.Error(Self.Ctx)
+	}
+}
+
+func (Self *SysController) CustomerServiceEdit() {
+	id, _ := Self.GetInt64("id", -1)
+	if id <= 0 {
+		response.ErrorWithMessage("Param is error.", Self.Ctx)
+	}
+	var srv services.CustomerService
+
+	banner := srv.GetServiceById(id)
+	if banner == nil {
+		response.ErrorWithMessage("Not Found Info By Id.", Self.Ctx)
+	}
+
+	Self.Data["data"] = banner
+	Self.Layout = "public/base.html"
+	Self.TplName = "service/edit_customer.html"
+}
+
+func (Self *SysController) CustomerServiceUpdate() {
+	var (
+		vForm form_validate.CustomerServiceForm
+		srv services.CustomerService
+	)
+	if err := Self.ParseForm(&vForm); err != nil {
+		response.ErrorWithMessage(err.Error(), Self.Ctx)
+	}
+
+	if vForm.Id <= 0 {
+		response.ErrorWithMessage("Params is Error.", Self.Ctx)
+	}
+
+	v := validate.Struct(vForm)
+
+	if !v.Validate() {
+		response.ErrorWithMessage(v.Errors.One(), Self.Ctx)
+	}
+
+	imgPath, err := new(services.UploadService).Upload(Self.Ctx, "wc_qrcode")
+	if err != nil {
+		log.Println("upload--err",err.Error())
+	}
+	vForm.WcQrcode = imgPath
+	if srv.UpdateService(&vForm) > 0 {
+		response.Success(Self.Ctx)
+	} else {
+		response.Error(Self.Ctx)
+	}
+}
+
 //客户服务信息
 func (Self *SysController) CustomerQuestion() {
 	var srv services.CustomerService
@@ -274,4 +356,128 @@ func (Self *SysController) CustomerQuestion() {
 
 	Self.Layout = "public/base.html"
 	Self.TplName = "service/question.html"
+}
+
+
+func (Self *SysController) CustomerQuestionAdd() {
+	Self.Layout = "public/base.html"
+	Self.TplName = "service/add_question.html"
+}
+
+func (Self *SysController) CustomerQuestionCreate() {
+	var vForm form_validate.QuestionForm
+	var srv services.CustomerService
+	if err := Self.ParseForm(&vForm); err != nil {
+		response.ErrorWithMessage(err.Error(), Self.Ctx)
+	}
+	v := validate.Struct(vForm)
+	if !v.Validate() {
+		response.ErrorWithMessage(v.Errors.One(), Self.Ctx)
+	}
+
+	insertId := srv.CreateQuestion(&vForm)
+	url := global.URL_BACK
+
+	if vForm.IsCreate == 1 {
+		url = global.URL_RELOAD
+	}
+	if insertId > 0 {
+		response.SuccessWithMessageAndUrl("添加成功", url, Self.Ctx)
+	} else {
+		response.Error(Self.Ctx)
+	}
+}
+
+func (Self *SysController) CustomerQuestionEdit() {
+	id, _ := Self.GetInt64("id", -1)
+	if id <= 0 {
+		response.ErrorWithMessage("Param is error.", Self.Ctx)
+	}
+	var srv services.CustomerService
+
+	banner := srv.GetQuestionById(id)
+	if banner == nil {
+		response.ErrorWithMessage("Not Found Info By Id.", Self.Ctx)
+	}
+
+	Self.Data["data"] = banner
+	Self.Layout = "public/base.html"
+	Self.TplName = "service/edit_question.html"
+}
+
+func (Self *SysController) CustomerQuestionUpdate() {
+	var (
+		vForm form_validate.QuestionForm
+		srv services.CustomerService
+	)
+	if err := Self.ParseForm(&vForm); err != nil {
+		response.ErrorWithMessage(err.Error(), Self.Ctx)
+	}
+
+	if vForm.Id <= 0 {
+		response.ErrorWithMessage("Params is Error.", Self.Ctx)
+	}
+
+	v := validate.Struct(vForm)
+
+	if !v.Validate() {
+		response.ErrorWithMessage(v.Errors.One(), Self.Ctx)
+	}
+
+	if srv.UpdateQuestion(&vForm) > 0 {
+		response.Success(Self.Ctx)
+	} else {
+		response.Error(Self.Ctx)
+	}
+}
+
+func (Self *SysController) CustomerQuestionDel() {
+	idStr := Self.GetString("id")
+	ids := make([]int, 0)
+	var idArr []int
+
+	if idStr == "" {
+		Self.Ctx.Input.Bind(&ids, "id")
+	} else {
+		id, _ := strconv.Atoi(idStr)
+		idArr = append(idArr, id)
+	}
+
+	if len(ids) > 0 {
+		idArr = ids
+	}
+	if len(idArr) == 0 {
+		response.ErrorWithMessage("参数id错误.", Self.Ctx)
+	}
+	var srv services.CustomerService
+	if srv.DelQuestion(idArr) > 0 {
+		response.SuccessWithMessageAndUrl("操作成功", global.URL_RELOAD, Self.Ctx)
+	} else {
+		response.Error(Self.Ctx)
+	}
+}
+func (Self *SysController) CustomerServiceDel() {
+	idStr := Self.GetString("id")
+	ids := make([]int, 0)
+	var idArr []int
+
+	if idStr == "" {
+		Self.Ctx.Input.Bind(&ids, "id")
+	} else {
+		id, _ := strconv.Atoi(idStr)
+		idArr = append(idArr, id)
+	}
+
+	if len(ids) > 0 {
+		idArr = ids
+	}
+	if len(idArr) == 0 {
+		response.ErrorWithMessage("参数id错误.", Self.Ctx)
+	}
+	var srv services.CustomerService
+	if srv.DelCustomer(idArr) > 0 {
+		response.SuccessWithMessageAndUrl("操作成功", global.URL_RELOAD, Self.Ctx)
+	} else {
+		response.Error(Self.Ctx)
+	}
 }

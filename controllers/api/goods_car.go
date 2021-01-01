@@ -169,8 +169,8 @@ func (this *GoodsCarController) EditGoodsCar() {
 		this.ServeJSON()
 		return
 	}
-	goods_car.BuyNums = goods_car.BuyNums + goods_car_edit.BuyNums
-	goods_car.PayAmount = goods_car.PayAmount + goods_car_edit.PayAmount
+	goods_car.BuyNums = goods_car_edit.BuyNums
+	goods_car.PayAmount = goods_car_edit.PayAmount
 	err = goods_car.Update()
 	if err != nil {
 		this.Data["json"] = RetResource(false, types.SystemDbErr, nil, "数据库操作错误")

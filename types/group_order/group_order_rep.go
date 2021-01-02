@@ -44,7 +44,7 @@ type GroupOrderDetailRet struct {
 type HelpUser struct {
 	UserId    int64  `json:"user_id"`
 	UserName  string `json:"user_name"`
-	UserPho   string `json:"user_pho"`
+	UserPhoto string `json:"user_photo"`
 	UserPhone string `json:"user_phone"`
 }
 

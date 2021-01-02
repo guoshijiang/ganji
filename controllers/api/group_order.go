@@ -312,13 +312,14 @@ func (this *GroupOrderController) HelpInfoDetail () {
 		this.ServeJSON()
 		return
 	}
+	img_path := beego.AppConfig.String("img_root_path")
 	var hu_list []group_order.HelpUser
 	for _, help_user :=range help_user_list {
 		usr, _ := models.GetUserById(help_user.HelperUserId)
 		hu := group_order.HelpUser{
 			UserId: usr.Id,
 			UserName: usr.UserName,
-			UserPho: usr.Avator,
+			UserPhoto: usr.Avator,
 			UserPhone: usr.Phone,
 		}
 		hu_list = append(hu_list, hu)
@@ -328,7 +329,7 @@ func (this *GroupOrderController) HelpInfoDetail () {
 		GoodsId: order_dtl.GoodsId,
 		OrderId: order_dtl.Id,
 		GoodsName: gdsdtl.GoodsName,
-		GoodsLogo: gdsdtl.Logo,
+		GoodsLogo: img_path + gdsdtl.Logo,
 		GoodsMark: gdsdtl.GoodsMark,
 		DeadLine: order_dtl.DeadLime,
 		OrderStatus: order_dtl.OrderStatus,

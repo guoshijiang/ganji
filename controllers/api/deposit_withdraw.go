@@ -2,11 +2,13 @@ package api
 
 import (
 	"encoding/json"
+	"ganji/common/utils"
 	"ganji/models"
 	"ganji/types"
 	"ganji/types/w_or_d"
 	"github.com/astaxie/beego"
 	uuid "github.com/satori/go.uuid"
+	"strconv"
 	"strings"
 )
 
@@ -67,7 +69,10 @@ func (this *DepositWithdrawController) Deposit() {
 		return
 	}
 	if deposit.PayWay == 0 {  // 支付宝
-		zhifubao_config, _ := beego.AppConfig.GetSection("zhifubu")
+		pay_amount := strconv.FormatFloat(deposit.Amount,'E',-1,64)
+		notify_url := beego.AppConfig.String("pay_notify_url")
+		return_url := beego.AppConfig.String("dw_return_url")
+		zhifubao_config := utils.AliPayZfb(notify_url, return_url, order_nmb.String(), pay_amount)
 		this.Data["json"] = RetResource(true, types.ReturnSuccess, zhifubao_config, "充值成功")
 		this.ServeJSON()
 		return

@@ -154,7 +154,7 @@ func (this *PayController) SingleOrderPay() {
 			this.ServeJSON()
 			return
 		}
-		pay_amount := strconv.FormatFloat(ordr.PayAmount,'E',-1,64)
+		pay_amount := strconv.FormatFloat(ordr.PayAmount,'f',-1,64)
 		notify_url := beego.AppConfig.String("pay_notify_url")
 		return_url := beego.AppConfig.String("dw_return_url")
 		zhifubao_config := utils.AliPayZfb(notify_url, return_url, ordr.OrderNumber, pay_amount)

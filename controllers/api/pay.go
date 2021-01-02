@@ -2,10 +2,12 @@ package api
 
 import (
 	"encoding/json"
+	"ganji/common/utils"
 	"ganji/models"
 	"ganji/types"
 	"ganji/types/pay"
 	"github.com/astaxie/beego"
+	"strconv"
 	"strings"
 )
 
@@ -152,7 +154,10 @@ func (this *PayController) SingleOrderPay() {
 			this.ServeJSON()
 			return
 		}
-		zhifubao_config, _ := beego.AppConfig.GetSection("zhifubu")
+		pay_amount := strconv.FormatFloat(ordr.PayAmount,'E',-1,64)
+		notify_url := beego.AppConfig.String("pay_notify_url")
+		return_url := beego.AppConfig.String("dw_return_url")
+		zhifubao_config := utils.AliPayZfb(notify_url, return_url, ordr.OrderNumber, pay_amount)
 		this.Data["json"] = RetResource(true, types.ReturnSuccess, zhifubao_config, "支付进入支付中状态")
 		this.ServeJSON()
 		return

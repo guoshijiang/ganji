@@ -134,6 +134,7 @@ func ReturnGoodsOrder(oret type_order.ReturnGoodsOrderCheck) (*GoodsOrder, int, 
 	order_p := OrderProcess{
 		OrderId: order_dtl.Id,
 		MerchantId: order_dtl.MerchantId,
+		UserId: order_dtl.UserId,
 		AddressId: order_dtl.AddressId,
 		GoodsId: order_dtl.GoodsId,
 		RetGoodsRs: oret.RetGoodsRs,

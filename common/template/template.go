@@ -15,6 +15,14 @@ func init() {
 	beego.AddFuncMap("ProcessStatus", ProcessStatus)
 	beego.AddFuncMap("ProcessIsRecvGoods", ProcessIsRecvGoods)
 	beego.AddFuncMap("ProcessFundRet", ProcessFundRet)
+	beego.AddFuncMap("UnixTimeForFormat", UnixTimeForFormat)
+}
+
+//时间轴转时间字符串
+func UnixTimeForFormat(timeUnix int) string {
+	//转化所需模板
+	timeLayout := "2006-01-02 15:04:05"
+	return time.Unix(int64(timeUnix), 0).Format(timeLayout)
 }
 
 func TimeForFormat(t interface{}) string {

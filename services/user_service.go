@@ -40,7 +40,7 @@ func (Self *UserService) GetPaginateDataWalletRaw(listRows int, params url.Value
 	//搜索、查询字段赋值
 	Self.SearchField = append(Self.SearchField, new(models.UserWallet).SearchField()...)
 	where,param := Self.ScopeWhereRaw(params)
-	Self.PaginateRaw(listRows,params)
+
 	//用户条件过滤
 	userId := params.Get("user_id")
 	where += " and user_id = ?"
@@ -50,6 +50,7 @@ func (Self *UserService) GetPaginateDataWalletRaw(listRows int, params url.Value
 		return nil,beego_pagination.Pagination{}
 	}
 	Self.Pagination.Total = int(total)
+	Self.PaginateRaw(listRows,params)
 	param = append(param,listRows*(Self.Pagination.CurrentPage-1),listRows)
 	if _,err := om.Raw(sql+where+" order by created_at desc limit ?,?",param).QueryRows(&data);err != nil {
 		return nil,beego_pagination.Pagination{}

@@ -39,7 +39,7 @@ func (this *BaseService) Paginate(seter orm.QuerySeter, listRows int, parameters
 }
 
 func (this *BaseService) PaginateMul(listRows int, parameters url.Values) {
-	var pagination beego_pagination.Pagination
+	var pagination = &beego_pagination.Pagination{Total: this.Pagination.Total}
 	this.Pagination = *pagination.PaginateMul(listRows, parameters)
 }
 

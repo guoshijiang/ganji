@@ -19,6 +19,8 @@ func init() {
 
 	//admin模块路由
 	admin := beego.NewNamespace("/admin",
+		//操作日志
+		beego.NSRouter("/admin_log/index", &controllers.AdminLogController{}, "get:Index"),
 		//登录页
 		beego.NSRouter("/auth/login", &controllers.AuthController{}, "get:Login"),
 		//退出登录
@@ -201,6 +203,7 @@ func init() {
 		beego.NSRouter("/sys/customer/update", &controllers.SysController{}, "post:CustomerServiceUpdate"),
 		beego.NSRouter("/sys/customer/create", &controllers.SysController{}, "post:CustomerServiceCreate"),
 		beego.NSRouter("/sys/customer/del", &controllers.SysController{}, "post:CustomerServiceDel"),
+		beego.NSRouter("/sys/record/verify", &controllers.SysController{}, "post:WalletRecordVerify"),
 
 	)
 	beego.AddNamespace(admin)

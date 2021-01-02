@@ -38,11 +38,12 @@ func (Self *OrderService) GetPaginateDataRaw(listRows int, params url.Values) ([
 	//搜索、查询字段赋值
 	Self.SearchField = append(Self.SearchField, new(models.GoodsOrder).SearchField()...)
 	where,param := Self.ScopeWhereRaw(params)
-	Self.PaginateRaw(listRows,params)
+
 	if err := om.Raw(sql1+where).QueryRow(&total);err != nil {
 		return nil,beego_pagination.Pagination{}
 	}
 	Self.Pagination.Total = int(total)
+	Self.PaginateRaw(listRows,params)
 	param = append(param,listRows*(Self.Pagination.CurrentPage-1),listRows)
 	if _,err := om.Raw(sql+where+" order by created_at desc limit ?,?",param).QueryRows(&data);err != nil {
 		return nil,beego_pagination.Pagination{}
@@ -61,11 +62,12 @@ func (Self *OrderService) GetPaginateProcessDataRaw(listRows int, params url.Val
 	//搜索、查询字段赋值
 	Self.SearchField = append(Self.SearchField, new(models.OrderProcess).SearchField()...)
 	where,param := Self.ScopeWhereRaw(params)
-	Self.PaginateRaw(listRows,params)
+
 	if err := om.Raw(sql1+where).QueryRow(&total);err != nil {
 		return nil,beego_pagination.Pagination{}
 	}
 	Self.Pagination.Total = int(total)
+	Self.PaginateRaw(listRows,params)
 	param = append(param,listRows*(Self.Pagination.CurrentPage-1),listRows)
 	if _,err := om.Raw(sql+where+" order by created_at desc limit ?,?",param).QueryRows(&data);err != nil {
 		return nil,beego_pagination.Pagination{}

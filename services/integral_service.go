@@ -22,11 +22,12 @@ func (Self *IntegralService) GetPaginateDataRecordRaw(listRows int, params url.V
 	//搜索、查询字段赋值
 	Self.SearchField = append(Self.SearchField, new(models.IntegralRecord).SearchField()...)
 	where,param := Self.ScopeWhereRaw(params)
-	Self.PaginateRaw(listRows,params)
+
 	if err := om.Raw(sql1+where,param).QueryRow(&total);err != nil {
 		return nil,beego_pagination.Pagination{}
 	}
 	Self.Pagination.Total = int(total)
+	Self.PaginateRaw(listRows,params)
 	param = append(param,listRows*(Self.Pagination.CurrentPage-1),listRows)
 	if _,err := om.Raw(sql+where+" order by created_at desc limit ?,?",param).QueryRows(&data);err != nil {
 		return nil,beego_pagination.Pagination{}
@@ -35,8 +36,8 @@ func (Self *IntegralService) GetPaginateDataRecordRaw(listRows int, params url.V
 }
 
 
-func (Self *IntegralService) GetPaginateDataTradeRaw(listRows int, params url.Values) ([]*models.UserWalletList, beego_pagination.Pagination) {
-	var data []*models.UserWalletList
+func (Self *IntegralService) GetPaginateDataTradeRaw(listRows int, params url.Values) ([]*models.IntegralTradeList, beego_pagination.Pagination) {
+	var data []*models.IntegralTradeList
 	var total int64
 	om := orm.NewOrm()
 	inner := "from integral_trade as t0 inner join user as t1 on t1.id = t0.user_id where t0.id > 0 "
@@ -45,12 +46,15 @@ func (Self *IntegralService) GetPaginateDataTradeRaw(listRows int, params url.Va
 
 	//搜索、查询字段赋值
 	Self.SearchField = append(Self.SearchField, new(models.IntegralRecord).SearchField()...)
+	params.Add("t0.is_removed","0")
+	Self.WhereField = append(Self.WhereField,"t0.is_removed")
 	where,param := Self.ScopeWhereRaw(params)
-	Self.PaginateRaw(listRows,params)
+
 	if err := om.Raw(sql1+where,param).QueryRow(&total);err != nil {
 		return nil,beego_pagination.Pagination{}
 	}
 	Self.Pagination.Total = int(total)
+	Self.PaginateRaw(listRows,params)
 	param = append(param,listRows*(Self.Pagination.CurrentPage-1),listRows)
 	if _,err := om.Raw(sql+where+" order by created_at desc limit ?,?",param).QueryRows(&data);err != nil {
 		return nil,beego_pagination.Pagination{}

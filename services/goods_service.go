@@ -182,7 +182,7 @@ func (Self *GoodsServices) GetPaginateCommentData(listRows int, params url.Value
 	//搜索、查询字段赋值
 	Self.SearchField = append(Self.SearchField, new(models.IntegralRecord).SearchField()...)
 	where,param := Self.ScopeWhereRaw(params)
-	Self.PaginateRaw(listRows,params)
+
 	if AdminUserVal.MerchantId > 0 {
 		where += " and t1.merchant_id = ? "
 		param = append(param,AdminUserVal.MerchantId)
@@ -191,6 +191,7 @@ func (Self *GoodsServices) GetPaginateCommentData(listRows int, params url.Value
 		return nil,beego_pagination.Pagination{}
 	}
 	Self.Pagination.Total = int(total)
+	Self.PaginateRaw(listRows,params)
 	param = append(param,listRows*(Self.Pagination.CurrentPage-1),listRows)
 	if _,err := om.Raw(sql+where+" order by created_at desc limit ?,?",param).QueryRows(&data);err != nil {
 		return nil,beego_pagination.Pagination{}

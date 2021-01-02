@@ -185,6 +185,11 @@ type IntegralRecordeList struct {
 	SourceName				string					`json:"source_name"`
 }
 
+type IntegralTradeList struct {
+	IntegralTrade
+	UserName				string					`json:"user_name"`
+}
+
 type WalletRecordList struct {
 	WalletRecord
 	UserName				string					`json:"user_name"`

@@ -4,6 +4,7 @@ import (
 	"ganji/form_validate"
 	"ganji/global"
 	"ganji/global/response"
+	"ganji/models"
 	"ganji/services"
 	"github.com/gookit/validate"
 	"log"
@@ -252,6 +253,17 @@ func (Self *SysController) WalletRecord() {
 
 	Self.Layout = "public/base.html"
 	Self.TplName = "user/wallet_record.html"
+}
+
+//提币审核
+func (Self *SysController) WalletRecordVerify() {
+	id,_ := Self.GetInt64("id")
+	h,_ := Self.GetInt("raft")
+	mod := &models.WalletRecord{Id: id,IsHanle: int8(h)}
+	if err := mod.Update([]string{"is_hanle"}...);err != nil {
+		response.ErrorWithMessage("审核失败",Self.Ctx)
+	}
+	response.ErrorWithMessage("审核成功",Self.Ctx)
 }
 
 //客户服务信息

@@ -3,7 +3,7 @@ package beego_pagination
 import (
 	"fmt"
 	"github.com/astaxie/beego/orm"
-	"math"
+	"github.com/shopspring/decimal"
 	"net/url"
 	"sort"
 	"strconv"
@@ -59,7 +59,8 @@ func (pagination *Pagination) Paginate(seter orm.QuerySeter, listRows int, param
 	}
 
 	pagination.Total = int(total)
-	pagination.LastPage = int(math.Ceil(float64(pagination.Total / pagination.ListRows)))
+	l := decimal.NewFromFloat(float64(pagination.Total)).Div(decimal.NewFromFloat(float64(pagination.ListRows))).Ceil().String()
+	pagination.LastPage,_ = strconv.Atoi(l)
 	pagination.HasMore = pagination.CurrentPage < pagination.LastPage
 
 	//放到最后执行，前面需要赋值
@@ -72,6 +73,7 @@ func (pagination *Pagination) Paginate(seter orm.QuerySeter, listRows int, param
 func (pagination *Pagination) PaginateMul(listRows int, parameters url.Values) *Pagination{
 	pagination.Parameters = parameters
 
+	fmt.Println("****",pagination.Total)
 	//当前页
 	var page int
 	pageStr := pagination.Parameters.Get("page")
@@ -87,8 +89,10 @@ func (pagination *Pagination) PaginateMul(listRows int, parameters url.Values) *
 
 	pagination.CurrentPage = page
 	pagination.ListRows = listRows
-	pagination.LastPage = int(math.Ceil(float64(pagination.Total / pagination.ListRows)))
-	pagination.HasMore = pagination.CurrentPage < pagination.LastPage
+	l := decimal.NewFromFloat(float64(pagination.Total)).Div(decimal.NewFromFloat(float64(pagination.ListRows))).Ceil().String()
+	pagination.LastPage,_ = strconv.Atoi(l)
+	//pagination.LastPage = int(math.Ceil(float64(pagination.Total / pagination.ListRows)))
+	pagination.HasMore = pagination.CurrentPage <= pagination.LastPage
 
 	//放到最后执行，前面需要赋值
 	pagination.BootStrapRenderLink = pagination.render()

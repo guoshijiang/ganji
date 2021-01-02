@@ -2,13 +2,15 @@ package models
 
 import (
 	"ganji/common"
+	"ganji/types"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
+	"github.com/pkg/errors"
 )
 
 type GroupHelper struct {
 	BaseModel
-	Id                int64    `json:"id"`
+	Id                int64   `json:"id"`
 	GroupOrderId      int64   `json:"group_order_id"`
 	BuyUserId         int64   `json:"buy_user_id"`
 	HelperUserId      int64   `json:"helper_user_id"`
@@ -52,3 +54,14 @@ func (this *GroupHelper) Insert() error {
 func ExistOrderByOdrUser(order_id, user_id int64) bool {
 	return orm.NewOrm().QueryTable(GroupHelper{}).Filter("GroupOrderId", order_id).Filter("HelperUserId", user_id).Exist()
 }
+
+
+func GetGroupHelpUserListByOrderId(order_id int64) ([]*GroupHelper, int, error) {
+	var group_hlp []*GroupHelper
+	_, err := orm.NewOrm().QueryTable(GroupHelper{}).Filter("GroupOrderId", order_id).OrderBy("-CreatedAt").All(&group_hlp)
+	if err != nil {
+		return nil, types.SystemDbErr, errors.New("查询数据库失败")
+	}
+	return group_hlp, types.ReturnSuccess, nil
+}
+

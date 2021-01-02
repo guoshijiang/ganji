@@ -269,3 +269,72 @@ func (this *GroupOrderController) HelpOrder () {
 	this.ServeJSON()
 	return
 }
+
+
+// @Title HelpInfoDetail finished
+// @Description 帮好友助力 HelpInfoDetail
+// @Success 200 status bool, data interface{}, msg string
+// @router /help_info_dtl [post]
+func (this *GroupOrderController) HelpInfoDetail () {
+	bearerToken := this.Ctx.Input.Header(HttpAuthKey)
+	if len(bearerToken) == 0 {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	token := strings.TrimPrefix(bearerToken, "Bearer ")
+	_, err := models.GetUserByToken(token)
+	if err != nil {
+		this.Data["json"] = RetResource(false, types.UserToKenCheckError, nil, "您还没有登陆，请登陆")
+		this.ServeJSON()
+		return
+	}
+	var help_if_dtl group_order.HelpInfoDetail
+	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &help_if_dtl); err != nil {
+		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
+		this.ServeJSON()
+		return
+	}
+	if code, err := help_if_dtl.HelpInfoDetailParamValidate(); err != nil {
+		this.Data["json"] = RetResource(false, code, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	order_dtl, code, err := models.GetGroupOrderDetail(help_if_dtl.GroupOrderId)
+	if err != nil {
+		this.Data["json"] = RetResource(false, code, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	help_user_list, code, err := models.GetGroupHelpUserListByOrderId(order_dtl.Id)
+	if err != nil {
+		this.Data["json"] = RetResource(false, code, err, err.Error())
+		this.ServeJSON()
+		return
+	}
+	var hu_list []group_order.HelpUser
+	for _, help_user :=range help_user_list {
+		usr, _ := models.GetUserById(help_user.HelperUserId)
+		hu := group_order.HelpUser{
+			UserId: usr.Id,
+			UserName: usr.UserName,
+			UserPho: usr.Avator,
+			UserPhone: usr.Phone,
+		}
+		hu_list = append(hu_list, hu)
+	}
+	gdsdtl, _, _ := models.GetGoodsDetail(order_dtl.GoodsId)
+	data := group_order.HelpInfoDetailRet{
+		GoodsId: order_dtl.GoodsId,
+		OrderId: order_dtl.Id,
+		GoodsName: gdsdtl.GoodsName,
+		GoodsLogo: gdsdtl.Logo,
+		GoodsMark: gdsdtl.GoodsMark,
+		DeadLine: order_dtl.DeadLime,
+		OrderStatus: order_dtl.OrderStatus,
+		HelpUsers: hu_list,
+	}
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "帮助助力好友信息成功")
+	this.ServeJSON()
+	return
+}

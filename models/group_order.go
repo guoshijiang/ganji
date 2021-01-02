@@ -25,7 +25,7 @@ type GroupOrder struct {
 	OrderNumber       string     `orm:"size(64);index" json:"order_number"`                     // 订单号
 	ShipNumber        string     `orm:"size(64);index;default('')" json:"ship_number"`          // 运单号
 	Logistics	      string     `orm:"size(64);index;default('')" json:"logistics"`            // 物流公司
-	OrderStatus       int8       `orm:"index" json:"order_status"`                              // 0: 助力中，1: 助力成功，2:已发货 3：已收货
+	OrderStatus       int8       `orm:"index" json:"order_status"`                              // 0: 助力中，1: 助力成功，2:已发货 3：已收货; 4:助力失败
 	FailureReason     string     `json:"failure_reason"`                                        // 失败原因
 	PayAt             *time.Time `orm:"type(datetime);null" json:"pay_at"`                      // 助力成功时间
 	DealMerchant      string     `orm:"default('')" json:"deal_user"`                           // 处理商家

@@ -75,3 +75,14 @@ func (this HelpOrderDCheck) HelpOrderDCheckParamValidate() (int, error) {
 	}
 	return types.ReturnSuccess, nil
 }
+
+type HelpInfoDetail struct {
+	GroupOrderId int64 `json:"group_order_id"`
+}
+
+func (this HelpInfoDetail) HelpInfoDetailParamValidate() (int, error) {
+	if this.GroupOrderId <= 0 {
+		return types.ParamLessZero, errors.New("订单 ID小于等于 0")
+	}
+	return types.ReturnSuccess, nil
+}

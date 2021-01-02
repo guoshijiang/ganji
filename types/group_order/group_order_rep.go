@@ -40,3 +40,21 @@ type GroupOrderDetailRet struct {
 	IsHelp      bool `json:"is_help"`  // 0:没有助力；1:已经助力
 }
 
+
+type HelpUser struct {
+	UserId    int64  `json:"user_id"`
+	UserName  string `json:"user_name"`
+	UserPho   string `json:"user_pho"`
+	UserPhone string `json:"user_phone"`
+}
+
+type HelpInfoDetailRet struct {
+	GoodsId   int64  `json:"goods_id"`
+	OrderId   int64  `json:"order_id"`
+	GoodsName string `json:"goods_name"`
+	GoodsLogo string `json:"goods_logo"`
+	GoodsMark string `json:"goods_mark"`
+	DeadLine  string `json:"dead_line"`
+	OrderStatus int8 `json:"order_status"`
+	HelpUsers  []HelpUser `json:"help_users"`
+}

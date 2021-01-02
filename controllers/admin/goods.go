@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"encoding/json"
 	"fmt"
 	"ganji/form_validate"
 	"ganji/global"
@@ -66,8 +65,7 @@ func (Self *GoodsController) Create() {
 	}
 	if insertId > 0 {
 		images,_ := new(services.UploadService).UploadMulti(Self.Ctx,"images",int64(insertId))
-		js,_ := json.Marshal(images)
-		fmt.Println("js----",string(js))
+		fmt.Println("im",images)
 		response.SuccessWithMessageAndUrl("添加成功", url, Self.Ctx)
 	} else {
 		response.Error(Self.Ctx)

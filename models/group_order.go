@@ -86,10 +86,13 @@ func GroupOrderList(page, pageSize int, invite_uid, user_id int64, query_way int
 		return group_order_list, total, nil
 	} else if query_way == 2 {  // 好友的助力订单
 		user := User{}
-		orm.NewOrm().QueryTable(User{}).Filter("UserId", invite_uid).One(&user)
+		err := orm.NewOrm().QueryTable(User{}).Filter("UserId", invite_uid).One(&user)
+		if err != nil{
+			return nil, types.NoUpperUser, errors.New("您还没有相关的好友, 请邀请更多人加入吧")
+		}
 		query := orm.NewOrm().QueryTable(GroupOrder{}).Filter("UserId", user.Id)
 		total, _ := query.Count()
-		_, err := query.Limit(pageSize, offset).All(&group_order_list)
+		_, err = query.Limit(pageSize, offset).All(&group_order_list)
 		if err != nil {
 			return nil, types.SystemDbErr, errors.New("查询数据库失败")
 		}

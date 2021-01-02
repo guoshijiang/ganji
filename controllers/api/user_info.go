@@ -232,3 +232,5 @@ func (this *UserInfoController) GetMyCoupon() {
 	this.ServeJSON()
 	return
 }
+
+

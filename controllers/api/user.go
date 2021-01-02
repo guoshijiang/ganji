@@ -432,6 +432,7 @@ func (u *UserController) GetInviteCode() {
 	}
 	invite_code := make(map[string]string)
 	invite_code["invite_code"] = user_token.MyInviteCode
+	invite_code["download_url"] = beego.AppConfig.String("download_url")
 	u.Data["json"] = RetResource(true, types.ReturnSuccess, invite_code, "获取我的邀请码成功")
 	u.ServeJSON()
 	return

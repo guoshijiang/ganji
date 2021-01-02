@@ -127,7 +127,7 @@ func (this *GroupOrderController) GroupOrderList () {
 	}
 	order_list, total, err := models.GroupOrderList(g_odr_lst.Page, g_odr_lst.PageSize,  requestUser.InviteMeUserId, g_odr_lst.UserId, g_odr_lst.QueryWay)
 	if err != nil {
-		this.Data["json"] = RetResource(false, types.SystemDbErr, nil, "数据查询失败，请联系客户服务处理")
+		this.Data["json"] = RetResource(false, types.SystemDbErr, nil, err.Error())
 		this.ServeJSON()
 		return
 	}

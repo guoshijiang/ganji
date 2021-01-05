@@ -31,6 +31,9 @@ func (*MerchantService) Create(form *form_validate.MerchantForm) int {
 		MerchantName: form.MerchantName,
 		MerchantIntro: form.MerchantIntro,
 		MerchantDetail: form.MerchantDetail,
+		ContactUser: form.ContactUser,
+		Phone: form.Phone,
+		WeChat: form.WeChat,
 		Address: form.Address,
 		ShopLevel: form.ShopLevel,
 		ShopServer: form.ShopServer,
@@ -71,6 +74,9 @@ func (*MerchantService) Update(form *form_validate.MerchantForm) int{
 		merchant.MerchantName = form.MerchantName
 		merchant.MerchantIntro = form.MerchantIntro
 		merchant.MerchantDetail = form.MerchantDetail
+		merchant.ContactUser = form.ContactUser
+		merchant.Phone = form.Phone
+		merchant.WeChat = form.WeChat
 		merchant.Address = form.Address
 		merchant.MerchantWay = form.MerchantWay
 		merchant.Logo = form.Logo

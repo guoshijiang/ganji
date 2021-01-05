@@ -52,6 +52,9 @@
                             <th>ID</th>
                             <th>商家名称</th>
                             <th>商家简介</th>
+                            <th>商家联系人</th>
+                            <th>商家电话</th>
+                            <th>商家微信</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -66,6 +69,9 @@
                                 <td>{{$item.Id}}</td>
                                 <td>{{$item.MerchantName}}</td>
                                 <td>{{$item.MerchantIntro}}</td>
+                                <td>{{$item.ContactUser}}</td>
+                                <td>{{$item.Phone}}</td>
+                                <td>{{$item.WeChat}}</td>
                                 <td class="td-do">
                                     <a href="/admin/merchant/edit?id={{$item.Id}}"
                                        class="btn btn-primary btn-xs" title="修改" data-toggle="tooltip">

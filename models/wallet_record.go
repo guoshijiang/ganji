@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"ganji/common"
 	"ganji/types"
 	"github.com/astaxie/beego/orm"
@@ -36,11 +37,25 @@ func (this *WalletRecord) Insert() error {
 	return nil
 }
 
-func (this *WalletRecord) Update(fields ...string) error {
+func (this *WalletRecord) Update(fields  ...string) error {
 	if _, err := orm.NewOrm().Update(this, fields...); err != nil {
 		return err
 	}
 	return nil
+}
+
+
+func (this *WalletRecord) UpdateByRead() (*WalletRecord,error) {
+	fmt.Println(this.Id)
+	wallet := WalletRecord{Id: this.Id}
+	if err := orm.NewOrm().Read(&wallet); err == nil {
+		wallet.IsHanle = this.IsHanle
+		if _, err := orm.NewOrm().Update(&wallet, "is_hanle"); err == nil {
+			return &wallet, nil
+		}
+		return nil, err
+	}
+	return nil, errors.New("error")
 }
 
 func GetWalletRecordList(page, pageSize int, user_id int64) ([]*WalletRecord, int64, error) {

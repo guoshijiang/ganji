@@ -34,9 +34,6 @@ func (this CreateOrderCheck) CreateOrderCheckParamValidate() (int, error) {
 	if this.PayWay < 0 || this.PayWay > 3 {
 		return types.InvalidVerifyWay, errors.New("无效的付款方式")
 	}
-	if this.PayAmount <= 0 {
-		return types.ParamLessZero, errors.New("支付金额小于等于 0")
-	}
 	return types.ReturnSuccess, nil
 }
 

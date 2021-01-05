@@ -17,9 +17,6 @@ func (this SingleOrderPayCheck) SingleOrderPayCheckParamValidate() (int, error) 
 	if this.OrderId <= 0 {
 		return types.ParamLessZero, errors.New("订单的 ID 不能小于等于 0")
 	}
-	if this.PayAmount <= 0 {
-		return types.ParamLessZero, errors.New("付款金额不能小于等于 0")
-	}
 	if this.PayWay <0  || this.PayWay > 3 {
 		return types.InvalidVerifyWay, errors.New("无效的支付方式")
 	}

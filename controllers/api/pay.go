@@ -60,7 +60,7 @@ func (this *PayController) SingleOrderPay() {
 	now := time.Now()
 	if single_order.PayWay == 0 { // 积分兑换
 		i_g, _ := models.GetIntegralByUserId(u_t.Id)
-		if i_g.TotalIg < single_order.PayAmount {
+		if i_g.TotalIg < single_order.PayIntegral {
 			this.Data["json"] = RetResource(false, types.IntegralNotEnogh, nil, "积分余额不足, 请去赚取更多的积分")
 			this.ServeJSON()
 			return
@@ -70,7 +70,7 @@ func (this *PayController) SingleOrderPay() {
 			IntegralName: "积分",
 			IntegralType: 4,
 			IntegralSource: "积分消费",
-			IntegralAmount: single_order.PayAmount,
+			IntegralAmount: single_order.PayIntegral,
 			OrderNumber: ordr.OrderNumber,
 			SourceUserId: 0,
 		}
@@ -80,7 +80,7 @@ func (this *PayController) SingleOrderPay() {
 			this.ServeJSON()
 			return
 		}
-		i_g.TotalIg = i_g.TotalIg - single_order.PayAmount
+		i_g.TotalIg = i_g.TotalIg - single_order.PayIntegral
 		err = i_g.Update()
 		if err != nil {
 			this.Data["json"] = RetResource(false, types.SystemDbErr, nil, "更新积分余额失败")
@@ -91,6 +91,8 @@ func (this *PayController) SingleOrderPay() {
 			"order_id": ordr.Id,
 		}
 		ordr.OrderStatus = 2
+		ordr.PayAmount = 0
+		ordr.PayIntegral = single_order.PayIntegral
 		ordr.PayAt = &now
 		err = ordr.Update()
 		if err != nil {

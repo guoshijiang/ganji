@@ -9,6 +9,7 @@ import (
 	"github.com/astaxie/beego"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type PayController struct {
@@ -56,6 +57,7 @@ func (this *PayController) SingleOrderPay() {
 	ordr.PayIntegral = single_order.PayIntegral
 	ordr.PayWay = single_order.PayWay
 	ordr.OrderStatus = 1
+	now := time.Now()
 	if single_order.PayWay == 0 { // 积分兑换
 		i_g, _ := models.GetIntegralByUserId(u_t.Id)
 		if i_g.TotalIg < single_order.PayAmount {
@@ -89,6 +91,7 @@ func (this *PayController) SingleOrderPay() {
 			"order_id": ordr.Id,
 		}
 		ordr.OrderStatus = 2
+		ordr.PayAt = &now
 		err = ordr.Update()
 		if err != nil {
 			this.Data["json"] = RetResource(false, types.SystemDbErr, nil, "支付失败")
@@ -133,6 +136,7 @@ func (this *PayController) SingleOrderPay() {
 			"order_id": ordr.Id,
 		}
 		ordr.OrderStatus = 2
+		ordr.PayAt = &now
 		err = ordr.Update()
 		if err != nil {
 			this.Data["json"] = RetResource(false, types.SystemDbErr, nil, "支付失败")

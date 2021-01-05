@@ -10,6 +10,7 @@ type OrderListRet struct {
 	GoodsName    string    `json:"goods_name"`
 	GoodsLogo    string    `json:"goods_logo"`
 	GoodsPrice  float64  `json:"goods_price"`
+	PayIntegral float64 `json:"pay_integral"`
 	SendIntegral float64 `json:"send_integral"`
 	OrderStatus int8    `json:"order_status"`
 	BuyNums     int64   `json:"buy_nums"`
@@ -41,6 +42,7 @@ type OrderDetailRet struct {
 	MerchantName string `json:"merchant_name"`
 	GoodsName string    `json:"goods_name"`
 	GoodsPrice float64  `json:"goods_price"`
+	PayIntegral float64 `json:"pay_integral"`
 	SendIntegral float64 `json:"send_integral"`
 	GoodsLogo string `json:"goods_logo"`
 	OrderStatus int8    `json:"order_status"`

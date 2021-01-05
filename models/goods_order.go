@@ -82,7 +82,7 @@ func (this *GoodsOrder) SearchField() []string {
 func GetGoodsOrderList(page, pageSize int, user_id int64, status int8) ([]*GoodsOrder, int64, error) {
 	offset := (page - 1) * pageSize
 	gds_order_list := make([]*GoodsOrder, 0)
-	query := orm.NewOrm().QueryTable(GoodsOrder{}).Filter("UserId", user_id)
+	query := orm.NewOrm().QueryTable(GoodsOrder{}).Filter("UserId", user_id).OrderBy("-id")
 	if status >= 0  && status <= 5 {
 		query = query.Filter("OrderStatus", status)
 	}

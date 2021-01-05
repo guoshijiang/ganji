@@ -70,8 +70,8 @@ func (this *DepositWithdrawController) Deposit() {
 	}
 	if deposit.PayWay == 0 {  // 支付宝
 		pay_amount := strconv.FormatFloat(deposit.Amount,'f',-1,64)
-		notify_url := beego.AppConfig.String("pay_notify_url")
-		return_url := beego.AppConfig.String("dw_return_url")
+		notify_url := beego.AppConfig.String("ali_pay_notify_url")
+		return_url := beego.AppConfig.String("ali_dw_return_url")
 		zhifubao_config := utils.AliPayZfb(notify_url, return_url, order_nmb.String(), pay_amount)
 		this.Data["json"] = RetResource(true, types.ReturnSuccess, zhifubao_config, "充值成功")
 		this.ServeJSON()

@@ -155,8 +155,8 @@ func (this *PayController) SingleOrderPay() {
 			return
 		}
 		pay_amount := strconv.FormatFloat(ordr.PayAmount,'f',-1,64)
-		notify_url := beego.AppConfig.String("pay_notify_url")
-		return_url := beego.AppConfig.String("dw_return_url")
+		notify_url := beego.AppConfig.String("ali_pay_notify_url")
+		return_url := beego.AppConfig.String("ali_dw_return_url")
 		zhifubao_config := utils.AliPayZfb(notify_url, return_url, ordr.OrderNumber, pay_amount)
 		this.Data["json"] = RetResource(true, types.ReturnSuccess, zhifubao_config, "支付进入支付中状态")
 		this.ServeJSON()
@@ -312,8 +312,8 @@ func (this *PayController) BatchOrderPay() {
 	}
 	if batch_order.PayWay == 3 {  // 支付宝支付
 		pay_amount := strconv.FormatFloat(batch_order.TotalPayAmount,'f',-1,64)
-		notify_url := beego.AppConfig.String("pay_notify_url")
-		return_url := beego.AppConfig.String("dw_return_url")
+		notify_url := beego.AppConfig.String("ali_pay_notify_url")
+		return_url := beego.AppConfig.String("ali_dw_return_url")
 		zhifubao_config := utils.AliPayZfb(notify_url, return_url, batch_order.BatchOrderId, pay_amount)
 		this.Data["json"] = RetResource(true, types.ReturnSuccess, zhifubao_config, "支付进入支付中状态")
 		this.ServeJSON()

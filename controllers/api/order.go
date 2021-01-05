@@ -52,15 +52,27 @@ func (this *OrderController) CreateOrder() {
 	}
 	gds, _, _ := models.GetGoodsDetail(create_order.GoodsId)
 	order_nmb := uuid.NewV4()
-	if create_order.IsDis == 0 {  // 不打折
+	if create_order.IsDis == 0 && create_order.IsIntegral == 0 {  // 不打折
 		if gds.GoodsPrice * float64(create_order.BuyNums) != create_order.PayAmount {
 			this.Data["json"] = RetResource(false, types.InvalidGoodsPirce, err, "无效的商品价格")
 			this.ServeJSON()
 			return
 		}
-	} else if create_order.IsDis == 1 { //打折活动产品
+	} else if create_order.IsDis == 1 && create_order.IsIntegral == 0 { //打折活动产品
 		if gds.GoodsDisPrice * float64(create_order.BuyNums) != create_order.PayAmount {
 			this.Data["json"] = RetResource(false, types.InvalidGoodsPirce, err, "无效的商品价格")
+			this.ServeJSON()
+			return
+		}
+	} else if create_order.IsIntegral == 1 {
+		i_gl, _ := models.GetIntegralByUserId(requestUser.Id)
+		if i_gl.TotalIg < create_order.PayIntegral {
+			this.Data["json"] = RetResource(false, types.IntegralNotEnough, err, "您的账户积分不足")
+			this.ServeJSON()
+			return
+		}
+		if gds.GoodsIntegral * float64(create_order.BuyNums) != create_order.PayIntegral {
+			this.Data["json"] = RetResource(false, types.InvalidGoodsPirce, err, "无效的商品积分数量")
 			this.ServeJSON()
 			return
 		}

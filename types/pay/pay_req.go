@@ -6,10 +6,11 @@ import (
 )
 
 type SingleOrderPayCheck struct {
-	OrderId   int64   `json:"order_id"`
-	PayAmount float64 `json:"pay_amount"`    // 付款金额或者付款积分
-	CouponPay float64 `json:"coupon_pay"`    // 优惠券抵扣
-	PayWay    int8    `json:"pay_way"`       // 0:积分兑换，1:账户余额支付，2:微信支付；3:支付宝支付
+	OrderId     int64   `json:"order_id"`
+	PayAmount   float64 `json:"pay_amount"`    // 付款金额或者付款积分
+	CouponPay   float64 `json:"coupon_pay"`    // 优惠券抵扣
+	PayIntegral float64 `json:"pay_integral"`
+	PayWay      int8    `json:"pay_way"`       // 0:积分兑换，1:账户余额支付，2:微信支付；3:支付宝支付
 }
 
 func (this SingleOrderPayCheck) SingleOrderPayCheckParamValidate() (int, error) {

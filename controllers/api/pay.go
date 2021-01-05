@@ -53,6 +53,7 @@ func (this *PayController) SingleOrderPay() {
 	}
 	ordr.PayAmount = single_order.PayAmount
 	ordr.PayCoupon = single_order.CouponPay
+	ordr.PayIntegral = single_order.PayIntegral
 	ordr.PayWay = single_order.PayWay
 	ordr.OrderStatus = 1
 	if single_order.PayWay == 0 { // 积分兑换

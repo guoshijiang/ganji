@@ -77,6 +77,7 @@ const (
 	UserWalletNotEnogh            = 5063  // 积分余额不足
 	PayAmountError                = 5064  // 支付金额错误
 	NoUpperUser                   = 5064  // 没有上级用户
+	IntegralNotEnough             = 5065
 )
 
 

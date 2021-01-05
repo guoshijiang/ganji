@@ -25,7 +25,7 @@ type GoodsForm struct {
 	IsDisplay      int8      `form:"is_display"` 					// 0:首页不展示, 1:首页展示
 	IsHot          int8      `form:"is_hot"`                       	// 0:非爆款产品 1:爆款产品
 	IsDiscount     int8      `form:"is_discount"`                  	// 0:不打折，1:打折活动产品
-	IsIgExchange   int8      `form:"is_ig_exchange"`               	// 0:正常，1:可以积分兑换
+	IsIgSend       int8      `form:"is_ig_send"`               	    // 0:正常，1:赠送积分
 	IsGroup        int8      `form:"is_group"`                     	// 0:非拼购产品 1:拼购产品
 	IsIntegral     int8      `form:"is_integral"`                  	// 0:非积分兑换产品 1:积分兑换产品
 	LeftTime       int64     `form:"left_time"`                    	// 限时产品剩余时间

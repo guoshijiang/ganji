@@ -65,9 +65,10 @@ func (this *IndexController) AppIndexUp() {
 			Logo: image_path + gd.Logo,
 			GoodsPrice: gd.GoodsPrice,
 			GoodsDisPrice: gd.GoodsDisPrice,
+			GoodsIntegral: gd.GoodsIntegral,
 			LeftTime: gd.LeftTime,
 			IsDiscount: gd.IsDiscount,
-			IsIgExchange: gd.IsIgExchange,
+			IsIgSend: gd.IsIgSend,
 			IsGroup: gd.IsGroup,
 			IsIntegral: gd.IsIntegral,
 		}
@@ -88,8 +89,9 @@ func (this *IndexController) AppIndexUp() {
 			Logo: image_path + hgd.Logo,
 			GoodsPrice: hgd.GoodsPrice,
 			GoodsDisPrice: hgd.GoodsDisPrice,
+			GoodsIntegral: hgd.GoodsIntegral,
 			IsDiscount: hgd.IsDiscount,
-			IsIgExchange: hgd.IsIgExchange,
+			IsIgSend: hgd.IsIgSend,
 			IsGroup: hgd.IsGroup,
 			IsIntegral: hgd.IsIntegral,
 		}
@@ -111,7 +113,7 @@ func (this *IndexController) AppIndexUp() {
 			GoodsPrice: bgd.GoodsPrice,
 			GoodsDisPrice: bgd.GoodsDisPrice,
 			IsDiscount: bgd.IsDiscount,
-			IsIgExchange: bgd.IsIgExchange,
+			IsIgSend: bgd.IsIgSend,
 			IsGroup: bgd.IsGroup,
 			IsIntegral: bgd.IsIntegral,
 		}
@@ -164,7 +166,7 @@ func (this *IndexController) AppIndexDown() {
 			GoodsDisPrice: value.GoodsDisPrice,
 			GoodsIntegral: value.GoodsIntegral,
 			IsDiscount: value.IsDiscount,
-			IsIgExchange: value.IsIgExchange,
+			IsIgSend: value.IsIgSend,
 			IsGroup: value.IsGroup,
 			IsIntegral: value.IsIntegral,
 		}

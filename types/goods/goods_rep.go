@@ -7,9 +7,11 @@ type CategoryGoodsRet struct {
 	Logo          string `json:"logo"`
 	GoodsPrice    float64 `json:"goods_price"`
 	GoodsDisPrice float64 `json:"goods_discount_price"`
+	GoodsIntegral float64 `json:"goods_integral"`
+	SendIntegral  float64 `json:"send_integral"`
 	LeftTime      int64   `json:"left_time"`
 	IsDiscount     int8 `json:"is_discount"`
-	IsIgExchange   int8 `json:"is_ig_exchange"`
+	IsIgSend       int8 `json:"is_ig_send"`
 	IsGroup        int8 `json:"is_group"`
 	IsIntegral     int8 `json:"is_integral"`
 }

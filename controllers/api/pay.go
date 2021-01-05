@@ -311,7 +311,10 @@ func (this *PayController) BatchOrderPay() {
 		return
 	}
 	if batch_order.PayWay == 3 {  // 支付宝支付
-		zhifubao_config, _ := beego.AppConfig.GetSection("zhifubu")
+		pay_amount := strconv.FormatFloat(batch_order.TotalPayAmount,'f',-1,64)
+		notify_url := beego.AppConfig.String("pay_notify_url")
+		return_url := beego.AppConfig.String("dw_return_url")
+		zhifubao_config := utils.AliPayZfb(notify_url, return_url, batch_order.BatchOrderId, pay_amount)
 		this.Data["json"] = RetResource(true, types.ReturnSuccess, zhifubao_config, "支付进入支付中状态")
 		this.ServeJSON()
 		return

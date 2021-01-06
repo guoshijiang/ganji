@@ -7,6 +7,9 @@ type MerchantForm struct {
 	MerchantName  		string    		`form:"merchant_name" validate:"required"`
 	MerchantIntro  		string    		`form:"merchant_intro" validate:"required"`
 	MerchantDetail  	string    		`form:"merchant_detail" validate:"required"`
+	ContactUser    		string    		`form:"contact_user"`
+	Phone          		string    		`form:"phone"`
+	WeChat         		string    		`form:"we_chat"`
 	Address  			string    		`form:"address" validate:"required"`
 	GoodsNum  			string    		`form:"goods_num"`
 	MerchantWay  		int8    		`form:"merchant_way"`

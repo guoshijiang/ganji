@@ -1,11 +1,13 @@
 package controllers
 
 import (
+	"ganji/common/utils"
 	"ganji/form_validate"
 	"ganji/global"
 	"ganji/global/response"
 	"ganji/models"
 	"ganji/services"
+	"github.com/astaxie/beego"
 	"github.com/gookit/validate"
 	"log"
 	"strconv"
@@ -260,10 +262,20 @@ func (Self *SysController) WalletRecordVerify() {
 	id,_ := Self.GetInt64("id")
 	h,_ := Self.GetInt("raft")
 	mod := &models.WalletRecord{Id: id,IsHanle: int8(h)}
-	if err := mod.Update([]string{"is_hanle"}...);err != nil {
+	wallet,err := mod.UpdateByRead()
+	if err != nil {
 		response.ErrorWithMessage("审核失败",Self.Ctx)
+	} else {
+		if h == 1 {
+			pay_amount := strconv.FormatFloat(wallet.Amount,'f',-1,64)
+			notify_url := beego.AppConfig.String("ali_pay_notify_url")
+			return_url := beego.AppConfig.String("ali_dw_return_url")
+			zhifubao_config := utils.AliPayZfb(notify_url, return_url, wallet.OrderNumber, pay_amount)
+			log.Println(zhifubao_config)
+			response.SuccessWithMessage("审核成功",Self.Ctx)
+		}
 	}
-	response.ErrorWithMessage("审核成功",Self.Ctx)
+	response.SuccessWithMessage("审核成功",Self.Ctx)
 }
 
 //客户服务信息

@@ -36,6 +36,27 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="contact_user" class="col-sm-2 control-label">商家联系人</label>
+                            <div class="col-sm-10 col-md-4">
+                                <input maxlength="50" class="form-control" id="contact_user" placeholder="请输入商家联系人" name="contact_user" value="{{.data.ContactUser}}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone" class="col-sm-2 control-label">商家联系电话</label>
+                            <div class="col-sm-10 col-md-4">
+                                <input maxlength="50" class="form-control" id="phone" placeholder="请输入商家联系人" name="phone" value="{{.data.Phone}}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="we_chat" class="col-sm-2 control-label">商家联系微信</label>
+                            <div class="col-sm-10 col-md-4">
+                                <input maxlength="50" class="form-control" id="we_chat" placeholder="请输入商家联系微信" name="we_chat" value="{{.data.WeChat}}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label for="nickname" class="col-sm-2 control-label">店铺地址</label>
                             <div class="col-sm-10 col-md-4">
                                 <input maxlength="50" class="form-control" id="address" placeholder="请输入店铺地址" name="address" value="{{.data.Address}}">

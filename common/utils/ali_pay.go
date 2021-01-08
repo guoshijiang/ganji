@@ -24,6 +24,8 @@ func AliPayZfb(notify_url, return_url, order_number, pay_amount string) string {
 	p.TotalAmount = pay_amount
 	p.ProductCode = "FAST_INSTANT_TRADE_PAY"
 	p.TimeExpire = "2021-12-28 00:00"
+	logs.Info(p)
+	logs.Info(p.TotalAmount)
 	url, err := client.TradeAppPay(p)
 	if err != nil {
 		logs.Error(err.Error())

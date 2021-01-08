@@ -17,6 +17,7 @@ func AliPayZfb(notify_url, return_url, order_number, pay_amount string) string {
 		logs.Error(err.Error())
 	}
 	var p = alipay_zfb.TradeAppPay{}
+	p.AppAuthToken = "202101BB57193bea91dc4d6ebfab1db10720bX13"
 	p.NotifyURL = notify_url
 	p.ReturnURL = return_url
 	p.Subject = beego.AppConfig.String("ali_project_name")

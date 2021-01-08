@@ -24,7 +24,7 @@ func AliPayZfb(notify_url, return_url, order_number, pay_amount string) string {
 	p.TotalAmount = pay_amount
 	p.ProductCode = "FAST_INSTANT_TRADE_PAY"
 	if client != nil {
-		err = client.LoadAliPayPublicCert(beego.AppConfig.String("ali_crt"))
+		err = client.LoadAliPayPublicCertFromFile("./gingernet.vip.csr")
 		if err != nil {
 			logs.Error("load crt fail")
 			return ""

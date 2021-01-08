@@ -16,6 +16,9 @@ func AliPayZfb(notify_url, return_url, order_number, pay_amount string) string {
 	if err != nil {
 		logs.Error(err.Error())
 	}
+	logs.Info("clientclientclientclientclientclientclientclientclient")
+	logs.Info(client)
+	logs.Info("clientclientclientclientclientclientclientclientclient")
 	var p = alipay_zfb.TradeAppPay{}
 	p.NotifyURL = notify_url
 	p.ReturnURL = return_url

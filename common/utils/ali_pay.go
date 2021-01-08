@@ -10,6 +10,7 @@ import (
 // 支付宝支付
 func AliPayZfb(notify_url, return_url, order_number, pay_amount string) string {
 	privateKey := beego.AppConfig.String("ali_private_key")
+	logs.Info("privateKey = ", privateKey)
 	appId := beego.AppConfig.String("ali_app_id")
 	//aliPublicKey :=  beego.AppConfig.String("public_key")
 	client, err := alipay_zfb.New(appId, privateKey, true)

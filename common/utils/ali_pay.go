@@ -10,16 +10,12 @@ import (
 // 支付宝支付
 func AliPayZfb(notify_url, return_url, order_number, pay_amount string) string {
 	privateKey := beego.AppConfig.String("ali_private_key")
-	logs.Info("privateKey = ", privateKey)
 	appId := beego.AppConfig.String("ali_app_id")
-	//aliPublicKey :=  beego.AppConfig.String("public_key")
 	client, err := alipay_zfb.New(appId, privateKey, true)
 	if err != nil {
 		logs.Error(err.Error())
 	}
-	logs.Info("clientclientclientclientclientclientclientclientclient")
-	logs.Info(client)
-	logs.Info("clientclientclientclientclientclientclientclientclient")
+
 	var p = alipay_zfb.TradeAppPay{}
 	p.NotifyURL = notify_url
 	p.ReturnURL = return_url
@@ -27,13 +23,24 @@ func AliPayZfb(notify_url, return_url, order_number, pay_amount string) string {
 	p.OutTradeNo = order_number
 	p.TotalAmount = pay_amount
 	p.ProductCode = "FAST_INSTANT_TRADE_PAY"
-	p.TimeExpire = "2021-12-28 00:00"
-	logs.Info(p)
-	logs.Info(p.TotalAmount)
-	url, err := client.TradeAppPay(p)
-	if err != nil {
-		logs.Error(err.Error())
+	if client != nil {
+		err = client.LoadAliPayPublicCert(beego.AppConfig.String("ali_crt"))
+		if err != nil {
+			logs.Error("load crt fail")
+			return ""
+		}
+		err = client.LoadAliPayPublicKey(beego.AppConfig.String("ali_public_key"))
+		if err != nil {
+			logs.Error("load public key fail")
+			return ""
+		}
+		url, err := client.TradeAppPay(p)
+		if err != nil {
+			logs.Error(err.Error())
+		}
+		return url
+	} else {
+		return ""
 	}
-	return url
 }
 

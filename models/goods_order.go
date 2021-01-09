@@ -115,6 +115,15 @@ func GetGoodsOrderDetail(id int64) (*GoodsOrder, int, error) {
 }
 
 
+func GetGoodsOrderByOrderNumber(order_number string) (*GoodsOrder, int, error) {
+	var order_dtl GoodsOrder
+	if err := orm.NewOrm().QueryTable(GoodsOrder{}).Filter("OrderNumber", order_number).RelatedSel().One(&order_dtl); err != nil {
+		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
+	}
+	return &order_dtl, types.ReturnSuccess, nil
+}
+
+
 // 1.退货,资金返回钱包账号; 2:退货,资金原路返回; 3:换货
 func ReturnGoodsOrder(oret type_order.ReturnGoodsOrderCheck) (*GoodsOrder, int, error) {
 	var order_dtl GoodsOrder

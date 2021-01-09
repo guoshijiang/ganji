@@ -80,3 +80,13 @@ func GetWalletRecordDetail(id int64) (*WalletRecord, int, error) {
 }
 
 
+func GetWRByOrderNumber(order_num string) (*WalletRecord, int, error) {
+	var wdtl WalletRecord
+	if err := orm.NewOrm().QueryTable(WalletRecord{}).Filter("OrderNumber", order_num).RelatedSel().One(&wdtl); err != nil {
+		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
+	}
+	return &wdtl, types.ReturnSuccess, nil
+}
+
+
+

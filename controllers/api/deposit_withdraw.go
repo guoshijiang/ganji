@@ -52,10 +52,11 @@ func (this *DepositWithdrawController) Deposit() {
 		return
 	}
 	order_nmb := uuid.NewV4()
+	deposit_order_number := "deposit-" + order_nmb.String()
 	w_r := models.WalletRecord{
 		UserId: requestUser.Id,
 		Amount: deposit.Amount,
-		OrderNumber:order_nmb.String(),
+		OrderNumber: deposit_order_number,
 		Type: 0,
 		Source: deposit.PayWay,
 		IsHanle: 0,
@@ -72,7 +73,7 @@ func (this *DepositWithdrawController) Deposit() {
 		pay_amount := strconv.FormatFloat(deposit.Amount,'f',-1,64)
 		notify_url := beego.AppConfig.String("ali_pay_notify_url")
 		return_url := beego.AppConfig.String("ali_dw_return_url")
-		zhifubao_config := utils.AliPayZfb(notify_url, return_url, order_nmb.String(), pay_amount)
+		zhifubao_config := utils.AliPayZfb(notify_url, return_url, deposit_order_number, pay_amount)
 		this.Data["json"] = RetResource(true, types.ReturnSuccess, zhifubao_config, "充值成功")
 		this.ServeJSON()
 		return

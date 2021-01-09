@@ -311,6 +311,12 @@ func init() {
 			),
 		),
 
+		beego.NSNamespace("/notify",
+			beego.NSInclude(
+				&api.NotifyController{},
+			),
+		),
+
 		beego.NSNamespace("/version",
 			beego.NSInclude(
 				&api.VersionController{},

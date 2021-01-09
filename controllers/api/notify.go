@@ -55,7 +55,7 @@ func (this *NotifyController) ZhifubaoNotify() {
 		}
 	} else { // 支付
 		order, _, _ := models.GetGoodsOrderByOrderNumber(out_trade_no)
-		order.OrderStatus = 1
+		order.OrderStatus = 2
 		err := order.Update()
 		if err != nil {
 			return

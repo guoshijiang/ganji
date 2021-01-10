@@ -6,6 +6,7 @@ import (
 	"ganji/global/response"
 	"ganji/services"
 	"github.com/gookit/validate"
+	"log"
 	"strconv"
 	"strings"
 )
@@ -42,7 +43,14 @@ func (Self *MerchantController) Create() {
 	}
 	//默认头像
 	MerchantForm.Logo = "/static/admin/images/avatar.png"
-
+	//上传LOGO
+	imgPath, err := new(services.UploadService).Upload(Self.Ctx, "logo")
+	if err != nil {
+		log.Println("upload--err",err)
+	}
+	if len(imgPath) > 0 {
+		MerchantForm.Logo = imgPath
+	}
 	//添加管理员
 	var adminUserService services.AdminUserService
 	if adminUserService.IsExistName(strings.TrimSpace(MerchantForm.UserName), 0) {
@@ -96,6 +104,13 @@ func (Self *MerchantController) Update(){
 	if !v.Validate() {
 		response.ErrorWithMessage(v.Errors.One(), Self.Ctx)
 	}
+
+	//上传LOGO
+	imgPath, err := new(services.UploadService).Upload(Self.Ctx, "logo")
+	if err != nil {
+		log.Println("upload--err",err)
+	}
+	merchantForm.Logo = imgPath
 
 	//商家验重
 	var merchantService services.MerchantService

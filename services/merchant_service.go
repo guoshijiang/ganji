@@ -79,7 +79,9 @@ func (*MerchantService) Update(form *form_validate.MerchantForm) int{
 		merchant.WeChat = form.WeChat
 		merchant.Address = form.Address
 		merchant.MerchantWay = form.MerchantWay
-		merchant.Logo = form.Logo
+		if len(form.Logo) > 0 {
+			merchant.Logo = form.Logo
+		}
 		num, err := o.Update(&merchant)
 		if err == nil {
 			return int(num)

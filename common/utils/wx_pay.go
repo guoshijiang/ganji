@@ -37,9 +37,9 @@ func WxPayOrder(order_number string, total_fee float64) (*WxPayData, error) {
 	client.DebugSwitch = gopay.DebugOn
 	client.SetCountry(wechat.China)
 	err := client.AddCertFilePath(
-		"/Users/bixin/goWorkspace/src/ganji/crt/apiclient_cert.pem",
-		"/Users/bixin/goWorkspace/src/ganji/crt/apiclient_key.pem",
-		"/Users/bixin/goWorkspace/src/ganji/crt/apiclient_cert.p12")
+		"/root/market/src/ganji/crt/apiclient_cert.pem",
+		"/root/market/src/ganji/crt/apiclient_key.pem",
+		"/root/market/src/ganji/crt/apiclient_cert.p12")
 	if err != nil {
 		logs.Error(err.Error())
 		return nil, err

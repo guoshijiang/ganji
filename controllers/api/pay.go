@@ -150,9 +150,16 @@ func (this *PayController) SingleOrderPay() {
 		return
 	}
 	if single_order.PayWay == 2 { // 微信支付
-		this.Data["json"] = RetResource(false, types.InvalidVerifyWay, nil, "暂时不支持该支付方式")
-		this.ServeJSON()
-		return
+		ret_data, err := utils.WxPayOrder(ordr.OrderNumber, ordr.PayAmount)
+		if err != nil {
+			this.Data["json"] = RetResource(false, types.DepositException, err.Error(), "微信支付异常，请联系客服处理")
+			this.ServeJSON()
+			return
+		} else {
+			this.Data["json"] = RetResource(true, types.ReturnSuccess, ret_data, "微信支付中")
+			this.ServeJSON()
+			return
+		}
 	}
 	if single_order.PayWay == 3 {  // 支付宝支付
 		err = ordr.Update()
@@ -313,9 +320,16 @@ func (this *PayController) BatchOrderPay() {
 		return
 	}
 	if batch_order.PayWay == 2 { // 微信支付
-		this.Data["json"] = RetResource(false, types.InvalidVerifyWay, nil, "暂时不支持该支付方式")
-		this.ServeJSON()
-		return
+		ret_data, err := utils.WxPayOrder(batch_order.BatchOrderId, batch_order.TotalPayAmount)
+		if err != nil {
+			this.Data["json"] = RetResource(false, types.DepositException, err.Error(), "微信支付异常，请联系客服处理")
+			this.ServeJSON()
+			return
+		} else {
+			this.Data["json"] = RetResource(true, types.ReturnSuccess, ret_data, "微信支付中")
+			this.ServeJSON()
+			return
+		}
 	}
 	if batch_order.PayWay == 3 {  // 支付宝支付
 		pay_amount := strconv.FormatFloat(batch_order.TotalPayAmount,'f',-1,64)

@@ -78,6 +78,7 @@ const (
 	PayAmountError                = 5064  // 支付金额错误
 	NoUpperUser                   = 5064  // 没有上级用户
 	IntegralNotEnough             = 5065
+	DepositException              = 5066  // 充值异常
 )
 
 

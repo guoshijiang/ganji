@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"ganji/common/utils"
 	"ganji/models"
@@ -52,7 +53,8 @@ func (this *DepositWithdrawController) Deposit() {
 		return
 	}
 	order_nmb := uuid.NewV4()
-	deposit_order_number := "deposit-" + order_nmb.String()
+	hex_uuid := base64.RawURLEncoding.EncodeToString(order_nmb.Bytes())
+	deposit_order_number := "deposit-" + hex_uuid
 	w_r := models.WalletRecord{
 		UserId: requestUser.Id,
 		Amount: deposit.Amount,
@@ -74,13 +76,20 @@ func (this *DepositWithdrawController) Deposit() {
 		notify_url := beego.AppConfig.String("ali_pay_notify_url")
 		return_url := beego.AppConfig.String("ali_dw_return_url")
 		zhifubao_config := utils.AliPayZfb(notify_url, return_url, deposit_order_number, pay_amount)
-		this.Data["json"] = RetResource(true, types.ReturnSuccess, zhifubao_config, "充值成功")
+		this.Data["json"] = RetResource(true, types.ReturnSuccess, zhifubao_config, "支付宝充值中")
 		this.ServeJSON()
 		return
 	} else if deposit.PayWay == 1 { // 微信
-		this.Data["json"] = RetResource(true, types.ReturnSuccess, nil, "暂时不支持该充值方式, 不久的将来将会上线")
-		this.ServeJSON()
-		return
+		ret_data, err := utils.WxPayOrder(deposit_order_number, deposit.Amount)
+		if err != nil {
+			this.Data["json"] = RetResource(false, types.DepositException, err.Error(), "微信充值异常，请联系客服处理")
+			this.ServeJSON()
+			return
+		} else {
+			this.Data["json"] = RetResource(true, types.ReturnSuccess, ret_data, "微信充值中")
+			this.ServeJSON()
+			return
+		}
 	} else {
 		this.Data["json"] = RetResource(true, types.InvalidVerifyWay, nil, "暂时不支持该充值方式")
 		this.ServeJSON()

@@ -119,7 +119,6 @@ func (this *GoodsController) MerchantGoodsList() {
 }
 
 
-
 // @Title GetLimitTimeGoodsList
 // @Description 限时购买产品列表 GetLimitTimeGoodsList
 // @Success 200 status bool, data interface{}, msg string
@@ -132,6 +131,54 @@ func (this *GoodsController) GetLimitTimeGoodsList() {
 		return
 	}
 	goods_list, total, err := models.GetLtGoodsList(lt_gds.Page, lt_gds.PageSize)
+	if err != nil {
+		this.Data["json"] = RetResource(false, types.GetGoodsListFail, nil, "获取商品列表失败")
+		this.ServeJSON()
+		return
+	}
+	img_path := beego.AppConfig.String("img_root_path")
+	var goods_ret_list []type_goods.CategoryGoodsRet
+	for _, value := range goods_list {
+		gds_ret := type_goods.CategoryGoodsRet{
+			GoodsId:   value.Id,
+			GoodsMark: value.GoodsMark,
+			Title: value.Title,
+			Logo: img_path + value.Logo,
+			GoodsPrice: value.GoodsPrice,
+			GoodsDisPrice: value.GoodsDisPrice,
+			GoodsIntegral: value.GoodsIntegral,
+			SendIntegral: value.SendIntegral,
+			LeftTime: value.LeftTime,
+			IsHot: value.IsHot,
+			IsDiscount: value.IsDiscount,
+			IsIgSend: value.IsIgSend,
+			IsGroup: value.IsGroup,
+			IsIntegral: value.IsIntegral,
+		}
+		goods_ret_list = append(goods_ret_list, gds_ret)
+	}
+	data := map[string]interface{}{
+		"total":     total,
+		"goods_lst": goods_ret_list,
+	}
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "获取限时购买商品列表成功")
+	this.ServeJSON()
+	return
+}
+
+
+// @Title GetHotGoodsList
+// @Description 限时购买产品列表 GetHotGoodsList
+// @Success 200 status bool, data interface{}, msg string
+// @router /hot_goods_list [post]
+func (this *GoodsController) GetHotGoodsList() {
+	lt_gds := type_goods.LTGoodsListCheck{}
+	if err := json.Unmarshal(this.Ctx.Input.RequestBody, &lt_gds); err != nil {
+		this.Data["json"] = RetResource(false, types.InvalidFormatError, err, "无效的参数格式,请联系客服处理")
+		this.ServeJSON()
+		return
+	}
+	goods_list, total, err := models.GetOrderDownHotGoodsList(lt_gds.Page, lt_gds.PageSize)
 	if err != nil {
 		this.Data["json"] = RetResource(false, types.GetGoodsListFail, nil, "获取商品列表失败")
 		this.ServeJSON()

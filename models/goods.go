@@ -217,6 +217,18 @@ func GetLtGoodsList(page, pageSize int) ([]*Goods, int64, error) {
 }
 
 
+func GetOrderDownHotGoodsList(page, pageSize int) ([]*Goods, int64, error) {
+	offset := (page - 1) * pageSize
+	goods_list := make([]*Goods, 0)
+	query := orm.NewOrm().QueryTable(Goods{}).Filter("IsHot", 1)
+	total, _ := query.Count()
+	_, err := query.Limit(pageSize, offset).All(&goods_list)
+	if err != nil {
+		return nil, 0, errors.New("查询数据库失败")
+	}
+	return goods_list, total, nil
+}
+
 func GetGoodsDetail(id int64) (*Goods, int, error) {
 	var goods Goods
 	if err := orm.NewOrm().QueryTable(Goods{}).Filter("Id", id).RelatedSel().One(&goods); err != nil {

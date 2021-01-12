@@ -10,7 +10,6 @@ import (
 	"github.com/gookit/validate"
 	"log"
 	"strconv"
-	"strings"
 )
 
 type GoodsController struct {
@@ -120,9 +119,9 @@ func (Self *GoodsController) Update(){
 	goodsForm.Logo = imgPath
 	//商家验重
 	var goodsService services.GoodsServices
-	if goodsService.IsExistName(strings.TrimSpace(goodsForm.GoodsName), goodsForm.Id) {
-		response.ErrorWithMessage("名称已经存在", Self.Ctx)
-	}
+	//if goodsService.IsExistName(strings.TrimSpace(goodsForm.GoodsName), goodsForm.Id) {
+	//	response.ErrorWithMessage("名称已经存在", Self.Ctx)
+	//}
 	_,err = new(services.UploadService).UploadMulti(Self.Ctx,"images",int64(goodsForm.Id))
 	if goodsService.Update(&goodsForm) > 0  || err == nil {
 		response.Success(Self.Ctx)

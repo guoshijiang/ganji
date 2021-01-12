@@ -244,24 +244,24 @@
                             });
                         </script>
 
-                        <div class="form-group">
-                            <label for="is_ig_exchange" class="col-sm-2 control-label">积分兑换</label>
-                            <div class="col-sm-10 col-md-4">
-                                <input class="input-switch" id="is_ig_exchange" value="1" checked type="checkbox"/>
-                                <input class="switch field-switch" name="is_ig_exchange" value="1" hidden/>
-                            </div>
-                        </div>
-                        <script>
-                            $('#is_ig_exchange').bootstrapSwitch({
-                                onText: "是",
-                                offText: "否",
-                                onColor: "success",
-                                offColor: "danger",
-                                onSwitchChange: function (event, state) {
-                                    $(event.target).closest('.bootstrap-switch').next().val(state ? '1' : '0').change();
-                                }
-                            });
-                        </script>
+{{/*                        <div class="form-group">*/}}
+{{/*                            <label for="is_ig_exchange" class="col-sm-2 control-label">积分兑换</label>*/}}
+{{/*                            <div class="col-sm-10 col-md-4">*/}}
+{{/*                                <input class="input-switch" id="is_ig_exchange" value="1" checked type="checkbox"/>*/}}
+{{/*                                <input class="switch field-switch" name="is_ig_exchange" value="1" hidden/>*/}}
+{{/*                            </div>*/}}
+{{/*                        </div>*/}}
+{{/*                        <script>*/}}
+{{/*                            $('#is_ig_exchange').bootstrapSwitch({*/}}
+{{/*                                onText: "是",*/}}
+{{/*                                offText: "否",*/}}
+{{/*                                onColor: "success",*/}}
+{{/*                                offColor: "danger",*/}}
+{{/*                                onSwitchChange: function (event, state) {*/}}
+{{/*                                    $(event.target).closest('.bootstrap-switch').next().val(state ? '1' : '0').change();*/}}
+{{/*                                }*/}}
+{{/*                            });*/}}
+{{/*                        </script>*/}}
 
                         <div class="form-group">
                             <label for="is_group" class="col-sm-2 control-label">拼购产品</label>

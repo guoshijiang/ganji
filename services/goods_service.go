@@ -39,6 +39,7 @@ func (*GoodsServices) Create(form *form_validate.GoodsForm) int {
 		GoodsParams: form.GoodsParams,
 		GoodsDetail: form.GoodsDetail,
 		Discount: form.Discount,
+		IsDiscount: form.IsDiscount,
 		Sale: form.Sale,
 		Title: form.Title,
 		IsHot: form.IsHot,
@@ -137,6 +138,7 @@ func (*GoodsServices) Update(form *form_validate.GoodsForm) int{
 		goods.TotalAmount  = form.TotalAmount
 		goods.GoodsCatId = form.GoodsCatId
 		goods.Discount = form.Discount
+		goods.IsDiscount = form.IsDiscount
 		if AdminUserVal.MerchantId > 0 {
 			goods.MerchantId = int64(AdminUserVal.MerchantId)
 		} else {

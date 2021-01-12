@@ -257,6 +257,8 @@ func (this *OrderController) OrderList() {
 			PayAmount: value.PayAmount,
 			IsCancle: value.IsCancle,
 			IsComment: value.IsComment,
+			IsDiscount: gds.IsDiscount,
+			IsIntegral: gds.IsIntegral,
 		}
 		olst_ret = append(olst_ret, ordr)
 	}
@@ -359,6 +361,8 @@ func (this *OrderController) OrderDetail() {
 		CreateTime: ord_dtl.CreatedAt,
 		IsCancle: ord_dtl.IsCancle,
 		IsComment: ord_dtl.IsComment,
+		IsDiscount: gdsdtl.IsDiscount,
+		IsIntegral: gdsdtl.IsIntegral,
 		RetrurnOrder: ret_ordr,
 	}
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, odl, "获取订单详情成功")

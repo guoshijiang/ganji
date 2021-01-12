@@ -30,6 +30,8 @@ func (this *MarketController) ServiceContract() {
 		this.ServeJSON()
 		return
 	}
+	img_path := beego.AppConfig.String("img_root_path")
+	cs.WcQrcode = img_path + cs.WcQrcode
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, cs, "获取客服信息成功")
 	this.ServeJSON()
 	return

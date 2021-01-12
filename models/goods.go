@@ -88,7 +88,7 @@ func (this *Goods) Insert() error {
 
 func GetLimitTimeGoodsList() ([]*Goods, int, error) {
 	var goods_list []*Goods
-	if _, err := orm.NewOrm().QueryTable(Goods{}).Filter("IsLimitTime", 1).Limit(6).All(&goods_list); err != nil {
+	if _, err := orm.NewOrm().QueryTable(Goods{}).Filter("IsLimitTime", 1).OrderBy("-SellNums").Limit(6).All(&goods_list); err != nil {
 		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
 	}
 	return goods_list, types.ReturnSuccess, nil
@@ -97,7 +97,7 @@ func GetLimitTimeGoodsList() ([]*Goods, int, error) {
 
 func GetHotGoodsList() ([]*Goods, int, error) {
 	var goods_list []*Goods
-	if _, err := orm.NewOrm().QueryTable(Goods{}).Filter("IsHot", 1).Limit(16).All(&goods_list); err != nil {
+	if _, err := orm.NewOrm().QueryTable(Goods{}).Filter("IsHot", 1).OrderBy("-SellNums").Limit(16).All(&goods_list); err != nil {
 		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
 	}
 	return goods_list, types.ReturnSuccess, nil

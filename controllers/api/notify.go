@@ -60,6 +60,12 @@ func (this *NotifyController) ZhifubaoNotify() {
 		if err != nil {
 			return
 		}
+		gds, _, _ := models.GetGoodsDetail(order.GoodsId)
+		gds.SellNums = gds.SellNums + 1
+		err = gds.Update()
+		if err != nil {
+			return
+		}
 	}
 	this.Data["json"] = RetResource(true, 200, nil, "success")
 	this.ServeJSON()

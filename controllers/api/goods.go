@@ -168,7 +168,7 @@ func (this *GoodsController) GetLimitTimeGoodsList() {
 
 
 // @Title GetHotGoodsList
-// @Description 限时购买产品列表 GetHotGoodsList
+// @Description 获取爆款产品列表 GetHotGoodsList
 // @Success 200 status bool, data interface{}, msg string
 // @router /hot_goods_list [post]
 func (this *GoodsController) GetHotGoodsList() {
@@ -209,7 +209,7 @@ func (this *GoodsController) GetHotGoodsList() {
 		"total":     total,
 		"goods_lst": goods_ret_list,
 	}
-	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "获取限时购买商品列表成功")
+	this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "获取获取爆款产品列表成功")
 	this.ServeJSON()
 	return
 }

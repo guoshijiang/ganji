@@ -10,6 +10,7 @@ type CategoryGoodsRet struct {
 	GoodsIntegral float64 `json:"goods_integral"`
 	SendIntegral  float64 `json:"send_integral"`
 	LeftTime      int64   `json:"left_time"`
+	IsHot          int8  `json:"is_hot"`
 	IsDiscount     int8 `json:"is_discount"`
 	IsIgSend       int8 `json:"is_ig_send"`
 	IsGroup        int8 `json:"is_group"`

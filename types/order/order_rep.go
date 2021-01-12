@@ -17,6 +17,8 @@ type OrderListRet struct {
 	PayAmount   float64 `json:"pay_amount"`
 	IsCancle    int8      `json:"is_cancle"`
 	IsComment   int8     `json:"is_comment"`
+	IsDiscount  int8    `json:"is_discount"`   // 0:不打折，1:打折活动产品
+	IsIntegral  int8    `json:"is_integral"`
 }
 
 type ReturnOrderProcess struct {
@@ -58,5 +60,7 @@ type OrderDetailRet struct {
 	CreateTime  time.Time `json:"create_time"`
 	IsCancle    int8      `json:"is_cancle"`
 	IsComment   int8     `json:"is_comment"`
+	IsDiscount  int8    `json:"is_discount"`   // 0:不打折，1:打折活动产品
+	IsIntegral  int8    `json:"is_integral"`
 	RetrurnOrder  *ReturnOrderProcess `json:"retrurn_order"`
 }

@@ -140,6 +140,7 @@ func (this *GroupOrderController) GroupOrderList () {
 			MerchantId: m.Id,
 			MerchantName: m.MerchantName,
 			OrderId: value.Id,
+			BuyUserId: value.UserId,
 			GoodsName: gds.GoodsName,
 			GoodsLogo: img_path + value.Logo,
 			GoodsPrice: gds.GoodsPrice,
@@ -205,6 +206,7 @@ func (this *GroupOrderController) GroupOrderDetail () {
 	is_help := models.ExistOrderByOdrUser(order_dtl.GroupOrderId, user_t.Id)
 	odl := group_order.GroupOrderDetailRet{
 		OrderId: order_detail.Id,
+		BuyUserId: order_detail.UserId,
 		Logistics: order_detail.Logistics,
 		ShipNumber: order_detail.ShipNumber,
 		RecUser: addrs.UserName,

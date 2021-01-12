@@ -57,3 +57,8 @@ func (this MerchantGoodsListCheck) MerchantGoodsListCheckParamValidate() (int, e
 	}
 	return types.ReturnSuccess, nil
 }
+
+
+type LTGoodsListCheck struct {
+	types.PageSizeData
+}

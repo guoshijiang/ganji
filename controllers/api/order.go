@@ -242,6 +242,12 @@ func (this *OrderController) OrderList() {
 	for _, value := range ols {
 		m, _, _ := models.GetMerchantDetail(value.MerchantId)
 		gds, _, _ := models.GetGoodsDetail(value.GoodsId)
+		var goods_last_price float64
+		if gds.IsDiscount == 0 {
+			goods_last_price = gds.GoodsPrice
+		}  else {
+			goods_last_price = gds.GoodsDisPrice
+		}
 		ordr := type_order.OrderListRet {
 			MerchantId: m.Id,
 			MerchantName: m.MerchantName,
@@ -249,7 +255,7 @@ func (this *OrderController) OrderList() {
 			OrderId:value.Id,
 			GoodsName: value.GoodsName,
 			GoodsLogo: img_path + value.Logo,
-			GoodsPrice: gds.GoodsPrice,
+			GoodsPrice: goods_last_price,
 			PayIntegral: value.PayIntegral,
 			SendIntegral: gds.SendIntegral,
 			OrderStatus: value.OrderStatus,
@@ -257,6 +263,8 @@ func (this *OrderController) OrderList() {
 			PayAmount: value.PayAmount,
 			IsCancle: value.IsCancle,
 			IsComment: value.IsComment,
+			IsDiscount: gds.IsDiscount,
+			IsIntegral: gds.IsIntegral,
 		}
 		olst_ret = append(olst_ret, ordr)
 	}
@@ -311,6 +319,12 @@ func (this *OrderController) OrderDetail() {
 	addrs, _, _ := addr.GetAddressById()
 	mct, _, _ := models.GetMerchantDetail(ord_dtl.MerchantId)
 	gdsdtl, _, _ := models.GetGoodsDetail(ord_dtl.GoodsId)
+	var goods_last_price float64
+	if gdsdtl.IsDiscount == 0 {
+		goods_last_price = gdsdtl.GoodsPrice
+	}  else {
+		goods_last_price = gdsdtl.GoodsDisPrice
+	}
 	var ret_ordr *type_order.ReturnOrderProcess
 	if ord_dtl.IsCancle != 0 {
 		order_process, _, err := models.GetOrderProcessDetail(ord_dtl.Id)
@@ -345,7 +359,7 @@ func (this *OrderController) OrderDetail() {
 		MerchantName: mct.MerchantName,
 		GoodsName: gdsdtl.GoodsName,
 		GoodsLogo: img_path + gdsdtl.Logo,
-		GoodsPrice: gdsdtl.GoodsPrice,
+		GoodsPrice: goods_last_price,
 		PayIntegral: ord_dtl.PayIntegral,
 		SendIntegral: gdsdtl.SendIntegral,
 		OrderStatus: ord_dtl.OrderStatus,
@@ -359,6 +373,8 @@ func (this *OrderController) OrderDetail() {
 		CreateTime: ord_dtl.CreatedAt,
 		IsCancle: ord_dtl.IsCancle,
 		IsComment: ord_dtl.IsComment,
+		IsDiscount: gdsdtl.IsDiscount,
+		IsIntegral: gdsdtl.IsIntegral,
 		RetrurnOrder: ret_ordr,
 	}
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, odl, "获取订单详情成功")
@@ -556,6 +572,12 @@ func (this *OrderController) BatchOrderList() {
 	for _, value := range ols {
 		m, _, _ := models.GetMerchantDetail(value.MerchantId)
 		gds, _, _ := models.GetGoodsDetail(value.GoodsId)
+		var goods_last_price float64
+		if gds.IsDiscount == 0 {
+			goods_last_price = gds.GoodsPrice
+		}  else {
+			goods_last_price = gds.GoodsDisPrice
+		}
 		ordr := type_order.OrderListRet {
 			MerchantId: m.Id,
 			MerchantName: m.MerchantName,
@@ -563,7 +585,7 @@ func (this *OrderController) BatchOrderList() {
 			OrderId:value.Id,
 			GoodsName: value.GoodsName,
 			GoodsLogo: img_path + value.Logo,
-			GoodsPrice: gds.GoodsPrice,
+			GoodsPrice: goods_last_price,
 			OrderStatus: value.OrderStatus,
 			BuyNums: value.BuyNums,
 			PayAmount: value.PayAmount,

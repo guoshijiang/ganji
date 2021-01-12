@@ -5,6 +5,7 @@ import "time"
 type GroupOrderListRet struct {
 	MerchantId   int64   `json:"merchant_id"`
 	MerchantName string  `json:"merchant_name"`
+	BuyUserId    int64   `json:"buy_user_id"`
 	OrderId      int64   `json:"order_id"`
 	GoodsName    string  `json:"goods_name"`
 	GoodsLogo    string  `json:"goods_logo"`
@@ -20,6 +21,7 @@ type GroupOrderListRet struct {
 type GroupOrderDetailRet struct {
 	OrderId    int64    `json:"order_id"`
 	GoodsId   int64     `json:"goods_id"`
+	BuyUserId  int64   `json:"buy_user_id"`
 	RecUser    string   `json:"rec_user"`
 	RecPhone   string   `json:"rec_phone"`
 	RecAddress string   `json:"rec_address"`

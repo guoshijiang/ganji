@@ -36,7 +36,9 @@ type GoodsOrder struct {
 	DealAt        time.Time  `orm:"null;type(datetime);" json:"deal_at"`                    // 处理时间
 	IsCancle      int8       `orm:"default(0);index" json:"is_cancle"`                      // 0 正常；1.退货; 2:换货; 3:退货成功; 4:换货成功
 	IsComment     int8       `orm:"default(0);index" json:"is_comment"`                     // 0 正常；1.已评价
-	BatchId       string     `orm:"size(128);index" json:"batch_id"`                         // 订单批 ID
+	BatchId       string     `orm:"size(128);index" json:"batch_id"`                        // 订单批 ID
+	IsReward      int8       `orm:"default(0);index" json:"is_reward"`                      // 0 正常；1.已计算奖励
+	IsBuild       int8       `orm:"default(0);index" json:"is_build"`                       // 0 正常；1.已构建
 }
 
 func (this *GoodsOrder) TableName() string {

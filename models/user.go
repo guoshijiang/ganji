@@ -144,14 +144,15 @@ func RegisterByPhoneOrEmail(register_parm type_user.UserRegisterCheck) (success 
 			return false, types.InviteCodeNotExist, errors.New("对不起，没有这个邀请码，请核对后输入")
 		}
 		inviteMeUserID = inviteMeUser.Id
+		it_gral, _ := GetIntegralByUserId(inviteMeUserID)
+		it_gral.TotalIg = it_gral.TotalIg + 50
+		if err := it_gral.Update(); err != nil {
+			return false, types.InsertIntegralFail, errors.New("更新上级用户积分失败")
+		}
 	} else {
 		inviteMeUserID = 0
 	}
-
-	token,inviteCode := uidCode()
-	//uid,_:= uuid.NewV4()
-	//uuid,_:= uuid.NewV4()
-	//hex_uuid := base64.RawURLEncoding.EncodeToString(uid.Bytes())
+	token, inviteCode := uidCode()
 	user_reg_data := User {
 		Phone:          phone,
 		UserName:      "小鱼儿",
@@ -182,12 +183,26 @@ func RegisterByPhoneOrEmail(register_parm type_user.UserRegisterCheck) (success 
 	crfr_integral := UserIntegral{
 		UserId: user_id,
 		IntegralName: "商城积分",
-		TotalIg: 0,
+		TotalIg: 10,
 		UsedIg:  0,
 		TodayIg: 0,
 	}
 	if err := crfr_integral.Insert(); err != nil {
 		return false, types.InsertIntegralFail, errors.New("插入积分失败")
+	}
+	current_time := time.Now()
+	end_time := current_time.AddDate(0, 0, 30)
+	user_coupon := UserCoupon{
+		UserId: user_id,
+		ConponName: "优惠券",
+		IsUsed: 0,
+		TotalAmount: 10,
+		StartTime: &current_time,
+		EndTime: &end_time,
+		IsInvalid:0,
+	}
+	if err := user_coupon.Insert(); err != nil {
+		return false, types.InsertIntegralFail, errors.New("插入优惠券失败")
 	}
 	return true, types.ReturnSuccess, nil
 }

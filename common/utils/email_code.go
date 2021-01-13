@@ -48,15 +48,15 @@ func SendEmailByBeego(email string, verify_code int) int {
 func SendSSLEmaill(to_email string, verify_code int)  {
 	host := "hwsmtp.exmail.qq.com"
 	port := 465
-	email := "guoxue@hzchainup.com"
-	password := "ChainUp.com123"
+	email := "guoshijiang@gingernet.vip"
+	password := "Guo20123762"
 	toEmail := to_email
 	header := make(map[string]string)
-	header["From"] = "来自链上星球" + "<" + email + ">"
+	header["From"] = "来自市集" + "<" + email + ">"
 	header["To"] = toEmail
 	header["Subject"] = "验证码"
 	header["Content-Type"] = "text/html; charset=UTF-8"
-	body := "【链上星球】您的邮箱验证码是" +strconv.Itoa(verify_code) + "请勿泄露，否则会造成资产安全"
+	body := "【市集商城】您的邮箱验证码是" +strconv.Itoa(verify_code) + "请勿泄露，否则会造成资产安全"
 	message := ""
 	for k, v := range header {
 		message += fmt.Sprintf("%s: %s\r\n", k, v)

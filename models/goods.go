@@ -181,6 +181,15 @@ func GetCategoryGoodsList(page, pageSize int, first_level_id, last_level_id int6
 }
 
 
+func GetMerchantGoodsNums(metchant_id int64) int64 {
+	total, err := orm.NewOrm().QueryTable(Goods{}).Filter("MerchantId", metchant_id).Count()
+	if err != nil {
+		return 0
+	}
+	return total
+}
+
+
 // 0:全部；1:活动优选；2:爆款产品
 func GetMerchantGoodsList(page, pageSize int, metchant_id int64, query_way int8) ([]*Goods, int64, error) {
 	offset := (page - 1) * pageSize

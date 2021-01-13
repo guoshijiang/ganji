@@ -82,6 +82,7 @@ func (this *MerchantController) MerchantDetail() {
 		this.ServeJSON()
 		return
 	}
+	m_goods_nums := models.GetMerchantGoodsNums(merchant_dtil.MerchantId)
 	mct_ret_dtl := type_merchant.MerchantDetailRet{
 		MctId: mcrt_detail.Id,
 		MctLogo: image_path + mcrt_detail.Logo,
@@ -89,7 +90,7 @@ func (this *MerchantController) MerchantDetail() {
 		MctIntroduce: mcrt_detail.MerchantIntro,
 		MerchantDetail: mcrt_detail.MerchantDetail,
 		Address: mcrt_detail.Address,
-		GoodsNum: mcrt_detail.GoodsNum,
+		GoodsNum: m_goods_nums,
 		MctWay: mcrt_detail.MerchantWay,
 		ShopLevel: mcrt_detail.ShopLevel,
 		ShopServer: mcrt_detail.ShopServer,

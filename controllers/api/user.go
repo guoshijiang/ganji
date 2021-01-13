@@ -3,11 +3,14 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"ganji/common"
+	"ganji/common/utils"
 	"ganji/models"
 	rds_conn "ganji/redis"
 	"ganji/types"
 	type_user "ganji/types/user"
 	"github.com/astaxie/beego"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -32,11 +35,10 @@ func (this *UserController) SendPhoneCode() {
 			this.ServeJSON()
 			return
 		}
-		// verify_code, _ := strconv.Atoi(common.GenValidateCode(6))
-		verify_code := 666666
+		verify_code, _ := strconv.Atoi(common.GenValidateCode(6))
 		rds_conn.RdsConn.Del(phone_number.Phone)
 		rds_conn.RdsConn.Set(phone_number.Phone, fmt.Sprintf("%d", verify_code), time.Duration(1000)*time.Second).Err()
-		// utils.SendMesseageCode(phone_number.Phone, verify_code)
+		utils.SendMesseageCode(phone_number.Phone, verify_code)
 		this.Data["json"] = RetResource(true, types.ReturnSuccess, nil, "发送手机号验证码成功")
 		this.ServeJSON()
 		return
@@ -125,11 +127,10 @@ func (this *UserController) PostSendEmailCode() {
 			this.ServeJSON()
 			return
 		}
-		// verify_code, _ := strconv.Atoi(common.GenValidateCode(6))
-		verify_code := 666666
+		verify_code, _ := strconv.Atoi(common.GenValidateCode(6))
 		rds_conn.RdsConn.Del(email_code.Email)
 		rds_conn.RdsConn.Set(email_code.Email, fmt.Sprintf("%d", verify_code), time.Duration(1000)*time.Second).Err()
-		// utils.SendSSLEmaill(email_code.Email, verify_code)
+		utils.SendSSLEmaill(email_code.Email, verify_code)
 		this.Data["json"] = RetResource(true, types.ReturnSuccess, nil, "发送邮箱验证码成功")
 		this.ServeJSON()
 		return

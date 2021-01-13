@@ -10,6 +10,7 @@ import (
 func SendMesseageCode(phone string, verify_code int) bool {
 	region_id := beego.AppConfig.String("region_id")
 	access_key_id := beego.AppConfig.String("access_key_id")
+	fmt.Println("access_key_id", access_key_id)
 	access_secret := beego.AppConfig.String("access_secret")
 	client, err := dysmsapi.NewClientWithAccessKey(region_id, access_key_id, access_secret)
 	if err != nil {

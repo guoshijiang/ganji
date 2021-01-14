@@ -126,6 +126,9 @@ func HelpOrder(order_id, buy_user_id, slef_user_id int64) (bool, int, error){
 		}
 		order_dtl, _, _ := GetGroupOrderDetail(order_id)
 		order_dtl.HelpNumber = order_dtl.HelpNumber + 1
+		if order_dtl.GroupNumber <= order_dtl.HelpNumber {
+			order_dtl.OrderStatus = 1
+		}
 		err = order_dtl.Update()
 		if err != nil {
 			return false, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")

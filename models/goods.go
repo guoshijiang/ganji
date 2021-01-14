@@ -106,7 +106,7 @@ func GetHotGoodsList() ([]*Goods, int, error) {
 
 func GetDiscountGoodsList() ([]*Goods, int, error) {
 	var goods_list []*Goods
-	if _, err := orm.NewOrm().QueryTable(Goods{}).OrderBy("-SellNums").Limit(12).All(&goods_list); err != nil {
+	if _, err := orm.NewOrm().QueryTable(Goods{}).Filter("IsDiscount", 1).OrderBy("-SellNums").Limit(12).All(&goods_list); err != nil {
 		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
 	}
 	return goods_list, types.ReturnSuccess, nil

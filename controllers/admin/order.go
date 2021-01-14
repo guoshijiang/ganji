@@ -30,13 +30,20 @@ func (Self *OrderController) Edit() {
 		response.ErrorWithMessage("Param is error.", Self.Ctx)
 	}
 	var srv services.OrderService
+	var addr *models.UserAddress
 
 	data := srv.GetOrderById(id)
 	if data == nil {
 		response.ErrorWithMessage("Not Found Info By Id.", Self.Ctx)
 	}
+	//用户信息
+
+	if data != nil && data.AddressId > 0 {
+		addr,_,_ = (&models.UserAddress{Id: data.AddressId}).GetAddressById()
+	}
 
 	Self.Data["data"] = data
+	Self.Data["addr"] = addr
 	Self.Layout = "public/base.html"
 	Self.TplName = "order/edit.html"
 }

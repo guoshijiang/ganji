@@ -19,6 +19,7 @@ type IndexGoodsBuyRet struct {
 	Logo          string `json:"logo"`
 	GoodsPrice    float64 `json:"goods_price"`
 	GoodsDisPrice float64 `json:"goods_discount_price"`
+	GroupNumber  int64 `json:"group_number"`
 	GoodsIntegral float64 `json:"goods_integral"`
 	IsDiscount     int8 `json:"is_discount"`
 	IsIgSend       int8 `json:"is_ig_send"`
@@ -49,6 +50,7 @@ type IndexDownGoodsListRet struct {
 	GoodsPrice    float64 `json:"goods_price"`
 	GoodsDisPrice float64 `json:"goods_discount_price"`
 	GoodsIntegral  float64 `json:"goods_integral"`
+	GroupNumber    int64 `json:"group_number"`
 	IsDiscount     int8 `json:"is_discount"`
 	IsIgSend       int8 `json:"is_ig_send"`
 	IsGroup        int8 `json:"is_group"`

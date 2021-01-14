@@ -288,6 +288,7 @@ func (this *GoodsController) GoodsDetail() {
 		"goods_price": goods_dtl.GoodsPrice,
 		"goods_dis_price": goods_dtl.GoodsDisPrice,
 		"goods_integral": goods_dtl.GoodsIntegral,
+		"group_number": goods_dtl.GroupNumber,
 		"send_interal": goods_dtl.SendIntegral,
 		"goods_name": goods_dtl.GoodsName,
 		"goods_params": goods_dtl.GoodsParams,

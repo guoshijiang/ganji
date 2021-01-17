@@ -89,6 +89,12 @@ func (this *WalletIntegralController) IntegralExchange () {
 		this.ServeJSON()
 		return
 	}
+	u_i_g, _ := models.GetIntegralByUserId(user_token.Id)
+	if u_i_g.TotalIg < ig_excg.IntegralAmount || (u_i_g.TotalIg - ig_excg.IntegralAmount) < 0 {
+		this.Data["json"] = RetResource(false, types.IntegralNotEnogh, err, "您的积分余额不足")
+		this.ServeJSON()
+		return
+	}
 	order_nmb := uuid.NewV4()
 	ig_trade := models.IntegralTrade{
 		UserId: user_token.Id,

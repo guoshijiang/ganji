@@ -43,9 +43,8 @@ func (this *ImageController) UploadFiles() {
 			this.Data["json"] = RetResource(false, types.FileIsBig, nil, "文件太大了")
 			this.ServeJSON()
 		} else {
-			img_path := beego.AppConfig.String("upload_image")
 			front_image_path := beego.AppConfig.String("front_image_path")
-			img_dir := beego.AppConfig.String("url")
+			img_dir := beego.AppConfig.String("upload_image")
 			time_str := time.Now().Format("2006/01/02/")
 			uploadDir := img_dir + time_str
 			err = os.MkdirAll(uploadDir, os.ModePerm)
@@ -72,7 +71,7 @@ func (this *ImageController) UploadFiles() {
 			}
 			data := map[string]interface{}{
 				"imgage_id": id,
-				"img_url": img_path + time_str + h.Filename,
+				"img_url": front_image_path + time_str + h.Filename,
 			}
 			this.Data["json"] = RetResource(true, types.ReturnSuccess, data, "上传文件成功")
 			this.ServeJSON()

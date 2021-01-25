@@ -12,8 +12,8 @@ type GoodsType struct {
 	BaseModel
 	Id             int64     `orm:"column(id);auto;size(11)" json:"id"`
 	GoodsId        int64     `json:"goods_id"`                         // 商品ID
-	TypeDef        int8      `json:"type_def"`                         // 属性类别：0:颜色； 1:大小属性; 2:其他属性
-	TypeName       string    `orm:"size(512);index" json:"type_name"`  // 属性文字：商品大小配置等属性文字描述
+	TypeKey        string    `orm:"size(512);index" json:"type_key"`   // 属性名称：如颜色，输入商品的人可以自定义
+	TypeVale       string    `orm:"size(1024);index" json:"type_vale"` // 属性文字：入库数据格式 '["白色", "蓝色", "黄色"]'
 	IsDispay       int8      `orm:"default(1)" json:"is_dispay"`       // 0 不显示 1 显示
 }
 
@@ -57,9 +57,9 @@ func (this *GoodsType) Insert() error {
 }
 
 
-func GetGoodsTypeList(goods_id int64, type_def int8) ([]*GoodsType, int64, error) {
+func GetGoodsTypeList(goods_id int64) ([]*GoodsType, int64, error) {
 	var type_list []*GoodsType
-	if _, err := orm.NewOrm().QueryTable(GoodsType{}).Filter("GoodsId", goods_id).Filter("TypeDef", type_def).All(&type_list); err != nil {
+	if _, err := orm.NewOrm().QueryTable(GoodsType{}).Filter("GoodsId", goods_id).All(&type_list); err != nil {
 		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
 	}
 	return type_list, types.ReturnSuccess, nil

@@ -23,6 +23,6 @@ type GoodsImagesRet struct {
 }
 
 type GoodsTypeRet struct {
-	GoodsTypeId   int64  `json:"goods_type_id"`
-	GoodsTypeName string `json:"goods_type_name"`
+	GdsTypeKey   string `json:"gds_type_key"`
+	GdsTypeValue []string `json:"gds_type_value"`
 }

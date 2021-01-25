@@ -280,44 +280,21 @@ func (this *GoodsController) GoodsDetail() {
 	} else {
 		user_address = nil
 	}
-	color_type_list, _, err := models.GetGoodsTypeList(goods_dtl.Id, COLOR)
-	size_type_list, _, err := models.GetGoodsTypeList(goods_dtl.Id, SIZE)
-	other_type_list, _, err := models.GetGoodsTypeList(goods_dtl.Id, OTHER)
-	var gds_color_type_list, gds_size_type_list, gds_other_type_list []type_goods.GoodsTypeRet
+	type_list_data, _, err := models.GetGoodsTypeList(goods_dtl.Id)
+	var type_list []type_goods.GoodsTypeRet
 	// 颜色属性
-	if err != nil || color_type_list == nil {
-		gds_color_type_list = nil
+	if err != nil || type_list_data == nil {
+		type_list = nil
 	} else {
-		for _, value_t := range color_type_list {
+		for _, value_t := range type_list_data {
+			var value_list []string
+			json.Unmarshal([]byte(value_t.TypeVale), &value_list)
 			c_gds_type := type_goods.GoodsTypeRet{
-				GoodsTypeId: value_t.Id,
-				GoodsTypeName: value_t.TypeName,
+				GdsTypeKey: value_t.TypeKey,
+				GdsTypeValue: value_list,
 			}
-			gds_color_type_list = append(gds_color_type_list, c_gds_type)
-		}
-	}
-	// 大小属性
-	if err != nil || size_type_list == nil {
-		gds_size_type_list = nil
-	} else {
-		for _, value_t := range size_type_list {
-			s_gds_type := type_goods.GoodsTypeRet{
-				GoodsTypeId: value_t.Id,
-				GoodsTypeName: value_t.TypeName,
-			}
-			gds_size_type_list = append(gds_size_type_list, s_gds_type)
-		}
-	}
-	// 其他属性
-	if err != nil || other_type_list == nil {
-		gds_other_type_list = nil
-	} else {
-		for _, value_0_t := range other_type_list {
-			o_gds_type := type_goods.GoodsTypeRet{
-				GoodsTypeId: value_0_t.Id,
-				GoodsTypeName: value_0_t.TypeName,
-			}
-			gds_other_type_list = append(gds_other_type_list, o_gds_type)
+			type_list = append(type_list, c_gds_type)
+
 		}
 	}
 	goods_detail := map[string]interface{}{
@@ -346,9 +323,7 @@ func (this *GoodsController) GoodsDetail() {
 		"is_ig_send": goods_dtl.IsIgSend,
 		"is_group": goods_dtl.IsGroup,
 		"is_integral": goods_dtl.IsIntegral,
-		"color_types": gds_color_type_list,
-		"size_types": gds_size_type_list,
-		"other_types": gds_other_type_list,
+		"goods_types": type_list,
 	}
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, goods_detail, "获取商品详情成功")
 	this.ServeJSON()

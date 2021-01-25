@@ -17,8 +17,8 @@ type MerchantSettleDaily struct {
 	ValidOrderAmount   float64    `orm:"default(0);digits(22);decimals(8)" json:"valid_order_amount"`    // 有效订单金额
 	UnpayOrderNum      int64      `orm:"size(64);index" json:"unpay_order_num"`                          // 未支付订单数量
 	UnpayOrderAmount   float64    `orm:"default(0);digits(22);decimals(8)" json:"unpay_order_amount"`    // 未支付订单金额
-	PayfailOrderNum    int64      `orm:"size(64);index" json:"payfail_order_num"`                        // 未支付订单数量
-	PayfailOrderAmount float64    `orm:"default(0);digits(22);decimals(8)" json:"payfail_order_amount"`  // 未支付订单金额
+	PayfailOrderNum    int64      `orm:"size(64);index" json:"payfail_order_num"`                        // 支付失败订单数量
+	PayfailOrderAmount float64    `orm:"default(0);digits(22);decimals(8)" json:"payfail_order_amount"`  // 支付失败订单金额
 	ReturnOrderNum     int64      `orm:"size(64);index" json:"return_order_num"`                         // 退款订单数量
 	ReturnOrderAmount  float64    `orm:"default(0);digits(22);decimals(8)" json:"invalid_order_amount"`  // 退款订单金额
 	SettleAmount       float64    `orm:"default(0);digits(22);decimals(8)" json:"settle_amount"`         // 可结算金额

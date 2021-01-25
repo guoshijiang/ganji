@@ -65,7 +65,7 @@
                                 <td>{{$item.IntegralSize}}</td>
                                 <td>{{$item.CnySize}}</td>
                                 <td>{{$item.Fee}}</td>
-                                <td>{{$item.Status}}</td>
+                                <td>{{$item.Status | IntegralRecord}}</td>
                             </tr>
                         {{end}}
                         </tbody>

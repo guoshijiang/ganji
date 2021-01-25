@@ -31,12 +31,12 @@
                             <tr>
                                 <td>{{.data.Id}}</td>
                                 <td>{{.data.OrderNumber}}</td>
-                                <td>{{.data.OrderStatus}}</td>
-                                <td>{{.data.PayWay}}</td>
+                                <td>{{.data.OrderStatus | OrderStatus}}</td>
+                                <td>{{.data.PayWay | PayWay}}</td>
                                 <td>{{.data.PayAmount}}</td>
                                 <td>{{.data.SendIntegral}}</td>
-                                <td>{{.data.CreatedAt}}</td>
-                                <td>{{.data.PayAt}}</td>
+                                <td>{{.data.CreatedAt | TimeForFormat}}</td>
+                                <td>{{.data.PayAt | TimeForFormat }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -79,8 +79,8 @@
                             <td>{{.data.GoodsTitle}}</td>
                             <td>{{.data.GoodsName}}</td>
                             <td>{{.data.BuyNums}}</td>
-                            <td>{{.data.CreatedAt}}</td>
-                            <td>{{.data.PayAt}}</td>
+                            <td>{{.data.CreatedAt | TimeForFormat}}</td>
+                            <td>{{.data.PayAt | TimeForFormat}}</td>
                         </tr>
                         </tbody>
                     </table>

@@ -16,7 +16,7 @@
                         <div class="form-group">
                             <label for="title" class="col-sm-2 control-label">商品标题</label>
                             <div class="col-sm-10 col-md-4">
-                                <input maxlength="50" class="form-control" id="title" placeholder="请输入昵称" name="title" value="">
+                                <input maxlength="50" class="form-control" id="title" placeholder="请输入商品标题" name="title" value="">
                             </div>
                         </div>
 
@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="logo" class="col-sm-2 control-label">商品图片</label>
+                            <label for="images" class="col-sm-2 control-label">商品图片</label>
                             <div class="col-sm-10 col-md-4">
                                 <input id="images" name="images" placeholder="请上传头像" type="file" class="form-control field-image" multiple>
                             </div>
@@ -164,9 +164,48 @@
                         <div class="form-group">
                             <label for="nickname" class="col-sm-2 control-label">折扣</label>
                             <div class="col-sm-10 col-md-4">
-                                <input maxlength="50" class="form-control" id="discount" placeholder="请输入昵称" name="discount" value="">
+                                <input maxlength="50" class="form-control" id="discount" placeholder="请输入折扣" name="discount" value="">
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="send_integral" class="col-sm-2 control-label">购买赠送积分</label>
+                            <div class="col-sm-10 col-md-4">
+                                <input maxlength="50" class="form-control" id="send_integral" placeholder="请输入购买赠送积分" name="send_integral" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="goods_integral" class="col-sm-2 control-label">购买需要积分</label>
+                            <div class="col-sm-10 col-md-4">
+                                <input maxlength="50" class="form-control" id="goods_integral" placeholder="请输入购买需要积分" name="goods_integral" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="group_number" class="col-sm-2 control-label">主力人数</label>
+                            <div class="col-sm-10 col-md-4">
+                                <input maxlength="50" class="form-control" id="group_number" placeholder="请输入主力人数" name="group_number" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="is_ig_send" class="col-sm-2 control-label">是否赠送积分</label>
+                            <div class="col-sm-10 col-md-4">
+                                <input class="input-switch" id="is_ig_send" value="1" checked type="checkbox"/>
+                                <input class="switch field-switch" name="is_ig_send" value="1" hidden/>
+                            </div>
+                        </div>
+                        <script>
+                            $('#is_ig_send').bootstrapSwitch({
+                                onText: "赠送积分",
+                                offText: "正常",
+                                onColor: "success",
+                                offColor: "danger",
+                                onSwitchChange: function (event, state) {
+                                    $(event.target).closest('.bootstrap-switch').next().val(state ? '1' : '0').change();
+                                }
+                            });
+                        </script>
+
                         <div class="form-group">
                             <label for="sale" class="col-sm-2 control-label">上/下架</label>
                             <div class="col-sm-10 col-md-4">
@@ -244,25 +283,6 @@
                             });
                         </script>
 
-{{/*                        <div class="form-group">*/}}
-{{/*                            <label for="is_ig_exchange" class="col-sm-2 control-label">积分兑换</label>*/}}
-{{/*                            <div class="col-sm-10 col-md-4">*/}}
-{{/*                                <input class="input-switch" id="is_ig_exchange" value="1" checked type="checkbox"/>*/}}
-{{/*                                <input class="switch field-switch" name="is_ig_exchange" value="1" hidden/>*/}}
-{{/*                            </div>*/}}
-{{/*                        </div>*/}}
-{{/*                        <script>*/}}
-{{/*                            $('#is_ig_exchange').bootstrapSwitch({*/}}
-{{/*                                onText: "是",*/}}
-{{/*                                offText: "否",*/}}
-{{/*                                onColor: "success",*/}}
-{{/*                                offColor: "danger",*/}}
-{{/*                                onSwitchChange: function (event, state) {*/}}
-{{/*                                    $(event.target).closest('.bootstrap-switch').next().val(state ? '1' : '0').change();*/}}
-{{/*                                }*/}}
-{{/*                            });*/}}
-{{/*                        </script>*/}}
-
                         <div class="form-group">
                             <label for="is_group" class="col-sm-2 control-label">拼购产品</label>
                             <div class="col-sm-10 col-md-4">
@@ -333,7 +353,6 @@
                                 serverUrl: UEServer
                             });
                         </script>
-
                     </div>
 
                     <!--表单底部-->
@@ -369,31 +388,96 @@
 <script>
     $("#dataForm").validate({
         rules: {
-            merchant_name: {
+            title: {
                 required: true,
                 minlength: 2
             },
-            merchant_intro: {
+            logo: {
                 required: true,
-                minlength: 2
+                minlength: 1
             },
-            address: {
+            images: {
                 required: true,
-                minlength: 6
+                minlength: 1
+            },
+            total_amount: {
+                required: true,
+                minlength: 1
+            },
+            goods_price:{
+                required: true,
+            },
+            goods_discount_price:{
+                required: true,
+            },
+            goods_mark:{
+                required: true,
+            },
+            serveice:{
+                required: true,
+            },
+            calc_way:{
+                required: true,
+            },
+            goods_cat_id:{
+                required: true,
+            },
+            goods_name:{
+                required: true,
+            },
+            goods_params:{
+                required: true,
+            },
+            discount:{
+                required: true,
+            },
+            goods_detail:{
+                required: true,
             },
         },
         messages: {
-            merchant_name: {
+            title: {
                 required: "请输入商家名称",
                 minlength: "名称长度不能小于2"
             },
-            merchant_intro: {
-                required: "请输入商家简介",
-                minlength: "用户名长度不能小于2"
+            logo: {
+                required: "请上传LOGO",
             },
-            address: {
-                required: "请输入店铺地址",
-                minlength: "店铺地址长度不能小于6"
+            images: {
+                required: "请上传商品图片",
+            },
+            total_amount: {
+                required: "请输入商品总量",
+            },
+            goods_price: {
+                required: "请输入商品价格",
+            },
+            goods_discount_price: {
+                required: "请输入商品折扣价格",
+            },
+            goods_mark: {
+                required: "请输入商品备注",
+            },
+            serveice: {
+                required: "请输入服务说明",
+            },
+            calc_way: {
+                required: "请选择计量单位",
+            },
+            goods_cat_id: {
+                required: "请选择商品所属分类",
+            },
+            goods_name: {
+                required: "请输入产品名称",
+            },
+            goods_params: {
+                required: "请输入产品参数",
+            },
+            discount: {
+                required: "请输入折扣",
+            },
+            goods_detail: {
+                required: "请输入产品详细介绍",
             },
         },
 

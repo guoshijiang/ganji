@@ -16,6 +16,11 @@ func init() {
 	beego.AddFuncMap("ProcessIsRecvGoods", ProcessIsRecvGoods)
 	beego.AddFuncMap("ProcessFundRet", ProcessFundRet)
 	beego.AddFuncMap("UnixTimeForFormat", UnixTimeForFormat)
+	beego.AddFuncMap("OrderStatus", OrderStatus)
+	beego.AddFuncMap("CancelStatus", CancelStatus)
+	beego.AddFuncMap("PayWay", PayWay)
+	beego.AddFuncMap("IntegralType", IntegralType)
+	beego.AddFuncMap("IntegralRecord", IntegralRecord)
 }
 
 //时间轴转时间字符串
@@ -27,7 +32,94 @@ func UnixTimeForFormat(timeUnix int) string {
 
 func TimeForFormat(t interface{}) string {
 	timeLayout := "2006-01-02 15:04:05"
-	return t.(time.Time).Format(timeLayout)
+	if _,ok := t.(time.Time);ok {
+		return t.(time.Time).Format(timeLayout)
+	}
+	return t.(*time.Time).Format(timeLayout)
+}
+
+//状态  0:交易中；1: 交易成功 2: 交易失败
+func IntegralRecord(t int8) string {
+	switch t {
+	case 0:
+		return "交易中"
+	case 1:
+		return "交易成功"
+	case 2:
+		return "交易失败"
+	default:
+		return "未知"
+	}
+}
+
+//积分类型 // 1:邀请积分; 2:购买积分; 3: 管理奖励;  4:积分消费
+func IntegralType(t int8) string {
+	switch t {
+	case 1:
+		return "邀请积分"
+	case 2:
+		return "购买积分"
+	case 3:
+		return "管理奖励"
+	case 4:
+		return "积分消费"
+	default:
+		return "未知"
+	}
+}
+
+//支付方式 0:积分兑换，1:账户余额支付，2:微信支付；3:支付宝支付; 4:未知支付方式
+func PayWay(t int8) string {
+	switch t {
+	case 0:
+		return "积分兑换"
+	case 1:
+		return "账户余额支付"
+	case 2:
+		return "微信支付"
+	case 3:
+		return "支付宝支付"
+	default:
+		return "未知"
+	}
+}
+
+//订单状态 0: 未支付，1: 支付中，2：支付成功；3：支付失败 4：已发货；5：已完成
+func OrderStatus(t int8) string {
+	switch t {
+	case 0:
+		return "未支付"
+	case 1:
+		return "支付中"
+	case 2:
+		return "支付成功"
+	case 3:
+		return "支付失败"
+	case 4:
+		return "已发货"
+	case 5:
+		return "已完成"
+	default:
+		return "未知"
+	}
+}
+
+//取消订单状态 0 正常；1.退货; 2:换货; 3:退货成功; 4:换货成功
+func CancelStatus(t int8) string {
+	switch t {
+	case 0:
+		return "正常"
+	case 1:
+		return "退货"
+	case 2:
+		return "换货"
+	case 3:
+		return "退货成功"
+	case 4:
+		return "换货成功"
+	default:
+		return "未知"
+	}
 }
 
 //资金类型

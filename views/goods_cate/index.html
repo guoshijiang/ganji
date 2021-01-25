@@ -69,7 +69,9 @@
                                 <td>{{$item.Name}}</td>
                                 <td>{{$item.CatLevel}}</td>
                                 <td>{{$item.FatherCatId}}</td>
-                                <td>{{$item.IsDispay}}</td>
+                                <td>
+                                    {{if eq 1 $item.IsDispay}} <span class="label label-success">是</span> {{else}} <span class="label label-warning">否</span> {{end}}
+                                </td>
                                 <td><img style="max-width: 40px" src="{{$item.Icon}}"></td>
                                 <td class="td-do">
                                     <a href="/admin/cat-goods/edit?id={{$item.Id}}"

@@ -55,10 +55,11 @@ func (*GoodsServices) Create(form *form_validate.GoodsForm) int {
 		Serveice: form.Serveice,
 		CalcWay:form.CalcWay,
 		GoodsIntegral:form.GoodsIntegral,
-		LeftAmount:form.LeftAmount,
 		TotalAmount: form.TotalAmount,
 		MerchantId: form.MerchantId,
 		GoodsCatId: form.GoodsCatId,
+		SendIntegral: form.SendIntegral,
+		GroupNumber: form.GroupNumber,
 	}
 	id, err := orm.NewOrm().Insert(&goods)
 
@@ -134,11 +135,13 @@ func (*GoodsServices) Update(form *form_validate.GoodsForm) int{
 		goods.Serveice  = form.Serveice
 		goods.CalcWay  = form.CalcWay
 		goods.GoodsIntegral  = form.GoodsIntegral
-		goods.LeftAmount  = form.LeftAmount
 		goods.TotalAmount  = form.TotalAmount
 		goods.GoodsCatId = form.GoodsCatId
 		goods.Discount = form.Discount
 		goods.IsDiscount = form.IsDiscount
+		goods.GroupNumber = form.GroupNumber
+		goods.SendIntegral = form.SendIntegral
+		goods.GoodsIntegral = form.GoodsIntegral
 		if AdminUserVal.MerchantId > 0 {
 			goods.MerchantId = int64(AdminUserVal.MerchantId)
 		} else {

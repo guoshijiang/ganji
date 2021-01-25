@@ -200,6 +200,45 @@
                                 <input maxlength="50" class="form-control" id="discount" placeholder="请输入折扣" name="discount" value="{{.data.Discount}}">
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="send_integral" class="col-sm-2 control-label">购买赠送积分</label>
+                            <div class="col-sm-10 col-md-4">
+                                <input maxlength="50" class="form-control" id="send_integral" placeholder="请输入购买赠送积分" name="send_integral" value="{{.data.SendIntegral}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="goods_integral" class="col-sm-2 control-label">购买需要积分</label>
+                            <div class="col-sm-10 col-md-4">
+                                <input maxlength="50" class="form-control" id="goods_integral" placeholder="请输入购买需要积分" name="goods_integral" value="{{.data.GoodsIntegral}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="group_number" class="col-sm-2 control-label">主力人数</label>
+                            <div class="col-sm-10 col-md-4">
+                                <input maxlength="50" class="form-control" id="group_number" placeholder="请输入主力人数" name="group_number" value="{{.data.GroupNumber}}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="is_ig_send" class="col-sm-2 control-label">是否赠送积分</label>
+                            <div class="col-sm-10 col-md-4">
+                                <input class="input-switch" id="is_ig_send" value="1" {{if eq 1 .data.IsIgSend}} checked {{end}} type="checkbox"/>
+                                <input class="switch field-switch" name="is_ig_send" value="{{.data.IsIgSend}}" hidden/>
+                            </div>
+                        </div>
+                        <script>
+                            $('#is_ig_send').bootstrapSwitch({
+                                onText: "赠送积分",
+                                offText: "正常",
+                                onColor: "success",
+                                offColor: "danger",
+                                onSwitchChange: function (event, state) {
+                                    $(event.target).closest('.bootstrap-switch').next().val(state ? '1' : '0').change();
+                                }
+                            });
+                        </script>
+
                         <div class="form-group">
                             <label for="sale" class="col-sm-2 control-label">上/下架</label>
                             <div class="col-sm-10 col-md-4">

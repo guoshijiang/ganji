@@ -154,6 +154,19 @@ func init() {
 		//商品分类管理-删除
 		beego.NSRouter("/cat-goods/del", &controllers.GoodsCateController{}, "post:Del"),
 
+		//商品分类管理-商品属性管理
+		beego.NSRouter("/goods_type/index", &controllers.GoodsTypeController{}, "get:Index"),
+		//商品属性管理-添加界面
+		beego.NSRouter("/goods_type/add", &controllers.GoodsTypeController{}, "get:Add"),
+		//商品属性管理-添加
+		beego.NSRouter("/goods_type/create", &controllers.GoodsTypeController{}, "post:Create"),
+		//商品属性管理-修改界面
+		beego.NSRouter("/goods_type/edit", &controllers.GoodsTypeController{}, "get:Edit"),
+		//商品属性管理-修改
+		beego.NSRouter("/goods_type/update", &controllers.GoodsTypeController{}, "post:Update"),
+		//商品属性管理-删除
+		beego.NSRouter("/goods_type/del", &controllers.GoodsTypeController{}, "post:Del"),
+
 		//Ueditor
 		beego.NSRouter("/editor/server", &controllers.EditorController{}, "get,post:Server"),
 

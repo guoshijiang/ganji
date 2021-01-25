@@ -69,7 +69,7 @@
                                 <td>{{$item.GoodsTitle}}</td>
                                 <td>{{$item.GoodsName}}</td>
                                 <td>{{$item.BuyNums}}</td>
-                                <td>{{$item.PayWay}}</td>
+                                <td>{{$item.PayWay | PayWay}}</td>
                                 <td>{{$item.PayAmount}}</td>
                                 <td class="td-do">
                                     <a href="/admin/order/edit?id={{$item.Id}}"

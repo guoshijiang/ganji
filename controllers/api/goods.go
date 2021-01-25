@@ -347,6 +347,8 @@ func (this *GoodsController) GoodsDetail() {
 		"is_group": goods_dtl.IsGroup,
 		"is_integral": goods_dtl.IsIntegral,
 		"color_types": gds_color_type_list,
+		"size_types": gds_size_type_list,
+		"other_types": gds_other_type_list,
 	}
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, goods_detail, "获取商品详情成功")
 	this.ServeJSON()

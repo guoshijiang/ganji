@@ -15,6 +15,7 @@ type CreateOrderCheck struct {
 	PayIntegral   float64 `json:"pay_integral"`    // 支付积分
 	SendIntegral  float64 `json:"send_integral"`   // 购买商品赠送积分
 	IsIntegral    int8    `json:"is_integral"`     // 0:非积分兑换产品 1:积分兑换产品
+	GoodsTypes    string  `json:"goods_types"`
 	IsDis         int8    `json:"is_dis"`          // 0:不打折，1:打折活动产品
 }
 

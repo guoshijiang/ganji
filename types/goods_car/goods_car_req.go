@@ -11,7 +11,8 @@ type AddGoodCarCheck struct {
 	AddressId  int64   `json:"address_id"`
 	BuyNums    int64   `json:"buy_nums"`
 	PayAmount  float64 `json:"pay_amount"`
-	IsDis      int8    `json:"is_dis"`   // 1:非打折商品  2:打折商品
+	GoodsTypes string  `json:"goods_types"` // 商品属性
+	IsDis      int8    `json:"is_dis"`      // 1:非打折商品  2:打折商品
 }
 
 func (this AddGoodCarCheck) AddGoodCarCheckParamValidate() (int, error) {

@@ -85,6 +85,7 @@ func (this *OrderController) CreateOrder() {
 		GoodsId: gds.Id,
 		MerchantId: gds.MerchantId,
 		AddressId: create_order.AddressId,
+		GoodsTypes: create_order.GoodsTypes,
 		GoodsTitle: gds.Title,
 		GoodsName: gds.GoodsName,
 		Logo: gds.Logo,
@@ -177,6 +178,7 @@ func (this *OrderController) CreateOrderByGoodsCar() {
 			OrderStatus: 0,
 			FailureReason: "未支付",
 			BatchId: batch_id.String(),
+			GoodsTypes: gds_car_dtl.GoodsTypes,
 		}
 		err, id := cmt.Insert()
 		if err != nil {

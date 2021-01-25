@@ -15,6 +15,7 @@ type GoodsCar struct {
 	MerchantId   int64      `json:"merchant_id"`                // 商品所属商家ID
 	Logo         string     `orm:"size(150);default(/static/upload/default/user-default-60x60.png)" json:"logo" form:"logo"` // 商品LOGO
 	AddresId     int64      `orm:"default(1)" json:"addres_id"`  // 地址ID
+	GoodsTypes   string     `orm:"size(512)" json:"goods_types"`                           // 商品属性
 	GoodsTitle   string     `orm:"size(64)" json:"goods_title"`                              // 商品标题
 	GoodsName    string     `orm:"size(512);index" json:"goods_name" form:"goods_name"`      // 产品名称
 	UserId       int64      `orm:"size(64);index" json:"user_id"`                            // 购买用户

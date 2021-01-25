@@ -77,6 +77,7 @@ func (this *GoodsCarController) AddGoodsToCar() {
 				GoodsId: goods_dtl.Id,
 				Logo: goods_dtl.Logo,
 				MerchantId: goods_dtl.MerchantId,
+				GoodsTypes: goods_car.GoodsTypes,
 				GoodsTitle: goods_dtl.Title,
 				GoodsName: goods_dtl.GoodsName,
 				UserId: user_token.Id,

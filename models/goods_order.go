@@ -14,10 +14,11 @@ type GoodsOrder struct {
 	BaseModel
 	Id            int64      `json:"id"`
 	GoodsId       int64      `orm:"size(64);index" json:"goods_id"`                         // 商品 ID
-	MerchantId    int64       `orm:"size(64);index" json:"merchant_id"`                        // 商户 ID
+	MerchantId    int64      `orm:"size(64);index" json:"merchant_id"`                      // 商户 ID
 	AddressId     int64      `orm:"size(64);index" json:"address_id"`                       // 地址 ID
+	GoodsTypes    string     `orm:"size(512)" json:"goods_types"`                           // 商品属性
 	GoodsTitle    string     `orm:"size(64)" json:"goods_title"`                            // 商品标题
-	GoodsName     string     `orm:"size(512);index" json:"goods_name" form:"goods_name"`      // 产品名称
+	GoodsName     string     `orm:"size(512);index" json:"goods_name" form:"goods_name"`    // 产品名称
 	Logo          string     `orm:"size(150);default(/static/upload/default/user-default-60x60.png)" json:"image"` // 商品Logo
 	UserId        int64      `orm:"size(64);index" json:"user_id"`                          // 购买用户
 	BuyNums       int64      `orm:"default(0)" json:"buy_nums"`                             // 购买数量

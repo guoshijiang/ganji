@@ -10,14 +10,12 @@ import (
 type MerchantSettle struct {
 	BaseModel
 	Id                 int64      `json:"id"`
-	MerchantId         int64      `orm:"size(64);index" json:"merchant_id"`  // 商户 ID
-	OrderNum           int64      `orm:"size(64);index" json:"order_num"`    // 订单总数量
-	OrderAmount        float64    `orm:"default(0);digits(22);decimals(8)" json:"order_amount"`  // 订单总金额
-	ValidOrderNum      int64      `orm:"size(64);index" json:"valid_order_num"`    // 有效订单数量
-	ValidOrderAmount   float64    `orm:"default(0);digits(22);decimals(8)" json:"valid_order_amount"`  // 有效订单金额
-	InvalidOrderNum    int64      `orm:"size(64);index" json:"invalid_order_num"`    // 退款订单数量
-	InvalidOrderAmount float64    `orm:"default(0);digits(22);decimals(8)" json:"invalid_order_amount"` // 退款订单金额
-	SettleTime    *time.Time `orm:"type(datetime);null" json:"settle_time"`  // 统计的时间
+	StartSettleTime    *time.Time `orm:"type(datetime);null" json:"start_settle_time"`                   // 结算开始日期
+	EndSettleTime  	   *time.Time `orm:"type(datetime);null" json:"end_settle_time"`                     // 结算结束日期
+	MerchantId         int64      `orm:"size(64);index" json:"merchant_id"`                              // 商户 ID
+	SettleAmount       float64    `orm:"default(0);digits(22);decimals(8)" json:"settle_amount"`         // 结算金额
+	HandUser           string     `orm:"size(64);index" json:"hand_user"`                                 // 平台处理账户
+	Status             int8       `orm:"default(0);index" json:"is_settled"`                             // 0:商家已确认； 1:平台已确认； 2：已付款
 }
 
 
@@ -55,4 +53,5 @@ func (this *MerchantSettle) Insert() (error, int64) {
 	}
 	return nil, id
 }
+
 

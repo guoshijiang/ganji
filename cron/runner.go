@@ -49,5 +49,23 @@ func Run() {
 			}
 		}
 	}()
+
+	go func() {
+		for {
+			select {
+			case now := <-time.Tick(time.Minute):
+				if now.Hour() == 0 && now.Minute() == 1 {
+					yesterday := now.AddDate(0, 0, -1).Format("20060102")
+					err := MerchantSettleDaiy(yesterday)
+					if err != nil {
+						logrus.Errorf("run user patch usdt order income error %v", err)
+					} else {
+						logrus.Info("run user patch usdt order income success.")
+					}
+				}
+			}
+		}
+	}()
+
 }
 

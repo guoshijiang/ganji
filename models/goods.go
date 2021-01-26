@@ -246,4 +246,12 @@ func GetGoodsDetail(id int64) (*Goods, int, error) {
 	return &goods, types.ReturnSuccess, nil
 }
 
+func LimitTimeGoodsList(db orm.Ormer) ([]*Goods, error) {
+	var gds_list []*Goods
+	if _, err := db.QueryTable(Goods{}).Filter("IsLimitTime", 1).All(&gds_list); err != nil {
+		return nil, errors.New("数据库操作错误")
+	}
+	return gds_list, nil
+}
+
 

@@ -20,6 +20,7 @@ type Merchant struct {
 	Address        string    `orm:"size(512);index" json:"address"`         // 店铺地址
 	GoodsNum       int64     `json:"goods_num"`                             // 商品总数
 	MerchantWay    int8      `orm:"default(0);index" json:"merchant_way"`   // 0:自营商家； 1:认证商家  2:普通商家
+	SettlePercent  float64   `orm:"default(0);digits(22);decimals(8)" json:"settle_percent"` // 结算比例
 	ShopLevel      int8      `json:"shop_level"`                            // 店铺等级
 	ShopServer     int8      `json:"shop_server"`                           // 店铺服务
 }
@@ -58,4 +59,13 @@ func GetMerchantDetail(id int64) (*Merchant, int, error) {
 
 func (*Merchant) SearchField() []string {
 	return []string{"merchant_name"}
+}
+
+
+func GetMerchantSettleList(db orm.Ormer) ([]*Merchant, error) {
+	var merchant_list []*Merchant
+	if _, err := db.QueryTable(Merchant{}).All(&merchant_list); err != nil {
+		return nil, errors.New("数据库操作错误")
+	}
+	return merchant_list, nil
 }

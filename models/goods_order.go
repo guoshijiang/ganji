@@ -40,6 +40,7 @@ type GoodsOrder struct {
 	BatchId       string     `orm:"size(128);index" json:"batch_id"`                        // 订单批 ID
 	IsReward      int8       `orm:"default(0);index" json:"is_reward"`                      // 0 正常；1.已计算奖励
 	IsBuild       int8       `orm:"default(0);index" json:"is_build"`                       // 0 正常；1.已构建
+	IsStatic      int8 		 `orm:"default(0);index" json:"is_static"`                      // 0 正常；1.已统计
 }
 
 func (this *GoodsOrder) TableName() string {
@@ -164,4 +165,13 @@ func ReturnGoodsOrder(oret type_order.ReturnGoodsOrderCheck) (*GoodsOrder, int, 
 		return nil, types.SystemDbErr, errors.New("数据库查询失败，请联系客服处理")
 	}
 	return &order_dtl, types.ReturnSuccess, nil
+}
+
+
+func GetOrdetListByMet(merchant_id int64, db orm.Ormer) ([]*GoodsOrder, error) {
+	var order_list []*GoodsOrder
+	if _, err := db.QueryTable(GoodsOrder{}).Filter("MerchantId", merchant_id).Filter("IsStatic", 0).All(&order_list); err != nil {
+		return nil, errors.New("数据库操作错误")
+	}
+	return order_list, nil
 }

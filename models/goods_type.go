@@ -12,8 +12,8 @@ type GoodsType struct {
 	BaseModel
 	Id             int64     `orm:"column(id);auto;size(11)" json:"id"`
 	GoodsId        int64     `json:"goods_id"`                         // 商品ID
-	TypeKey        string    `orm:"size(512);index" json:"type_key"`   // 属性名称：如颜色，输入商品的人可以自定义
-	TypeVale       string    `orm:"size(1024);index" json:"type_vale"` // 属性文字：入库数据格式 ["白色", "蓝色", "黄色"]
+	TypeKey        string    `orm:"size(512)" json:"type_key"`   // 属性名称：如颜色，输入商品的人可以自定义
+	TypeVale       string    `orm:"size(1024)" json:"type_vale"` // 属性文字：入库数据格式 ["白色", "蓝色", "黄色"]
 	IsDispay       int8      `orm:"default(1)" json:"is_dispay"`       // 0 不显示 1 显示
 }
 

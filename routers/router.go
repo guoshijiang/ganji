@@ -218,6 +218,22 @@ func init() {
 		beego.NSRouter("/sys/customer/del", &controllers.SysController{}, "post:CustomerServiceDel"),
 		beego.NSRouter("/sys/record/verify", &controllers.SysController{}, "post:WalletRecordVerify"),
 
+		//结算账户管理-账户管理
+		beego.NSRouter("/settle/index", &controllers.SettleAccountController{}, "get:Index"),
+		//结算账户管理-添加界面
+		beego.NSRouter("/settle/add", &controllers.SettleAccountController{}, "get:Add"),
+		//结算账户管理-添加
+		beego.NSRouter("/settle/create", &controllers.SettleAccountController{}, "post:Create"),
+		//结算账户管理-修改界面
+		beego.NSRouter("/settle/edit", &controllers.SettleAccountController{}, "get:Edit"),
+		//结算账户管理-修改
+		beego.NSRouter("/settle/update", &controllers.SettleAccountController{}, "post:Update"),
+		//结算账户管理-删除
+		beego.NSRouter("/settle/del", &controllers.SettleAccountController{}, "post:Delete"),
+
+		//日结算列表
+		beego.NSRouter("/settle/daily", &controllers.SettleController{}, "get:Daily"),
+
 	)
 	beego.AddNamespace(admin)
 	// API 部分

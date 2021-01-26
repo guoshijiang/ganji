@@ -23,7 +23,7 @@ func init() {
 		new(GoodsComment), new(GoodsCat), new(GoodsImage), new(GoodsOrder), new(OrderProcess), new(GroupOrder),
 		new(GroupHelper), new(ImageFile),  new(IntegralRecord), new(IntegralTrade), new(UserAddress),
 		new(Version), new(WalletRecord), new(Banner), new(CustomerService), new(Questions), new(UserAccount),
-		new(AssetDebt), new(MerchantSettle), new(MerchantWallet), new(MerchantWithdraw), new(GoodsType))
+		new(AssetDebt), new(MerchantSettle), new(MerchantWallet), new(MerchantWithdraw), new(GoodsType),new(MerchantSettleAccount))
 	if beego.AppConfig.String("runmode") == "dev" {
 		orm.Debug = true
 	}
@@ -61,13 +61,14 @@ func insertAdmin(){
 
 func loadMenu() {
 	sqls,_ := beego.AppConfig.GetSection("source")
+	mysqlConfig, _ := beego.AppConfig.GetSection("mysql")
 	command := "mysql -P {port} -h {address} -u{username} -p{password} {database} < {source}"
-	command = strings.Replace(command, "{username}", beego.AppConfig.String("db_user"), 1)
-	command = strings.Replace(command, "{password}", beego.AppConfig.String("db_pass"), 1)
-	command = strings.Replace(command, "{database}", beego.AppConfig.String("db_name"), 1)
-	command = strings.Replace(command, "{address}", beego.AppConfig.String("db_host"), 1)
+	command = strings.Replace(command, "{username}", mysqlConfig["db_user"], 1)
+	command = strings.Replace(command, "{password}", mysqlConfig["db_pass"], 1)
+	command = strings.Replace(command, "{database}", mysqlConfig["db_name"], 1)
+	command = strings.Replace(command, "{address}", mysqlConfig["db_host"], 1)
 	command = strings.Replace(command, "{source}", sqls["source"], 1)
-	command = strings.Replace(command, "{port}", beego.AppConfig.String("db_port"), 1)
+	command = strings.Replace(command, "{port}", mysqlConfig["db_port"], 1)
 	cmd := exec.Command("/bin/sh", "-c", command)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -223,4 +224,14 @@ type OrderProcessList struct {
 	GoodsName				string					`json:"goods_name"`
 	GoodsTitle				string					`json:"goods_title"`
 	PayAmount				float64					`json:"pay_amount"`
+}
+
+type MerchantSettleAccountData struct{
+	MerchantSettleAccount
+	MerchantName			string					`json:"merchant_name"`
+}
+
+type MerchantSettleDailyData struct{
+	MerchantSettleDaily
+	MerchantName			string					`json:"merchant_name"`
 }

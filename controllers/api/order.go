@@ -377,6 +377,7 @@ func (this *OrderController) OrderDetail() {
 		IsComment: ord_dtl.IsComment,
 		IsDiscount: gdsdtl.IsDiscount,
 		IsIntegral: gdsdtl.IsIntegral,
+		GoodsTypes: ord_dtl.GoodsTypes,
 		RetrurnOrder: ret_ordr,
 	}
 	this.Data["json"] = RetResource(true, types.ReturnSuccess, odl, "获取订单详情成功")

@@ -41,7 +41,9 @@ func (Self *OrderController) Edit() {
 	if data != nil && data.AddressId > 0 {
 		addr,_,_ = (&models.UserAddress{Id: data.AddressId}).GetAddressById()
 	}
-
+	if addr == nil {
+		addr = new(models.UserAddress)
+	}
 	Self.Data["data"] = data
 	Self.Data["addr"] = addr
 	Self.Layout = "public/base.html"

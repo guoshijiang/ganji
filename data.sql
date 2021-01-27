@@ -11,7 +11,7 @@
  Target Server Version : 80014
  File Encoding         : 65001
 
- Date: 26/01/2021 01:16:23
+ Date: 27/01/2021 00:19:30
 */
 
 SET NAMES utf8mb4;
@@ -24,15 +24,15 @@ DROP TABLE IF EXISTS `admin_menu`;
 CREATE TABLE `admin_menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(30) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `url` varchar(100) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `icon` varchar(30) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'fa-list',
+  `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `url` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `icon` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'fa-list',
   `is_show` tinyint(4) NOT NULL DEFAULT '1',
   `sort_id` int(11) NOT NULL DEFAULT '1000',
-  `log_method` varchar(8) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '不记录',
+  `log_method` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '不记录',
   PRIMARY KEY (`id`),
   KEY `admin_menu_url` (`url`)
-) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of admin_menu
@@ -143,6 +143,14 @@ INSERT INTO `admin_menu` VALUES (136, 134, '商品属性-添加属性-创建', '
 INSERT INTO `admin_menu` VALUES (137, 134, '商品属性-编辑属性-界面', 'admin/goods_type/edit', 'fa-list', 0, 1000, 'GET');
 INSERT INTO `admin_menu` VALUES (138, 134, '商品属性-编辑属性-修改', 'admin/goods_type/update', 'fa-list', 0, 1000, 'GET');
 INSERT INTO `admin_menu` VALUES (139, 134, '商品属性删除', 'admin/goods_type/del', 'fa-list', 0, 1000, 'GET');
+INSERT INTO `admin_menu` VALUES (140, 0, '结算管理', 'admin/settle', 'fa-list', 1, 1000, '不记录');
+INSERT INTO `admin_menu` VALUES (141, 140, '结算配置', 'admin/settle/index', 'fa-list', 1, 1000, 'GET');
+INSERT INTO `admin_menu` VALUES (142, 141, '配置管理-添加配置-界面', 'admin/settle/add', 'fa-list', 0, 1000, 'GET');
+INSERT INTO `admin_menu` VALUES (143, 141, '结算配置-添加配置-创建', 'admin/settle/create', 'fa-list', 0, 1000, 'GET');
+INSERT INTO `admin_menu` VALUES (144, 141, '结算配置-编辑配置-界面', 'admin/settle/edit', 'fa-list', 0, 1000, 'GET');
+INSERT INTO `admin_menu` VALUES (145, 141, '结算配置-编辑配置-更新', 'admin/settle/update', 'fa-list', 0, 1000, 'GET');
+INSERT INTO `admin_menu` VALUES (146, 141, '结算配置-删除', 'admin/settle/del', 'fa-list', 0, 1000, 'GET');
+INSERT INTO `admin_menu` VALUES (147, 140, '结算日报', 'admin/settle/daily', 'fa-chain-broken', 1, 1000, 'GET');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

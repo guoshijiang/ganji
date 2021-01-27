@@ -14,7 +14,7 @@ type MerchantSettleAccount struct {
 	AcctType   int8   `orm:"default(0);index" json:"acct_type"` // 0:支付宝； 1:微信
 	AcctName   string `orm:"size(150);index" json:"acct_name"`   // 账号名称
 	RealName   string `orm:"size(150);index" json:"real_name"`   // 账号持有人真实名字
-	Qrcode     string `orm:"size(150);default(/static/upload/default/user-default-60x60.png)" json:"qrcode"` // 账号收款码
+	Qrcode     string `orm:"size(255);default(/static/upload/default/user-default-60x60.png)" json:"qrcode"` // 账号收款码
 }
 
 func (this *MerchantSettleAccount) TableName() string {

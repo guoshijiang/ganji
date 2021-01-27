@@ -3,6 +3,7 @@ package template
 
 import (
 	"github.com/astaxie/beego"
+	"reflect"
 	"time"
 )
 
@@ -35,7 +36,14 @@ func TimeForFormat(t interface{}) string {
 	if _,ok := t.(time.Time);ok {
 		return t.(time.Time).Format(timeLayout)
 	}
-	return t.(*time.Time).Format(timeLayout)
+
+	if _,ok := t.(time.Time);ok {
+		if reflect.DeepEqual(t, nil) {
+			return ""
+		}
+		return t.(*time.Time).Format(timeLayout)
+	}
+	return  ""
 }
 
 //状态  0:交易中；1: 交易成功 2: 交易失败

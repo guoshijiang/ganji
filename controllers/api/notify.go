@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type NotifyController struct {
@@ -54,8 +55,11 @@ func (this *NotifyController) ZhifubaoNotify() {
 			return
 		}
 	} else { // 支付
+		now := time.Now()
 		order, _, _ := models.GetGoodsOrderByOrderNumber(out_trade_no)
 		order.OrderStatus = 2
+		order.IsStatic = 0
+		order.PayAt = &now
 		err := order.Update()
 		if err != nil {
 			return

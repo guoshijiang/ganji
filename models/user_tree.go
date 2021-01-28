@@ -33,17 +33,6 @@ func (cut *CrfrUserTree) Insert() error {
 	return nil
 }
 
-func CreateCrfrUserTree(db orm.Ormer, newUserID, inviteUserId int64) error {
-	crfrTree := CrfrUserTree{
-		UserId:  newUserID,
-		FatherUserId: inviteUserId,
-	}
-	if _, err := db.Insert(&crfrTree); err != nil {
-		return errors.Wrap(err, "create no invited user tree error in CreateCrfrUserTree")
-	}
-	return nil
-}
-
 func GetUserTreeByid(db orm.Ormer, user_id int64) (*CrfrUserTree, error) {
 	crfr_tree := CrfrUserTree{}
 	if err := db.QueryTable(CrfrUserTree{}).Filter("UserId", user_id).RelatedSel().One(&crfr_tree); err != nil {

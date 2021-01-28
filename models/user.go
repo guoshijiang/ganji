@@ -204,6 +204,13 @@ func RegisterByPhoneOrEmail(register_parm type_user.UserRegisterCheck) (success 
 	if err := user_coupon.Insert(); err != nil {
 		return false, types.InsertIntegralFail, errors.New("插入优惠券失败")
 	}
+	crfrTree := CrfrUserTree{
+		UserId:  user_id,
+		FatherUserId: inviteMeUserID,
+	}
+	if  err := crfrTree.Insert(); err != nil {
+		return false, types.InsertIntegralFail, errors.New("构建User Tree错误")
+	}
 	return true, types.ReturnSuccess, nil
 }
 

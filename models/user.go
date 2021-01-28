@@ -470,3 +470,21 @@ func UpdateUserInfo(id int64, user_info type_user.UpdateUserInfoCheck) (success 
 	}
 	return true, types.ReturnSuccess, nil
 }
+
+
+func GetUserByUserId(db orm.Ormer, user_id int64)(*User, error) {
+	u := User{}
+	if err := db.QueryTable(User{}).RelatedSel().Filter("Id", user_id).One(&u); err != nil {
+		return nil, errors.Wrap(err, "error in GetUserByUserId")
+	}
+	return &u, nil
+}
+
+func (u *User) GetFatherNode(db orm.Ormer) (*User, error) {
+	father := User{}
+	err := db.QueryTable(&User{}).Filter("id", u.InviteMeUserId).One(&father)
+	if err != nil {
+		return nil, errors.New("No father node")
+	}
+	return &father, nil
+}

@@ -4,6 +4,7 @@ import (
 	"ganji/common"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
+	"github.com/pkg/errors"
 )
 
 
@@ -71,4 +72,14 @@ func GetIntegralByUserId(user_id int64) (*UserIntegral, error) {
 	return &user_ig, nil
 }
 
+
+
+func GetIgByUserId(db orm.Ormer, user_id int64) (*UserIntegral, error) {
+	var user_ig UserIntegral
+	err := db.QueryTable(UserIntegral{}).Filter("UserId", user_id).Limit(1).One(&user_ig)
+	if err != nil {
+		return nil, errors.New("err in GetIgByUserId")
+	}
+	return &user_ig, nil
+}
 

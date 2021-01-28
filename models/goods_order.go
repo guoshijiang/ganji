@@ -38,7 +38,7 @@ type GoodsOrder struct {
 	IsCancle      int8       `orm:"default(0);index" json:"is_cancle"`                      // 0 正常；1.退货; 2:换货; 3:退货成功; 4:换货成功
 	IsComment     int8       `orm:"default(0);index" json:"is_comment"`                     // 0 正常；1.已评价
 	BatchId       string     `orm:"size(128);index" json:"batch_id"`                        // 订单批 ID
-	IsReward      int8       `orm:"default(0);index" json:"is_reward"`                      // 0 正常；1.已计算奖励
+	IsReward      int8       `orm:"default(0);index" json:"is_reward"`                      // 0 正常；1.已计算直间邀请奖励奖励；2:已计算管理奖励
 	IsBuild       int8       `orm:"default(0);index" json:"is_build"`                       // 0 正常；1.已构建
 	IsStatic      int8 		 `orm:"default(0);index" json:"is_static"`                      // 0 正常；1.已统计
 }
@@ -174,4 +174,24 @@ func GetOrdetListByMet(merchant_id int64, db orm.Ormer) ([]*GoodsOrder, error) {
 		return nil, errors.New("数据库操作错误")
 	}
 	return order_list, nil
+}
+
+
+func GetRewardGoodsOrderList(db orm.Ormer, is_reward int8) ([]*GoodsOrder, error) {
+	gds_order_list := make([]*GoodsOrder, 0)
+	_, err := db.QueryTable(GoodsOrder{}).Filter("IsReward", is_reward).All(&gds_order_list)
+	if err != nil {
+		return nil, errors.New("查询数据库失败")
+	}
+	return gds_order_list, nil
+}
+
+
+func GetUnbuildTreeGoodsOrders(db orm.Ormer) ([]*GoodsOrder, error) {
+	gds_order_list := make([]*GoodsOrder, 0)
+	_, err := db.QueryTable(GoodsOrder{}).Filter("IsBuild", 0).All(&gds_order_list)
+	if err != nil {
+		return nil, errors.New("查询数据库失败")
+	}
+	return gds_order_list, nil
 }

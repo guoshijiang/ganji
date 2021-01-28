@@ -33,14 +33,7 @@ func Run() {
 					logrus.Info("run miner order invite reward success.")
 				}
 
-				err = ManageReward()
-				if err != nil {
-					logrus.Errorf("run miner order invite reward error %v", err)
-				} else {
-					logrus.Info("run miner order invite reward success.")
-				}
-
-				err = UserTreeBuild()
+				err = UserTreeBuildManageReward()
 				if err != nil {
 					logrus.Errorf("run miner order invite reward error %v", err)
 				} else {

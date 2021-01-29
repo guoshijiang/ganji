@@ -3,12 +3,12 @@ package template
 
 import (
 	"github.com/astaxie/beego"
-	"reflect"
 	"time"
 )
 
 func init() {
 	beego.AddFuncMap("TimeForFormat", TimeForFormat)
+	beego.AddFuncMap("DateForFormat", DateForFormat)
 	beego.AddFuncMap("WalletRecordType", WalletRecordType)
 	beego.AddFuncMap("WalletRecordIsHandle", WalletRecordIsHandle)
 	beego.AddFuncMap("WalletRecordSource", WalletRecordSource)
@@ -22,6 +22,7 @@ func init() {
 	beego.AddFuncMap("PayWay", PayWay)
 	beego.AddFuncMap("IntegralType", IntegralType)
 	beego.AddFuncMap("IntegralRecord", IntegralRecord)
+	beego.AddFuncMap("SettleStatus", SettleStatus)
 }
 
 //时间轴转时间字符串
@@ -37,8 +38,23 @@ func TimeForFormat(t interface{}) string {
 		return t.(time.Time).Format(timeLayout)
 	}
 
+	if _,ok := t.(*time.Time);ok {
+		if t.(*time.Time) == nil{
+			return ""
+		}
+		return t.(*time.Time).Format(timeLayout)
+	}
+	return  ""
+}
+
+func DateForFormat(t interface{}) string {
+	timeLayout := "2006-01-02"
 	if _,ok := t.(time.Time);ok {
-		if reflect.DeepEqual(t, nil) {
+		return t.(time.Time).Format(timeLayout)
+	}
+
+	if _,ok := t.(*time.Time);ok {
+		if t.(*time.Time) == nil{
 			return ""
 		}
 		return t.(*time.Time).Format(timeLayout)
@@ -231,6 +247,20 @@ func ProcessFundRet(t int8) string {
 		return "返回到平台钱包"
 	case 1:
 		return "原路返回"
+	default:
+		return "未知"
+	}
+}
+
+// 0:商家已确认； 1:平台已确认； 2：已付款
+func SettleStatus(t int8) string{
+	switch t {
+	case 0:
+		return "商家已确认"
+	case 1:
+		return "平台已确认"
+	case 2:
+		return "已付款"
 	default:
 		return "未知"
 	}

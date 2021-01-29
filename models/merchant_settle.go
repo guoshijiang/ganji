@@ -11,8 +11,8 @@ type MerchantSettle struct {
 	BaseModel
 	Id                 int64      `json:"id"`
 	SettleAccountId    int64      `orm:"index" json:"settle_account_id"`                // 结算账号ID
-	StartSettleTime    *time.Time `orm:"type(datetime);null" json:"start_settle_time"`  // 结算开始日期
-	EndSettleTime  	   *time.Time `orm:"type(datetime);null" json:"end_settle_time"`    // 结算结束日期
+	StartSettleTime    time.Time `orm:"type(datetime);null" json:"start_settle_time"`  // 结算开始日期
+	EndSettleTime  	   time.Time `orm:"type(datetime);null" json:"end_settle_time"`    // 结算结束日期
 	MerchantId         int64      `orm:"size(64);index" json:"merchant_id"`             // 商户 ID
 	SettleAmount       float64    `orm:"default(0);digits(22);decimals(8)" json:"settle_amount"` // 结算金额
 	HandUser           string     `orm:"size(64);index" json:"hand_user"`               // 平台处理账户

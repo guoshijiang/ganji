@@ -233,6 +233,16 @@ func init() {
 
 		//日结算列表
 		beego.NSRouter("/settle/daily", &controllers.SettleController{}, "get:Daily"),
+		//商家结算
+		beego.NSRouter("/settle/bill", &controllers.SettleController{}, "get:BillSettle"),
+		//商家结算
+		beego.NSRouter("/settle/search_settle", &controllers.SettleController{}, "get:SearchSettle"),
+		//商家结算-确认界面
+		beego.NSRouter("/settle/configure", &controllers.SettleController{}, "get:Configure"),
+		//商家结算-创建
+		beego.NSRouter("/bill/create", &controllers.SettleController{}, "post:BillSettleCreate"),
+		//商家结算-平台确认结算
+		beego.NSRouter("/bill/confirm", &controllers.SettleController{}, "post:BillSettleUpdate"),
 
 	)
 	beego.AddNamespace(admin)

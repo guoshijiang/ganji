@@ -1,0 +1,114 @@
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-body">
+                    <form class="form-inline searchForm" id="searchForm" action="/admin/settle/search_settle" method="GET">
+                        <div class="form-group">
+                            <input readonly value=""
+                                   name="create_time" id="create_time" class="form-control input-sm indexSearchDatetimeRange" placeholder="查询日期">
+                        </div>
+                        <script>
+                            laydate.render({
+                                elem: '#create_time'
+                                ,range: true
+                                ,type:'date'
+                            });
+                        </script>
+                        {{if compare .super.MerchantId 0}}
+                        <div class="form-group">
+                            <select name="merchant_id" id="merchant_id" class="form-control input-sm">
+                                <option value="">选择结算商户</option>
+                                {{range $key,$item := .merchants }}
+                                    <option value="{{$item.Id}}">
+                                        {{$item.MerchantName}}
+                                    </option>
+                                {{end}}
+                            </select>
+                        </div>
+                        <script>
+                            $('#merchant_id').select2({
+                                width:'100%',
+                            });
+                        </script>
+                        {{end}}
+
+                        <div class="form-group">
+                            <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-search"></i> 查询
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <button onclick="clearSearchForm()" class="btn btn-sm btn-default" type="button"><i
+                                        class="fa  fa-eraser"></i> 清空查询
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <!--数据列表顶部-->
+{{/*                <div class="box-header">*/}}
+{{/*                    <div>*/}}
+{{/*                        <a class="btn btn-success btn-sm ReloadButton" data-toggle="tooltip" title="刷新">*/}}
+{{/*                            <i class="fa fa-refresh"></i> 刷新*/}}
+{{/*                        </a>*/}}
+{{/*                    </div>*/}}
+{{/*                </div>*/}}
+                <div class="box-body table-responsive">
+                    <table class="table table-hover table-bordered datatable" width="100%">
+                        <thead>
+                        <tr>
+                            <th>日期</th>
+                            {{if compare $.super.MerchantId 0}}
+                                <th>商户</th>
+                            {{end}}
+                            <th>结算金额</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{range $key, $item := .data}}
+                            <tr>
+                                <td>{{$item.Date}}</td>
+                                {{if compare $.super.MerchantId 0}}
+                                    <td>{{$item.MerchantName}}</td>
+                                {{end}}
+                                <td>{{$item.Amounts}}</td>
+                                <td class="td-do">
+                                    <a href="/admin/settle/configure?date={{$item.Date}}&id={{$item.MerchantId}}&amounts={{$item.Amounts}}"
+                                       class="btn btn-primary btn-xs" title="确认结算" data-toggle="tooltip">
+                                        <i class="fa fa-500px"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {{end}}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- 数据列表底部 -->
+{{/*                {{if ne "" .paginate.BootStrapRenderLink}}*/}}
+{{/*                    <div class="box-footer">*/}}
+{{/*                        {{ str2html .paginate.BootStrapRenderLink}}*/}}
+{{/*                        <label class="control-label pull-right" style="margin-right: 10px; font-weight: 100;">*/}}
+{{/*                            <small>共{{.paginate.Total}}条记录</small>&nbsp;*/}}
+{{/*                            <small>每页显示</small>*/}}
+{{/*                            &nbsp;*/}}
+{{/*                            <select class="input-sm" onchange="changePerPage(this)">*/}}
+{{/*                                {{range $index, $val := $.admin.per_page_config}}*/}}
+{{/*                                    <option value="{{$val}}" {{if eq $val $.admin.per_page}} selected {{end}}>{{$val}}</option>*/}}
+{{/*                                {{end}}*/}}
+{{/*                            </select>*/}}
+{{/*                            &nbsp;*/}}
+{{/*                            <small>条记录</small>*/}}
+{{/*                        </label>*/}}
+{{/*                    </div>*/}}
+{{/*                {{end}}*/}}
+            </div>
+        </div>
+    </div>
+</section>

@@ -23,7 +23,7 @@ func init() {
 		new(GoodsComment), new(GoodsCat), new(GoodsImage), new(GoodsOrder), new(OrderProcess), new(GroupOrder),
 		new(GroupHelper), new(ImageFile),  new(IntegralRecord), new(IntegralTrade), new(UserAddress),
 		new(Version), new(WalletRecord), new(Banner), new(CustomerService), new(Questions), new(UserAccount),
-		new(AssetDebt), new(MerchantSettle), new(MerchantWallet), new(MerchantWithdraw), new(GoodsType),new(MerchantSettleAccount))
+		new(AssetDebt), new(MerchantSettle), new(MerchantWallet), new(MerchantWithdraw), new(GoodsType),new(MerchantSettleAccount),new(MerchantSettleDaily))
 	if beego.AppConfig.String("runmode") == "dev" {
 		orm.Debug = true
 	}
@@ -234,4 +234,16 @@ type MerchantSettleAccountData struct{
 type MerchantSettleDailyData struct{
 	MerchantSettleDaily
 	MerchantName			string					`json:"merchant_name"`
+}
+
+type MerchantSettleData struct{
+	MerchantSettle
+	MerchantName			string					`json:"merchant_name"`
+}
+
+type DailySettleData struct {
+	MerchantId				int64					`json:"merchant_id"`
+	Amounts					float64					`json:"amounts"`
+	MerchantName			string					`json:"merchant_name"`
+	Date					string					`json:"date"`
 }

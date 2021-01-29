@@ -147,7 +147,18 @@ func (this *BaseService) ScopeWhereRaw(parameters url.Values) (string,[]interfac
 	if len(this.WhereField) > 0 && len(parameters) > 0 {
 		for k, v := range parameters {
 			if v[0] != "" && utils.InArrayForString(this.WhereField, k) {
-				conditionRaw += " and "+k+" like ? "
+				if strings.Contains(k,";") {
+					kstr := strings.Split(k,";")
+					if kstr[1] == "gte" {
+						conditionRaw += " and "+kstr[0]+" >= ? "
+					} else if kstr[1] == "lte" {
+						conditionRaw += " and "+kstr[0]+" <= ? "
+					} else {
+						conditionRaw += " and "+kstr[0]+" = ? "
+					}
+				} else {
+					conditionRaw += " and "+k+" like ? "
+				}
 				condition = append(condition,v[0])
 			}
 		}

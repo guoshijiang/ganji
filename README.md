@@ -33,4 +33,5 @@ go build 完成之后，使用进程管理管理启动服务即可
 ### 3.关联项目
 
 网站：https://github.com/guoshijiang/shiji_web
+APP 端代码：请去问我学院（www.wenwoha.com）或者椭圆曲线科技官网上联系我们获取
 
